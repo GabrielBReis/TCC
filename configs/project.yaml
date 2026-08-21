@@ -1,0 +1,88 @@
+project:
+  name: aircraft_defects_tcc
+  seed: 42
+
+paths:
+  train_images: data/raw/innovation_hangar_v2/train/images
+  train_annotations: data/raw/innovation_hangar_v2/annotations/train.json
+  val_images: data/raw/innovation_hangar_v2/val/images
+  val_annotations: data/raw/innovation_hangar_v2/annotations/val.json
+  test_images: data/raw/innovation_hangar_v2/test/images
+  test_annotations: data/raw/innovation_hangar_v2/annotations/test.json
+  yolo_dataset_dir: data/processed/yolo
+  pretrained_dir: models/pretrained
+  runs_dir: runs
+  reports_dir: reports
+
+tracking:
+  enabled: true
+  uri: sqlite:///mlflow.db
+  artifact_root: mlartifacts
+  experiment_name: aircraft_defects_tcc
+
+models:
+  yolo:
+    pretrained: models/pretrained/yolov8s.pt
+    name: yolov8s_baseline_640
+    epochs: 100
+    imgsz: 640
+    batch: 4
+    workers: 2
+    device: "0"
+    optimizer: auto
+    lr0: 0.01
+    lrf: 0.01
+    weight_decay: 0.0005
+    patience: 20
+    augmentation:
+      enabled: false
+      horizontal_flip: 0.0
+
+  faster_rcnn:
+    pretrained: models/pretrained/fasterrcnn_resnet50_fpn_coco.pth
+    name: fasterrcnn_r50_fpn_baseline_640
+    epochs: 50
+    imgsz: 640
+    batch: 2
+    workers: 2
+    device: cuda:0
+    lr: 0.005
+    momentum: 0.9
+    weight_decay: 0.0005
+    patience: 10
+    amp: true
+    augmentation:
+      enabled: false
+      horizontal_flip: 0.0
+
+  rtdetr:
+    pretrained: models/pretrained/rtdetr_r18vd
+    name: rtdetr_r18vd_baseline_640
+    epochs: 50
+    imgsz: 640
+    train_batch: 2
+    eval_batch: 2
+    workers: 2
+    learning_rate: 0.00005
+    weight_decay: 0.0001
+    warmup_ratio: 0.05
+    fp16: true
+    bf16: false
+    augmentation:
+      enabled: false
+
+prediction:
+  confidence_threshold: 0.001
+  max_detections: 300
+  benchmark_warmup: 10
+
+# Métricas operacionais P/R/F1. Para mAP padrão, o COCOeval usa todas as confianças.
+evaluation:
+  f1_confidence_threshold: 0.25
+  iou_threshold: 0.50
+
+  # Faixas relativas iniciais. Ajuste somente após analisar a distribuição do dataset
+  # e documente a justificativa no TCC.
+  relative_size:
+    small_max: 0.01
+    medium_max: 0.05

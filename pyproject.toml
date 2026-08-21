@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tcc-aircraft-defects-pipeline"
+version = "0.1.0"
+description = "Pipeline reprodutível para benchmark de detecção de defeitos superficiais em aeronaves"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.6,<2.7",
+    "torchvision>=0.21,<0.22",
+    "ultralytics>=8.3,<9",
+    "transformers>=4.49,<6",
+    "accelerate>=1.1,<2",
+    "pycocotools>=2.0.7,<3",
+    "mlflow>=3,<4",
+    "pandas>=2,<3",
+    "numpy>=1.24,<3",
+    "Pillow>=10,<13",
+    "PyYAML>=6,<7",
+    "matplotlib>=3.7,<4",
+    "tqdm>=4.66,<5",
+    "huggingface-hub>=0.25,<2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "ruff>=0.8,<1"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/*.py" = ["E402"]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+mlruns/
+mlflow.db
+mlflow.db-shm
+mlflow.db-wal
+mlartifacts/
+runs/
+reports/
+logs/
+models/pretrained/
+data/raw/
+data/processed/
+Innovation Hangar v2.v2i.coco/
+Innovation Hangar v2.v2i.coco.zip
+*.egg-info/
