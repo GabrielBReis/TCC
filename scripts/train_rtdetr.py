@@ -11,10 +11,17 @@ if str(_ROOT / "src") not in _sys.path:
 
 import argparse
 import inspect
+import json
 
 from tcc_pipeline.config import load_config, project_root_from_config, resolve_path
 from tcc_pipeline.datasets import RTDetrCocoDataset, rtdetr_collate
-from tcc_pipeline.tracking import save_metadata, tracked_run
+from tcc_pipeline.tracking import (
+    log_directory_if_enabled,
+    log_metrics_if_enabled,
+    log_table_if_enabled,
+    save_metadata,
+    tracked_run,
+)
 
 
 def main():
@@ -90,9 +97,16 @@ def main():
     )
     with tracked_run(cfg, m["name"], run_dir, params):
         trainer.train()
+        history = trainer.state.log_history
+        (run_dir / "history.json").write_text(json.dumps(history, indent=2), encoding="utf-8")
+        for index, row in enumerate(history):
+            step = int(row.get("epoch", row.get("step", index)))
+            log_metrics_if_enabled(cfg, {k: v for k, v in row.items() if k not in {"epoch", "step"}}, step=step)
+        log_table_if_enabled(cfg, history, "tables/training_history.json")
         best_dir = run_dir / "best_model"
         trainer.save_model(str(best_dir))
         processor.save_pretrained(str(best_dir))
+        log_directory_if_enabled(cfg, run_dir, "training_outputs")
     print("Melhor modelo salvo em:", run_dir / "best_model")
 
 

@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import math
+import re
 from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
@@ -32,7 +34,10 @@ def tracked_run(
     experiment_name = tracking.get("experiment_name", "aircraft_defects_tcc")
     if mlflow.get_experiment_by_name(experiment_name) is None:
         artifact_root = tracking.get("artifact_root")
-        artifact_uri = Path(artifact_root).resolve().as_uri() if artifact_root else None
+        if artifact_root and ("://" in str(artifact_root) or str(artifact_root).startswith("mlflow-artifacts:")):
+            artifact_uri = str(artifact_root)
+        else:
+            artifact_uri = Path(artifact_root).resolve().as_uri() if artifact_root else None
         mlflow.create_experiment(experiment_name, artifact_location=artifact_uri)
     mlflow.set_experiment(experiment_name)
     with mlflow.start_run(run_name=run_name) as run:
@@ -49,6 +54,41 @@ def log_artifact_if_enabled(cfg: dict[str, Any], path: str | Path) -> None:
     path = Path(path)
     if tracking.get("enabled", False) and mlflow is not None and path.exists() and mlflow.active_run() is not None:
         mlflow.log_artifact(str(path))
+
+
+def log_metrics_if_enabled(cfg: dict[str, Any], metrics: dict[str, Any], step: int | None = None) -> None:
+    tracking = cfg.get("tracking", {})
+    mlflow = _mlflow()
+    if not tracking.get("enabled", False) or mlflow is None or mlflow.active_run() is None:
+        return
+    clean = {}
+    for key, value in metrics.items():
+        try:
+            number = float(value)
+        except (TypeError, ValueError):
+            continue
+        if math.isfinite(number):
+            metric_name = re.sub(r"[^a-zA-Z0-9_./ -]", "_", str(key).strip())
+            clean[metric_name] = number
+    if clean:
+        mlflow.log_metrics(clean, step=step)
+
+
+def log_table_if_enabled(cfg: dict[str, Any], rows: list[dict[str, Any]], artifact_file: str) -> None:
+    tracking = cfg.get("tracking", {})
+    mlflow = _mlflow()
+    if tracking.get("enabled", False) and mlflow is not None and mlflow.active_run() is not None and rows:
+        import pandas as pd
+
+        mlflow.log_table(data=pd.DataFrame(rows), artifact_file=artifact_file)
+
+
+def log_directory_if_enabled(cfg: dict[str, Any], path: str | Path, artifact_path: str) -> None:
+    tracking = cfg.get("tracking", {})
+    mlflow = _mlflow()
+    path = Path(path)
+    if tracking.get("enabled", False) and mlflow is not None and path.is_dir() and mlflow.active_run() is not None:
+        mlflow.log_artifacts(str(path), artifact_path=artifact_path)
 
 
 def log_metrics_to_existing_run(

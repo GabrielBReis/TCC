@@ -10,9 +10,29 @@ if str(_ROOT / "src") not in _sys.path:
     _sys.path.insert(0, str(_ROOT / "src"))
 
 import argparse
+import csv
 
 from tcc_pipeline.config import load_config, project_root_from_config, resolve_path
-from tcc_pipeline.tracking import log_artifact_if_enabled, save_metadata, tracked_run
+from tcc_pipeline.tracking import (
+    log_directory_if_enabled,
+    log_metrics_if_enabled,
+    log_table_if_enabled,
+    save_metadata,
+    tracked_run,
+)
+
+
+def log_yolo_results(cfg, run_dir):
+    results_csv = run_dir / "results.csv"
+    if not results_csv.exists():
+        return
+    with results_csv.open(encoding="utf-8", newline="") as handle:
+        rows = [{key.strip(): value for key, value in row.items()} for row in csv.DictReader(handle)]
+    for index, row in enumerate(rows, start=1):
+        step = int(float(row.get("epoch", index)))
+        log_metrics_if_enabled(cfg, {key: value for key, value in row.items() if key != "epoch"}, step=step)
+    log_table_if_enabled(cfg, rows, "tables/training_history.json")
+    log_directory_if_enabled(cfg, run_dir, "training_outputs")
 
 
 def main():
@@ -73,8 +93,7 @@ def main():
             mixup=0.0,
             copy_paste=0.0,
         )
-        for p in (run_dir / "results.csv", run_dir / "results.png"):
-            log_artifact_if_enabled(cfg, p)
+        log_yolo_results(cfg, run_dir)
     print("Treino concluído:", run_dir)
     print("Melhor checkpoint esperado:", run_dir / "weights" / "best.pt")
 

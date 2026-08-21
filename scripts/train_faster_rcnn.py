@@ -22,7 +22,13 @@ from tqdm import tqdm
 
 from tcc_pipeline.config import load_config, project_root_from_config, resolve_path
 from tcc_pipeline.datasets import CocoDetectionTorchDataset, detection_collate
-from tcc_pipeline.tracking import save_metadata, tracked_run
+from tcc_pipeline.tracking import (
+    log_directory_if_enabled,
+    log_metrics_if_enabled,
+    log_table_if_enabled,
+    save_metadata,
+    tracked_run,
+)
 
 
 def build_model(pretrained_path: Path, num_classes_with_bg: int, min_size: int):
@@ -144,6 +150,7 @@ def main():
                 "seconds": time.time() - t0,
             }
             history.append(rec)
+            log_metrics_if_enabled(cfg, {k: v for k, v in rec.items() if k != "epoch"}, step=epoch)
             print(rec)
             (run_dir / "history.json").write_text(json.dumps(history, indent=2), encoding="utf-8")
             torch.save(
@@ -162,6 +169,8 @@ def main():
                 if bad_epochs >= int(m.get("patience", 10)):
                     print("Early stopping por val_loss.")
                     break
+        log_table_if_enabled(cfg, history, "tables/training_history.json")
+        log_directory_if_enabled(cfg, run_dir, "training_outputs")
     print("Melhor checkpoint:", run_dir / "best.pth")
 
 
