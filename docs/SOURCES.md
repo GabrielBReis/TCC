@@ -1,7 +1,7 @@
 # Fontes técnicas primárias consultadas
 
 - Ultralytics — treino em dataset customizado: https://docs.ultralytics.com/modes/train/
-- Ultralytics — YOLOv8: https://docs.ultralytics.com/models/yolov8/
+- Ultralytics — YOLO11: https://docs.ultralytics.com/models/yolo11/
 - Torchvision — Faster R-CNN ResNet-50-FPN: https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.detection.fasterrcnn_resnet50_fpn.html
 - Hugging Face Transformers — RT-DETR: https://huggingface.co/docs/transformers/model_doc/rt_detr
 - Checkpoint RT-DETR R18: https://huggingface.co/PekingU/rtdetr_r18vd

@@ -31,7 +31,7 @@ def main():
     run_dir = runs_dir / "yolo" / m["name"]
     yolo_yaml = resolve_path(root, cfg["paths"]["yolo_dataset_dir"]) / "dataset.yaml"
     weights = resolve_path(root, m["pretrained"])
-    params = {"model": "yolov8s", **m, "dataset": str(yolo_yaml)}
+    params = {"model": "yolo11n", **m, "dataset": str(yolo_yaml)}
     save_metadata(run_dir / "run_config.json", params)
 
     with tracked_run(cfg, m["name"], run_dir, params):

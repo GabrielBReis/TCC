@@ -12,6 +12,7 @@ runs/
 reports/
 logs/
 models/pretrained/
+/yolo26n.pt
 data/raw/
 data/processed/
 Innovation Hangar v2.v2i.coco/

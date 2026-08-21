@@ -20,18 +20,18 @@ def download_yolo(out_dir: Path):
     from ultralytics import YOLO
 
     out_dir.mkdir(parents=True, exist_ok=True)
-    expected = out_dir / "yolov8s.pt"
+    expected = out_dir / "yolo11n.pt"
     old = Path.cwd()
     try:
         os.chdir(out_dir)
-        model = YOLO("yolov8s.pt")
+        model = YOLO("yolo11n.pt")
         src = Path(getattr(model, "ckpt_path", expected)).resolve()
     finally:
         os.chdir(old)
     if not expected.exists() and src.exists():
         shutil.copy2(src, expected)
     if not expected.exists():
-        raise RuntimeError("YOLOv8s foi carregado, mas o checkpoint não foi localizado.")
+        raise RuntimeError("YOLO11n foi carregado, mas o checkpoint não foi localizado.")
     return expected
 
 
@@ -67,14 +67,18 @@ def main():
     args = ap.parse_args()
     out = Path(args.out).resolve()
     wanted = {x.strip().lower() for x in args.models.split(",") if x.strip()}
-    results = {}
+    manifest_path = out / "download_manifest.json"
+    if manifest_path.exists():
+        results = json.loads(manifest_path.read_text(encoding="utf-8"))
+    else:
+        results = {}
     if "yolo" in wanted:
-        results["yolov8s"] = str(download_yolo(out))
+        results["yolo11n"] = str(download_yolo(out))
     if "faster" in wanted or "faster_rcnn" in wanted:
         results["faster_rcnn_r50_fpn"] = str(download_faster_rcnn(out))
     if "rtdetr" in wanted:
         results["rtdetr_r18vd"] = str(download_rtdetr(out))
-    (out / "download_manifest.json").write_text(json.dumps(results, indent=2), encoding="utf-8")
+    manifest_path.write_text(json.dumps(results, indent=2), encoding="utf-8")
     print(json.dumps(results, indent=2))
 
 

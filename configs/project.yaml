@@ -22,11 +22,11 @@ tracking:
 
 models:
   yolo:
-    pretrained: models/pretrained/yolov8s.pt
-    name: yolov8s_baseline_640
+    pretrained: models/pretrained/yolo11n.pt
+    name: yolo11n_baseline_640
     epochs: 100
     imgsz: 640
-    batch: 4
+    batch: 20
     workers: 2
     device: "0"
     optimizer: auto
@@ -43,7 +43,7 @@ models:
     name: fasterrcnn_r50_fpn_baseline_640
     epochs: 50
     imgsz: 640
-    batch: 2
+    batch: 20
     workers: 2
     device: cuda:0
     lr: 0.005
@@ -60,7 +60,7 @@ models:
     name: rtdetr_r18vd_baseline_640
     epochs: 50
     imgsz: 640
-    train_batch: 2
+    train_batch: 20
     eval_batch: 2
     workers: 2
     learning_rate: 0.00005

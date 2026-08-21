@@ -6,11 +6,11 @@ Este pacote cobre o fluxo **do download dos modelos até a comparação final**,
 
 Modelos baseline incluídos:
 
-- YOLOv8s (Ultralytics)
+- YOLO11n (Ultralytics)
 - Faster R-CNN ResNet-50-FPN (Torchvision)
 - RT-DETR-R18 (checkpoint `PekingU/rtdetr_r18vd`, Transformers)
 
-O dataset principal é o **Innovation Hangar v2**, exportado em COCO Detection. Para treinar o YOLOv8, o pipeline converte a versão COCO limpa para YOLO automaticamente.
+O dataset principal é o **Innovation Hangar v2**, exportado em COCO Detection. Para treinar o YOLO11, o pipeline converte a versão COCO limpa para YOLO automaticamente.
 
 ## 1. Estrutura esperada do dataset
 
@@ -81,7 +81,7 @@ Isso materializa/cacha:
 
 ```text
 models/pretrained/
-├── yolov8s.pt
+├── yolo11n.pt
 ├── fasterrcnn_resnet50_fpn_coco.pth
 └── rtdetr_r18vd/
 ```
@@ -124,14 +124,14 @@ Execute um treinamento por vez quando houver apenas uma GPU. Ajuste `batch`, `wo
 
 ## 7. Fazer predição no TEST
 
-### YOLOv8
+### YOLO11n
 
 ```bash
 python scripts/predict_yolo.py \
-  --weights runs/yolo/yolov8s_baseline_640/weights/best.pt \
+  --weights runs/yolo/yolo11n_baseline_640/weights/best.pt \
   --images data/raw/innovation_hangar_v2/test/images --annotations data/raw/innovation_hangar_v2/annotations/test.json \
   --mapping data/processed/yolo/category_mapping.json \
-  --out runs/yolo/yolov8s_baseline_640/predictions.json --imgsz 640
+  --out runs/yolo/yolo11n_baseline_640/predictions.json --imgsz 640
 ```
 
 ### Faster R-CNN
@@ -160,8 +160,8 @@ Exemplo:
 ```bash
 python scripts/evaluate.py \
   --gt data/raw/innovation_hangar_v2/annotations/test.json \
-  --pred runs/yolo/yolov8s_baseline_640/predictions.json \
-  --out runs/yolo/yolov8s_baseline_640/metrics.json \
+  --pred runs/yolo/yolo11n_baseline_640/predictions.json \
+  --out runs/yolo/yolo11n_baseline_640/metrics.json \
   --conf 0.25 --iou 0.50 --small-max 0.01 --medium-max 0.05
 ```
 
@@ -179,7 +179,7 @@ Importante: a predição deve ser gerada com `--conf` baixo (ex.: 0.001) para n�
 
 ```bash
 python scripts/compare_experiments.py --metrics \
-  runs/yolo/yolov8s_baseline_640/metrics.json \
+  runs/yolo/yolo11n_baseline_640/metrics.json \
   runs/faster_rcnn/fasterrcnn_r50_fpn_baseline_640/metrics.json \
   runs/rtdetr/rtdetr_r18vd_baseline_640/metrics.json \
   --out reports/comparison
@@ -241,8 +241,8 @@ Os scripts de treino criam uma execução quando `tracking.enabled=true`. Após 
 ```bash
 python scripts/log_evaluation_to_mlflow.py \
   --config configs/project.yaml \
-  --run-dir runs/yolo/yolov8s_baseline_640 \
-  --metrics runs/yolo/yolov8s_baseline_640/metrics.json
+  --run-dir runs/yolo/yolo11n_baseline_640 \
+  --metrics runs/yolo/yolo11n_baseline_640/metrics.json
 ```
 
 ## 13. Ordem recomendada para o TCC

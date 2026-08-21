@@ -22,8 +22,8 @@ tracking:
 
 models:
   yolo:
-    pretrained: models/pretrained/yolov8s.pt
-    name: yolov8s_baseline_640
+    pretrained: models/pretrained/yolo11n.pt
+    name: yolo11n_baseline_640
     epochs: 100
     imgsz: 640
     batch: 32
