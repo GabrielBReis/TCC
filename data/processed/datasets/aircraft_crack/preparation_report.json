@@ -1,0 +1,59 @@
+{
+  "dataset_name": "aircraft_crack",
+  "target_class": "crack",
+  "class_aliases": [
+    "crack",
+    "cracks"
+  ],
+  "keep_images_without_target": false,
+  "sources": [
+    {
+      "name": "innovation_hangar_v2",
+      "root": "data/raw/innovation_hangar_v2",
+      "splits": {
+        "train": {
+          "images_kept": 1775,
+          "images_without_target_removed": 1436,
+          "annotations_kept": 3151,
+          "boxes_clipped": 0,
+          "matched_source_classes": [
+            "crack"
+          ]
+        },
+        "val": {
+          "images_kept": 359,
+          "images_without_target_removed": 286,
+          "annotations_kept": 627,
+          "boxes_clipped": 0,
+          "matched_source_classes": [
+            "crack"
+          ]
+        },
+        "test": {
+          "images_kept": 242,
+          "images_without_target_removed": 190,
+          "annotations_kept": 417,
+          "boxes_clipped": 0,
+          "matched_source_classes": [
+            "crack"
+          ]
+        }
+      }
+    }
+  ],
+  "output_summary": {
+    "train": {
+      "images": 1775,
+      "annotations": 3151
+    },
+    "val": {
+      "images": 359,
+      "annotations": 627
+    },
+    "test": {
+      "images": 242,
+      "annotations": 417
+    }
+  },
+  "duplicate_images_across_splits": 0
+}
