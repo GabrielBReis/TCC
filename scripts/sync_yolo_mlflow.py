@@ -22,7 +22,7 @@ def main():
     if hasattr(_sys.stdout, "reconfigure"):
         _sys.stdout.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description="Sincroniza métricas e artefatos de um treino YOLO existente.")
-    parser.add_argument("--config", default="configs/project.yaml")
+    parser.add_argument("--config", default=str(_ROOT / "configs" / "project.yaml"))
     parser.add_argument("--run-dir", required=True)
     args = parser.parse_args()
     cfg = load_config(args.config)

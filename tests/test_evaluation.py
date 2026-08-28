@@ -1,4 +1,19 @@
-from scripts.evaluate import _match_class, prf
+from scripts.evaluate import _match_class, detection_confusion_matrix, prf
+
+
+def test_detection_confusion_matrix_includes_background_fp_and_fn():
+    gt = {
+        "images": [{"id": 1}],
+        "categories": [{"id": 1, "name": "crack"}],
+        "annotations": [{"id": 1, "image_id": 1, "category_id": 1, "bbox": [0, 0, 10, 10]}],
+    }
+    predictions = [
+        {"image_id": 1, "category_id": 1, "bbox": [0, 0, 10, 10], "score": 0.9},
+        {"image_id": 1, "category_id": 1, "bbox": [50, 50, 5, 5], "score": 0.8},
+    ]
+    matrix, labels = detection_confusion_matrix(gt, predictions, confidence=0.25, iou_threshold=0.5)
+    assert labels == ["crack", "background"]
+    assert matrix.tolist() == [[1, 0], [1, 0]]
 
 
 def sample_coco():

@@ -15,9 +15,73 @@ from collections import defaultdict
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 
 from tcc_pipeline.coco import images_by_id, load_coco_json, save_json
 from tcc_pipeline.geometry import box_iou_xywh, relative_area, size_bin
+
+
+def detection_confusion_matrix(gt, predictions, confidence, iou_threshold):
+    """Matriz detecção: linhas=classe real, colunas=predita, última posição=background."""
+    categories = sorted(gt["categories"], key=lambda item: int(item["id"]))
+    category_ids = [int(item["id"]) for item in categories]
+    index = {category_id: position for position, category_id in enumerate(category_ids)}
+    background = len(category_ids)
+    matrix = np.zeros((background + 1, background + 1), dtype=int)
+    gt_by_image = defaultdict(list)
+    pred_by_image = defaultdict(list)
+    for annotation in gt["annotations"]:
+        if not int(annotation.get("iscrowd", 0)):
+            gt_by_image[int(annotation["image_id"])].append(annotation)
+    for prediction in predictions:
+        if float(prediction["score"]) >= confidence:
+            pred_by_image[int(prediction["image_id"])].append(prediction)
+
+    for image in gt["images"]:
+        image_id = int(image["id"])
+        ground_truth = gt_by_image[image_id]
+        predicted = sorted(pred_by_image[image_id], key=lambda item: float(item["score"]), reverse=True)
+        unmatched = set(range(len(ground_truth)))
+        for prediction in predicted:
+            candidates = [(box_iou_xywh(prediction["bbox"], ground_truth[idx]["bbox"]), idx) for idx in unmatched]
+            best_iou, best_idx = max(candidates, default=(0.0, -1))
+            predicted_idx = index.get(int(prediction["category_id"]), background)
+            if best_idx >= 0 and best_iou >= iou_threshold:
+                actual_idx = index[int(ground_truth[best_idx]["category_id"])]
+                matrix[actual_idx, predicted_idx] += 1
+                unmatched.remove(best_idx)
+            else:
+                matrix[background, predicted_idx] += 1
+        for idx in unmatched:
+            matrix[index[int(ground_truth[idx]["category_id"])], background] += 1
+    labels = [str(item["name"]) for item in categories] + ["background"]
+    return matrix, labels
+
+
+def save_confusion_matrix(matrix, labels, output_json: Path):
+    import matplotlib.pyplot as plt
+
+    frame = pd.DataFrame(
+        matrix, index=[f"actual_{item}" for item in labels], columns=[f"pred_{item}" for item in labels]
+    )
+    suffix = output_json.stem.removeprefix("metrics")
+    csv_path = output_json.with_name(f"confusion_matrix{suffix}.csv")
+    png_path = output_json.with_name(f"confusion_matrix{suffix}.png")
+    frame.to_csv(csv_path)
+    figure, axis = plt.subplots(figsize=(max(5, len(labels)), max(4, len(labels))))
+    image = axis.imshow(matrix, cmap="Blues")
+    axis.set_xticks(range(len(labels)), labels, rotation=35, ha="right")
+    axis.set_yticks(range(len(labels)), labels)
+    axis.set_xlabel("Classe predita")
+    axis.set_ylabel("Classe real")
+    for row in range(len(labels)):
+        for column in range(len(labels)):
+            axis.text(column, row, str(matrix[row, column]), ha="center", va="center")
+    figure.colorbar(image, ax=axis)
+    figure.tight_layout()
+    figure.savefig(png_path, dpi=160)
+    plt.close(figure)
+    return csv_path, png_path
 
 
 def coco_metrics(gt_path, pred_path):
@@ -196,7 +260,10 @@ def main():
             "relative_AP_note": "A escala é definida pelo ground truth; objetos fora da faixa usam semântica de ignore inspirada no COCO. AP usa interpolação em 101 pontos.",
         },
     }
-    save_json(payload, args.out)
+    output_path = Path(args.out)
+    save_json(payload, output_path)
+    confusion, labels = detection_confusion_matrix(gt, preds, args.conf, args.iou)
+    save_confusion_matrix(confusion, labels, output_path)
     print(json.dumps(payload, ensure_ascii=False, indent=2))
 
 

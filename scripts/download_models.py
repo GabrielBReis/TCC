@@ -62,7 +62,7 @@ def download_rtdetr(out_dir: Path):
 
 def main():
     ap = argparse.ArgumentParser(description="Baixa os checkpoints-base usados no benchmark.")
-    ap.add_argument("--out", default="models/pretrained")
+    ap.add_argument("--out", default=str(_ROOT / "models" / "pretrained"))
     ap.add_argument("--models", default="yolo,faster,rtdetr", help="Lista separada por vírgula")
     args = ap.parse_args()
     out = Path(args.out).resolve()

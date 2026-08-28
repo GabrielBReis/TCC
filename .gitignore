@@ -13,8 +13,17 @@ reports/
 logs/
 models/pretrained/
 /yolo26n.pt
+/data.zip
 data/raw/
 data/processed/
 Innovation Hangar v2.v2i.coco/
 Innovation Hangar v2.v2i.coco.zip
 *.egg-info/
+hpc/
+
+# Pacotes e resultados transferidos entre esta maquina e o HPC.
+/dist/
+/hpc_results/
+/hpc/data/
+/hpc/models/
+/hpc/hpc_results/

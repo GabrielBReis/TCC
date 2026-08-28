@@ -2,31 +2,40 @@ project:
   name: aircraft_defects_tcc
   seed: 42
 
+dataset:
+  name: aircraft_crack
+
 paths:
-  train_images: data/raw/innovation_hangar_v2/train/images
-  train_annotations: data/raw/innovation_hangar_v2/annotations/train.json
-  val_images: data/raw/innovation_hangar_v2/val/images
-  val_annotations: data/raw/innovation_hangar_v2/annotations/val.json
-  test_images: data/raw/innovation_hangar_v2/test/images
-  test_annotations: data/raw/innovation_hangar_v2/annotations/test.json
-  yolo_dataset_dir: data/processed/yolo
+  train_images: data/processed/datasets/aircraft_crack/train/images
+  train_annotations: data/processed/datasets/aircraft_crack/annotations/train.json
+  val_images: data/processed/datasets/aircraft_crack/val/images
+  val_annotations: data/processed/datasets/aircraft_crack/annotations/val.json
+  test_images: data/processed/datasets/aircraft_crack/test/images
+  test_annotations: data/processed/datasets/aircraft_crack/annotations/test.json
+  yolo_dataset_dir: data/processed/datasets/aircraft_crack/yolo
   pretrained_dir: models/pretrained
   runs_dir: runs
   reports_dir: reports
 
 tracking:
   enabled: true
-  uri: sqlite:///mlflow.db
-  artifact_root: mlartifacts
-  experiment_name: aircraft_defects_tcc
+  uri: http://127.0.0.1:5000
+  artifact_root: "mlflow-artifacts:"
+  experiment_prefix: aircraft_defects_tcc
+  experiment_pattern: "{prefix}/{dataset}/{model}"
+  log_system_metrics: true
+
+mlflow_server:
+  backend_store_uri: sqlite:///mlflow.db
+  artifacts_destination: mlartifacts
 
 models:
   yolo:
     pretrained: models/pretrained/yolo11n.pt
     name: yolo11n_baseline_640
-    epochs: 100
+    epochs: 50
     imgsz: 640
-    batch: 20
+    batch: 4
     workers: 2
     device: "0"
     optimizer: auto
@@ -43,7 +52,7 @@ models:
     name: fasterrcnn_r50_fpn_baseline_640
     epochs: 50
     imgsz: 640
-    batch: 20
+    batch: 1
     workers: 2
     device: cuda:0
     lr: 0.005
@@ -60,8 +69,8 @@ models:
     name: rtdetr_r18vd_baseline_640
     epochs: 50
     imgsz: 640
-    train_batch: 20
-    eval_batch: 2
+    train_batch: 1
+    eval_batch: 1
     workers: 2
     learning_rate: 0.00005
     weight_decay: 0.0001
@@ -86,3 +95,24 @@ evaluation:
   relative_size:
     small_max: 0.01
     medium_max: 0.05
+
+retraining:
+  enabled: true
+  selection_split: val
+  metric: coco_map5095
+  mode: max
+  threshold: 0.30
+  max_attempts: 3
+  parameter_sets:
+    yolo:
+      - {lr0: 0.01, weight_decay: 0.0005}
+      - {lr0: 0.005, weight_decay: 0.0005}
+      - {lr0: 0.005, weight_decay: 0.001}
+    faster_rcnn:
+      - {lr: 0.005, weight_decay: 0.0005}
+      - {lr: 0.0025, weight_decay: 0.0005}
+      - {lr: 0.001, weight_decay: 0.001}
+    rtdetr:
+      - {learning_rate: 0.00005, weight_decay: 0.0001}
+      - {learning_rate: 0.000025, weight_decay: 0.0001}
+      - {learning_rate: 0.00001, weight_decay: 0.0005}

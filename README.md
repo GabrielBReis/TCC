@@ -10,15 +10,15 @@ Modelos baseline incluídos:
 - Faster R-CNN ResNet-50-FPN (Torchvision)
 - RT-DETR-R18 (checkpoint `PekingU/rtdetr_r18vd`, Transformers)
 
-O dataset principal é o **Innovation Hangar v2**, exportado em COCO Detection. Para treinar o YOLO11, o pipeline converte a versão COCO limpa para YOLO automaticamente.
+O baseline atual trabalha somente com a classe **`crack`**. A preparação é configurável e combina fontes COCO, incluindo exports do Roboflow como Innovation Hangar v2 e Aircraft Surface Defect Detection.
 
 ## 1. Estrutura esperada do dataset
 
-Exemplo:
+Todas as entradas configuradas são relativas à raiz do repositório. A saída normalizada é:
 
 ```text
-data/raw/
-└── innovation_hangar_v2/
+data/processed/datasets/
+└── aircraft_crack/
     ├── train/images/...
     ├── val/images/...
     ├── test/images/...
@@ -31,15 +31,15 @@ data/raw/
 
 Os JSONs seguem COCO Detection (`images`, `annotations`, `categories`).
 
-Após extrair a exportação do Roboflow na raiz do projeto, prepare uma versão limpa e sem vazamento entre splits:
+Configure fontes, classe-alvo e aliases em `configs/dataset.yaml`. Depois execute:
 
 ```bash
-python scripts/prepare_innovation_hangar.py \
-  --source "Innovation Hangar v2.v2i.coco" \
-  --out data/raw/innovation_hangar_v2 --seed 42
+python scripts/prepare_single_class_dataset.py --config configs/dataset.yaml
 ```
 
-O script agrupa variantes pelo nome anterior ao hash do Roboflow, refaz os splits, recorta boxes fora da imagem, remove categorias vazias e registra tudo em `preparation_report.json`.
+O script reconhece os layouts COCO normalizado e Roboflow, mantém apenas a classe configurada, remapeia seu ID para `1`, remove imagens sem a classe-alvo, recorta boxes inválidas e detecta imagens idênticas em splits diferentes. Ele nunca modifica a fonte.
+
+Para usar o Aircraft Surface Defect Detection, descompacte-o em `data/raw/aircraft_surface_defect_detection` e habilite a fonte de exemplo no YAML. Registre no TCC a versão e a licença exatas da fonte escolhida.
 
 ## 2. Instalação
 
@@ -90,11 +90,11 @@ models/pretrained/
 
 ```bash
 python scripts/validate_dataset.py \
-  --images data/raw/innovation_hangar_v2/train/images \
-  --annotations data/raw/innovation_hangar_v2/annotations/train.json --strict
+  --images data/processed/datasets/aircraft_crack/train/images \
+  --annotations data/processed/datasets/aircraft_crack/annotations/train.json --strict
 
 python scripts/analyze_dataset.py \
-  --annotations data/raw/innovation_hangar_v2/annotations/train.json \
+  --annotations data/processed/datasets/aircraft_crack/annotations/train.json \
   --out reports/dataset_analysis_train
 ```
 
@@ -104,10 +104,10 @@ A análise gera CSVs, contagem por classe, distribuição de área relativa e gr
 
 ```bash
 python scripts/convert_coco_to_yolo.py \
-  --train-images data/raw/innovation_hangar_v2/train/images --train-annotations data/raw/innovation_hangar_v2/annotations/train.json \
-  --val-images data/raw/innovation_hangar_v2/val/images --val-annotations data/raw/innovation_hangar_v2/annotations/val.json \
-  --test-images data/raw/innovation_hangar_v2/test/images --test-annotations data/raw/innovation_hangar_v2/annotations/test.json \
-  --out data/processed/yolo
+  --train-images data/processed/datasets/aircraft_crack/train/images --train-annotations data/processed/datasets/aircraft_crack/annotations/train.json \
+  --val-images data/processed/datasets/aircraft_crack/val/images --val-annotations data/processed/datasets/aircraft_crack/annotations/val.json \
+  --test-images data/processed/datasets/aircraft_crack/test/images --test-annotations data/processed/datasets/aircraft_crack/annotations/test.json \
+  --out data/processed/datasets/aircraft_crack/yolo
 ```
 
 O `category_mapping.json` gerado é usado para converter as classes do YOLO de volta aos IDs COCO durante a avaliação.
@@ -128,29 +128,29 @@ Execute um treinamento por vez quando houver apenas uma GPU. Ajuste `batch`, `wo
 
 ```bash
 python scripts/predict_yolo.py \
-  --weights runs/yolo/yolo11n_baseline_640/weights/best.pt \
-  --images data/raw/innovation_hangar_v2/test/images --annotations data/raw/innovation_hangar_v2/annotations/test.json \
-  --mapping data/processed/yolo/category_mapping.json \
-  --out runs/yolo/yolo11n_baseline_640/predictions.json --imgsz 640
+  --weights runs/aircraft_crack/yolo/yolo11n_baseline_640/weights/best.pt \
+  --images data/processed/datasets/aircraft_crack/test/images --annotations data/processed/datasets/aircraft_crack/annotations/test.json \
+  --mapping data/processed/datasets/aircraft_crack/yolo/category_mapping.json \
+  --out runs/aircraft_crack/yolo/yolo11n_baseline_640/predictions.json --imgsz 640
 ```
 
 ### Faster R-CNN
 
 ```bash
 python scripts/predict_faster_rcnn.py \
-  --checkpoint runs/faster_rcnn/fasterrcnn_r50_fpn_baseline_640/best.pth \
-  --images data/raw/innovation_hangar_v2/test/images --annotations data/raw/innovation_hangar_v2/annotations/test.json \
-  --out runs/faster_rcnn/fasterrcnn_r50_fpn_baseline_640/predictions.json
+  --checkpoint runs/aircraft_crack/faster_rcnn/fasterrcnn_r50_fpn_baseline_640/best.pth \
+  --images data/processed/datasets/aircraft_crack/test/images --annotations data/processed/datasets/aircraft_crack/annotations/test.json \
+  --out runs/aircraft_crack/faster_rcnn/fasterrcnn_r50_fpn_baseline_640/predictions.json
 ```
 
 ### RT-DETR
 
 ```bash
 python scripts/predict_rtdetr.py \
-  --model runs/rtdetr/rtdetr_r18vd_baseline_640/best_model \
-  --mapping runs/rtdetr/rtdetr_r18vd_baseline_640/class_mapping.json \
-  --images data/raw/innovation_hangar_v2/test/images --annotations data/raw/innovation_hangar_v2/annotations/test.json \
-  --out runs/rtdetr/rtdetr_r18vd_baseline_640/predictions.json
+  --model runs/aircraft_crack/rtdetr/rtdetr_r18vd_baseline_640/best_model \
+  --mapping runs/aircraft_crack/rtdetr/rtdetr_r18vd_baseline_640/class_mapping.json \
+  --images data/processed/datasets/aircraft_crack/test/images --annotations data/processed/datasets/aircraft_crack/annotations/test.json \
+  --out runs/aircraft_crack/rtdetr/rtdetr_r18vd_baseline_640/predictions.json
 ```
 
 ## 8. Avaliar
@@ -159,9 +159,9 @@ Exemplo:
 
 ```bash
 python scripts/evaluate.py \
-  --gt data/raw/innovation_hangar_v2/annotations/test.json \
-  --pred runs/yolo/yolo11n_baseline_640/predictions.json \
-  --out runs/yolo/yolo11n_baseline_640/metrics.json \
+  --gt data/processed/datasets/aircraft_crack/annotations/test.json \
+  --pred runs/aircraft_crack/yolo/yolo11n_baseline_640/predictions.json \
+  --out runs/aircraft_crack/yolo/yolo11n_baseline_640/metrics.json \
   --conf 0.25 --iou 0.50 --small-max 0.01 --medium-max 0.05
 ```
 
@@ -179,9 +179,9 @@ Importante: a predição deve ser gerada com `--conf` baixo (ex.: 0.001) para n�
 
 ```bash
 python scripts/compare_experiments.py --metrics \
-  runs/yolo/yolo11n_baseline_640/metrics.json \
-  runs/faster_rcnn/fasterrcnn_r50_fpn_baseline_640/metrics.json \
-  runs/rtdetr/rtdetr_r18vd_baseline_640/metrics.json \
+  runs/aircraft_crack/yolo/yolo11n_baseline_640/metrics.json \
+  runs/aircraft_crack/faster_rcnn/fasterrcnn_r50_fpn_baseline_640/metrics.json \
+  runs/aircraft_crack/rtdetr/rtdetr_r18vd_baseline_640/metrics.json \
   --out reports/comparison
 ```
 
@@ -205,8 +205,8 @@ python scripts/run_baselines.py --config configs/project.yaml --dry-run
 
 ```bash
 python scripts/generate_patches.py \
-  --images data/raw/innovation_hangar_v2/train/images \
-  --annotations data/raw/innovation_hangar_v2/annotations/train.json \
+  --images data/processed/datasets/aircraft_crack/train/images \
+  --annotations data/processed/datasets/aircraft_crack/annotations/train.json \
   --out data/processed/train_patches_640 \
   --patch 640 --overlap 0.20 --min-visible 0.30 --keep-all-negative
 ```
@@ -228,24 +228,56 @@ Os scripts de predição também geram `inference_metrics.json`, com latência, 
 
 ## 12. MLflow
 
-Para abrir a interface local:
+Para abrir a interface local com backend e artefatos na raiz do projeto:
 
 ```bash
 python scripts/start_mlflow.py --config configs/project.yaml
 ```
 
-A interface ficará disponível em `http://127.0.0.1:5000`. O backend SQLite e os artefatos são criados na raiz do projeto, independentemente do diretório de onde o comando for executado.
+A interface ficará disponível em `http://127.0.0.1:5000`. Para compartilhar na rede local, informe o IP atual do servidor nas opções de segurança:
+
+```bash
+python scripts/start_mlflow.py --host 0.0.0.0 \
+  --allowed-hosts "127.0.0.1,localhost,IP_DO_SERVIDOR" \
+  --cors-allowed-origins "http://127.0.0.1:5000,http://localhost:5000,http://IP_DO_SERVIDOR:5000"
+```
+
+No outro dispositivo, defina somente a variável de ambiente, sem editar caminhos no YAML:
+
+```bash
+export TCC_MLFLOW_TRACKING_URI=http://IP_DO_SERVIDOR:5000
+```
+
+No PowerShell:
+
+```powershell
+$env:TCC_MLFLOW_TRACKING_URI="http://IP_DO_SERVIDOR:5000"
+```
+
+Os experimentos são organizados como `aircraft_defects_tcc/aircraft_crack/<modelo>` e os artefatos usam o proxy `mlflow-artifacts:`, evitando caminhos Windows em clientes Linux.
 
 Os scripts de treino criam uma execução quando `tracking.enabled=true`. Após gerar `metrics.json`, você também pode anexar a avaliação ao mesmo run:
 
 ```bash
 python scripts/log_evaluation_to_mlflow.py \
   --config configs/project.yaml \
-  --run-dir runs/yolo/yolo11n_baseline_640 \
-  --metrics runs/yolo/yolo11n_baseline_640/metrics.json
+  --run-dir runs/aircraft_crack/yolo/yolo11n_baseline_640 \
+  --metrics runs/aircraft_crack/yolo/yolo11n_baseline_640/metrics.json
 ```
 
-## 13. Ordem recomendada para o TCC
+## 13. Retreinamento condicionado por métricas
+
+Os conjuntos de parâmetros e o limite mínimo ficam em `retraining` no YAML. A seleção usa validação; o teste é executado apenas para o candidato escolhido:
+
+```bash
+python scripts/train_with_retries.py --model yolo --config configs/project.yaml
+python scripts/train_with_retries.py --model faster_rcnn --config configs/project.yaml
+python scripts/train_with_retries.py --model rtdetr --config configs/project.yaml
+```
+
+Use `--dry-run` para inspecionar a esteira sem iniciar treinos. O relatório final fica em `runs/aircraft_crack/pipelines/<modelo>/pipeline_report.json`.
+
+## 14. Ordem recomendada para o TCC
 
 1. Validar o dataset.
 2. Analisar classes e escala das caixas.
@@ -258,7 +290,7 @@ python scripts/log_evaluation_to_mlflow.py \
 9. Testar augmentation/hiperparâmetros apenas se houver hipótese clara.
 10. Comparar ganho em pequenos defeitos versus custo computacional.
 
-## 14. Observações importantes
+## 15. Observações importantes
 
 - Não use o conjunto de teste para escolher hiperparâmetros.
 - Registre `pip freeze`, seed, GPU, versão do dataset e commit Git de cada bateria final.

@@ -12,7 +12,7 @@ if str(_ROOT / "src") not in _sys.path:
 import argparse
 import csv
 
-from tcc_pipeline.config import load_config, project_root_from_config, resolve_path
+from tcc_pipeline.config import load_config, model_run_dir, project_root_from_config, resolve_path
 from tcc_pipeline.tracking import (
     log_directory_if_enabled,
     log_metrics_if_enabled,
@@ -37,7 +37,7 @@ def log_yolo_results(cfg, run_dir):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--config", default="configs/project.yaml")
+    ap.add_argument("--config", default=str(_ROOT / "configs" / "project.yaml"))
     ap.add_argument("--name", default=None)
     args = ap.parse_args()
     cfg = load_config(args.config)
@@ -47,20 +47,19 @@ def main():
         m["name"] = args.name
     from ultralytics import YOLO
 
-    runs_dir = resolve_path(root, cfg["paths"]["runs_dir"])
-    run_dir = runs_dir / "yolo" / m["name"]
+    run_dir = model_run_dir(root, cfg, "yolo", m["name"])
     yolo_yaml = resolve_path(root, cfg["paths"]["yolo_dataset_dir"]) / "dataset.yaml"
     weights = resolve_path(root, m["pretrained"])
     params = {"model": "yolo11n", **m, "dataset": str(yolo_yaml)}
     save_metadata(run_dir / "run_config.json", params)
 
-    with tracked_run(cfg, m["name"], run_dir, params):
+    with tracked_run(cfg, m["name"], run_dir, params, model_key="yolo"):
         model = YOLO(str(weights))
         aug = m.get("augmentation", {})
         augmentation_enabled = bool(aug.get("enabled", False))
         model.train(
             data=str(yolo_yaml),
-            project=str(runs_dir / "yolo"),
+            project=str(run_dir.parent),
             name=m["name"],
             exist_ok=True,
             epochs=int(m["epochs"]),

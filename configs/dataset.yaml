@@ -1,0 +1,21 @@
+dataset:
+  name: aircraft_crack
+  target_class: crack
+  class_aliases:
+    - crack
+    - cracks
+  keep_images_without_target: false
+  fail_on_duplicate_images_across_splits: true
+  output_dir: data/processed/datasets/aircraft_crack
+
+  # Para adicionar ou trocar o dataset, altere somente esta lista. O formato
+  # "auto" reconhece COCO normalizado e exports COCO do Roboflow.
+  sources:
+    - name: innovation_hangar_v2
+      root: data/raw/innovation_hangar_v2
+      format: auto
+
+    # Exemplo para o próximo dataset, após descompactá-lo:
+    # - name: aircraft_surface_defect_detection
+    #   root: data/raw/aircraft_surface_defect_detection
+    #   format: auto

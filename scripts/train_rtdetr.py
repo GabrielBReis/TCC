@@ -13,7 +13,9 @@ import argparse
 import inspect
 import json
 
-from tcc_pipeline.config import load_config, project_root_from_config, resolve_path
+import torch
+
+from tcc_pipeline.config import load_config, model_run_dir, project_root_from_config, resolve_path
 from tcc_pipeline.datasets import RTDetrCocoDataset, rtdetr_collate
 from tcc_pipeline.tracking import (
     log_directory_if_enabled,
@@ -26,7 +28,7 @@ from tcc_pipeline.tracking import (
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--config", default="configs/project.yaml")
+    ap.add_argument("--config", default=str(_ROOT / "configs" / "project.yaml"))
     ap.add_argument("--name", default=None)
     args = ap.parse_args()
     cfg = load_config(args.config)
@@ -35,7 +37,12 @@ def main():
     if args.name:
         m["name"] = args.name
 
-    from transformers import RTDetrForObjectDetection, RTDetrImageProcessor, Trainer, TrainingArguments
+    from transformers import RTDetrForObjectDetection, RTDetrImageProcessor, Trainer, TrainerCallback, TrainingArguments
+
+    class MlflowMetricsCallback(TrainerCallback):
+        def on_log(self, args, state, control, logs=None, **kwargs):
+            if logs:
+                log_metrics_if_enabled(cfg, logs, step=int(state.global_step))
 
     pretrained = resolve_path(root, m["pretrained"])
     processor = RTDetrImageProcessor.from_pretrained(
@@ -58,7 +65,7 @@ def main():
         label2id=train_ds.label2id,
         ignore_mismatched_sizes=True,
     )
-    run_dir = resolve_path(root, cfg["paths"]["runs_dir"]) / "rtdetr" / m["name"]
+    run_dir = model_run_dir(root, cfg, "rtdetr", m["name"])
     run_dir.mkdir(parents=True, exist_ok=True)
     mapping = {"idx0_to_coco_category_id": train_ds.idx0_to_cat, "id2label": train_ds.id2label}
     save_metadata(run_dir / "class_mapping.json", mapping)
@@ -74,8 +81,8 @@ def main():
         "learning_rate": float(m["learning_rate"]),
         "weight_decay": float(m["weight_decay"]),
         "warmup_ratio": float(m.get("warmup_ratio", 0.0)),
-        "fp16": bool(m.get("fp16", False)),
-        "bf16": bool(m.get("bf16", False)),
+        "fp16": bool(m.get("fp16", False) and torch.cuda.is_available()),
+        "bf16": bool(m.get("bf16", False) and torch.cuda.is_available()),
         "save_strategy": "epoch",
         "logging_strategy": "epoch",
         "save_total_limit": 2,
@@ -91,17 +98,20 @@ def main():
         kwargs["eval_strategy"] = "epoch"
     else:
         kwargs["evaluation_strategy"] = "epoch"
+    kwargs = {key: value for key, value in kwargs.items() if key in sig.parameters}
     training_args = TrainingArguments(**kwargs)
     trainer = Trainer(
-        model=model, args=training_args, train_dataset=train_ds, eval_dataset=val_ds, data_collator=rtdetr_collate
+        model=model,
+        args=training_args,
+        train_dataset=train_ds,
+        eval_dataset=val_ds,
+        data_collator=rtdetr_collate,
+        callbacks=[MlflowMetricsCallback()],
     )
-    with tracked_run(cfg, m["name"], run_dir, params):
+    with tracked_run(cfg, m["name"], run_dir, params, model_key="rtdetr"):
         trainer.train()
         history = trainer.state.log_history
         (run_dir / "history.json").write_text(json.dumps(history, indent=2), encoding="utf-8")
-        for index, row in enumerate(history):
-            step = int(row.get("epoch", row.get("step", index)))
-            log_metrics_if_enabled(cfg, {k: v for k, v in row.items() if k not in {"epoch", "step"}}, step=step)
         log_table_if_enabled(cfg, history, "tables/training_history.json")
         best_dir = run_dir / "best_model"
         trainer.save_model(str(best_dir))

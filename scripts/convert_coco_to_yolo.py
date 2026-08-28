@@ -85,7 +85,6 @@ def main():
     if mapping is None:
         raise SystemExit("Nenhum split informado.")
     yaml_data = {
-        "path": str(out),
         "train": "images/train" if "train" in available else None,
         "val": "images/val" if "val" in available else None,
         "test": "images/test" if "test" in available else None,

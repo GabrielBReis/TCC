@@ -13,7 +13,7 @@ import argparse
 import subprocess
 import sys
 
-from tcc_pipeline.config import load_config, project_root_from_config, resolve_path
+from tcc_pipeline.config import load_config, model_run_dir, project_root_from_config, resolve_path
 
 
 def run(cmd, dry=False):
@@ -24,7 +24,7 @@ def run(cmd, dry=False):
 
 def main():
     ap = argparse.ArgumentParser(description="Orquestra o benchmark baseline completo de forma reiniciável.")
-    ap.add_argument("--config", default="configs/project.yaml")
+    ap.add_argument("--config", default=str(_ROOT / "configs" / "project.yaml"))
     ap.add_argument("--models", default="yolo,faster,rtdetr")
     ap.add_argument("--skip-download", action="store_true")
     ap.add_argument("--skip-prepare-yolo", action="store_true")
@@ -93,7 +93,7 @@ def main():
 
     if "yolo" in wanted:
         m = cfg["models"]["yolo"]
-        rd = resolve_path(root, cfg["paths"]["runs_dir"]) / "yolo" / m["name"]
+        rd = model_run_dir(root, cfg, "yolo", m["name"])
         pred = rd / "predictions.json"
         met = rd / "metrics.json"
         run([py, scripts / "train_yolo.py", "--config", args.config], args.dry_run)
@@ -128,7 +128,7 @@ def main():
         metrics_files.append(met)
     if "faster" in wanted or "faster_rcnn" in wanted:
         m = cfg["models"]["faster_rcnn"]
-        rd = resolve_path(root, cfg["paths"]["runs_dir"]) / "faster_rcnn" / m["name"]
+        rd = model_run_dir(root, cfg, "faster_rcnn", m["name"])
         pred = rd / "predictions.json"
         met = rd / "metrics.json"
         run([py, scripts / "train_faster_rcnn.py", "--config", args.config], args.dry_run)
@@ -157,7 +157,7 @@ def main():
         metrics_files.append(met)
     if "rtdetr" in wanted:
         m = cfg["models"]["rtdetr"]
-        rd = resolve_path(root, cfg["paths"]["runs_dir"]) / "rtdetr" / m["name"]
+        rd = model_run_dir(root, cfg, "rtdetr", m["name"])
         pred = rd / "predictions.json"
         met = rd / "metrics.json"
         run([py, scripts / "train_rtdetr.py", "--config", args.config], args.dry_run)

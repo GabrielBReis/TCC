@@ -20,7 +20,7 @@ from torchvision.models.detection import fasterrcnn_resnet50_fpn
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from tqdm import tqdm
 
-from tcc_pipeline.config import load_config, project_root_from_config, resolve_path
+from tcc_pipeline.config import load_config, model_run_dir, project_root_from_config, resolve_path
 from tcc_pipeline.datasets import CocoDetectionTorchDataset, detection_collate
 from tcc_pipeline.tracking import (
     log_directory_if_enabled,
@@ -47,8 +47,9 @@ def compute_loss(model, loader, device, amp_enabled=False):
         for images, targets in loader:
             images = [x.to(device) for x in images]
             targets = [{k: v.to(device) if torch.is_tensor(v) else v for k, v in t.items()} for t in targets]
-            losses = model(images, targets)
-            loss = sum(losses.values())
+            with torch.amp.autocast(device.type, enabled=amp_enabled):
+                losses = model(images, targets)
+                loss = sum(losses.values())
             total += float(loss.item())
             n += 1
     return total / max(n, 1)
@@ -56,7 +57,7 @@ def compute_loss(model, loader, device, amp_enabled=False):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--config", default="configs/project.yaml")
+    ap.add_argument("--config", default=str(_ROOT / "configs" / "project.yaml"))
     ap.add_argument("--name", default=None)
     args = ap.parse_args()
     cfg = load_config(args.config)
@@ -108,7 +109,7 @@ def main():
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=int(m["epochs"]))
     scaler = torch.amp.GradScaler("cuda", enabled=bool(m.get("amp", True) and device.type == "cuda"))
 
-    run_dir = resolve_path(root, cfg["paths"]["runs_dir"]) / "faster_rcnn" / m["name"]
+    run_dir = model_run_dir(root, cfg, "faster_rcnn", m["name"])
     run_dir.mkdir(parents=True, exist_ok=True)
     mapping = {"idx0_to_coco_category_id": train_ds.idx0_to_cat, "id2label": train_ds.id2label}
     save_metadata(run_dir / "class_mapping.json", mapping)
@@ -118,7 +119,7 @@ def main():
     best_val = float("inf")
     bad_epochs = 0
     history = []
-    with tracked_run(cfg, m["name"], run_dir, params):
+    with tracked_run(cfg, m["name"], run_dir, params, model_key="faster_rcnn"):
         for epoch in range(1, int(m["epochs"]) + 1):
             model.train()
             total = 0.0

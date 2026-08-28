@@ -1,5 +1,20 @@
 # Innovation Hangar v2 — dataset audit
 
+## Recorte de classe única (`aircraft_crack`)
+
+A preparação de `configs/dataset.yaml` mantém apenas `crack` e remapeia a classe para `category_id=1`:
+
+| Split | Imagens | Anotações de crack |
+|---|---:|---:|
+| train | 1.775 | 3.151 |
+| val | 359 | 627 |
+| test | 242 | 417 |
+
+- Imagens sem `crack` foram removidas.
+- Nenhuma caixa precisou ser recortada.
+- Não foram encontradas imagens idênticas entre splits.
+- O relatório fica em `data/processed/datasets/aircraft_crack/preparation_report.json`.
+
 Audit date: 2026-08-21  
 Source: Roboflow export `Innovation Hangar v2.v2i.coco`  
 Declared license: CC BY 4.0  
