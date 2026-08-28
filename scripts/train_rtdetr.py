@@ -52,6 +52,8 @@ def main():
         resolve_path(root, cfg["paths"]["train_images"]),
         resolve_path(root, cfg["paths"]["train_annotations"]),
         processor,
+        train=True,
+        augmentation=m.get("augmentation", {}),
     )
     val_ds = RTDetrCocoDataset(
         resolve_path(root, cfg["paths"]["val_images"]), resolve_path(root, cfg["paths"]["val_annotations"]), processor

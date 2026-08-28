@@ -102,17 +102,116 @@ retraining:
   metric: coco_map5095
   mode: max
   threshold: 0.30
-  max_attempts: 3
+  # Baseline e os dois cenários de augmentation sempre são comparados.
+  min_attempts: 3
+  max_attempts: 5
   parameter_sets:
     yolo:
-      - {lr0: 0.01, weight_decay: 0.0005}
-      - {lr0: 0.005, weight_decay: 0.0005}
-      - {lr0: 0.005, weight_decay: 0.001}
+      - {label: baseline, lr0: 0.01, weight_decay: 0.0005}
+      - label: crack_safe_augmentation
+        lr0: 0.01
+        weight_decay: 0.0005
+        augmentation:
+          enabled: true
+          rotation_degrees: 10.0
+          translate: 0.05
+          scale: 0.10
+          horizontal_flip: 0.5
+          vertical_flip: 0.5
+          brightness: 0.10
+          contrast: 0.10
+          saturation: 0.05
+          hue: 0.0
+          mosaic: 0.0
+      - label: expanded_augmentation
+        lr0: 0.01
+        weight_decay: 0.0005
+        augmentation:
+          enabled: true
+          rotation_degrees: 10.0
+          translate: 0.05
+          scale: 0.10
+          horizontal_flip: 0.5
+          vertical_flip: 0.5
+          brightness: 0.10
+          contrast: 0.10
+          saturation: 0.05
+          hue: 0.015
+          shear_degrees: 2.0
+          perspective: 0.0005
+          mosaic: 0.5
+          close_mosaic: 5
+          mixup: 0.10
+          # Ultralytics limita copy-paste a segmentação; em Detect fica registrado, mas sem efeito.
+          copy_paste: 0.10
+          copy_paste_mode: mixup
+      - {label: reduced_lr, lr0: 0.005, weight_decay: 0.0005}
+      - {label: reduced_lr_high_decay, lr0: 0.005, weight_decay: 0.001}
     faster_rcnn:
-      - {lr: 0.005, weight_decay: 0.0005}
-      - {lr: 0.0025, weight_decay: 0.0005}
-      - {lr: 0.001, weight_decay: 0.001}
+      - {label: baseline, lr: 0.005, weight_decay: 0.0005}
+      - label: crack_safe_augmentation
+        lr: 0.005
+        weight_decay: 0.0005
+        augmentation:
+          enabled: true
+          rotation_degrees: 10.0
+          translate: 0.05
+          scale: 0.10
+          horizontal_flip: 0.5
+          vertical_flip: 0.5
+          brightness: 0.10
+          contrast: 0.10
+          saturation: 0.05
+          hue: 0.0
+      - label: expanded_augmentation
+        lr: 0.005
+        weight_decay: 0.0005
+        augmentation:
+          enabled: true
+          rotation_degrees: 10.0
+          translate: 0.05
+          scale: 0.10
+          horizontal_flip: 0.5
+          vertical_flip: 0.5
+          brightness: 0.10
+          contrast: 0.10
+          saturation: 0.05
+          hue: 0.015
+          shear_degrees: 2.0
+          perspective: 0.05
+      - {label: reduced_lr, lr: 0.0025, weight_decay: 0.0005}
+      - {label: reduced_lr_high_decay, lr: 0.001, weight_decay: 0.001}
     rtdetr:
-      - {learning_rate: 0.00005, weight_decay: 0.0001}
-      - {learning_rate: 0.000025, weight_decay: 0.0001}
-      - {learning_rate: 0.00001, weight_decay: 0.0005}
+      - {label: baseline, learning_rate: 0.00005, weight_decay: 0.0001}
+      - label: crack_safe_augmentation
+        learning_rate: 0.00005
+        weight_decay: 0.0001
+        augmentation:
+          enabled: true
+          rotation_degrees: 10.0
+          translate: 0.05
+          scale: 0.10
+          horizontal_flip: 0.5
+          vertical_flip: 0.5
+          brightness: 0.10
+          contrast: 0.10
+          saturation: 0.05
+          hue: 0.0
+      - label: expanded_augmentation
+        learning_rate: 0.00005
+        weight_decay: 0.0001
+        augmentation:
+          enabled: true
+          rotation_degrees: 10.0
+          translate: 0.05
+          scale: 0.10
+          horizontal_flip: 0.5
+          vertical_flip: 0.5
+          brightness: 0.10
+          contrast: 0.10
+          saturation: 0.05
+          hue: 0.015
+          shear_degrees: 2.0
+          perspective: 0.05
+      - {label: reduced_lr, learning_rate: 0.000025, weight_decay: 0.0001}
+      - {label: reduced_lr_high_decay, learning_rate: 0.00001, weight_decay: 0.0005}

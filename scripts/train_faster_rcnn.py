@@ -70,12 +70,11 @@ def main():
     torch.manual_seed(seed)
 
     aug = m.get("augmentation", {})
-    hflip_prob = float(aug.get("horizontal_flip", 0.5)) if aug.get("enabled", False) else 0.0
     train_ds = CocoDetectionTorchDataset(
         resolve_path(root, cfg["paths"]["train_images"]),
         resolve_path(root, cfg["paths"]["train_annotations"]),
         train=True,
-        hflip_prob=hflip_prob,
+        augmentation=aug,
     )
     val_ds = CocoDetectionTorchDataset(
         resolve_path(root, cfg["paths"]["val_images"]), resolve_path(root, cfg["paths"]["val_annotations"]), train=False

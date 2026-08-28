@@ -13,6 +13,7 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
+MODEL_KEYS = ("yolo", "faster_rcnn", "rtdetr")
 if str(ROOT / "src") not in sys.path:
     sys.path.insert(0, str(ROOT / "src"))
 
@@ -153,9 +154,16 @@ def predict_and_evaluate(
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", default=str(ROOT / "configs" / "project.yaml"))
-    parser.add_argument("--model", required=True, choices=("yolo", "faster_rcnn", "rtdetr"))
+    parser.add_argument("--model", required=True, choices=(*MODEL_KEYS, "all"))
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
+    if args.model == "all":
+        for model_key in MODEL_KEYS:
+            command = [sys.executable, Path(__file__).resolve(), "--config", args.config, "--model", model_key]
+            if args.dry_run:
+                command.append("--dry-run")
+            execute(command, False)
+        return
     cfg = load_config(args.config)
     root = project_root_from_config(args.config)
     scripts = root / "scripts"
@@ -165,8 +173,11 @@ def main() -> None:
         raise ValueError("retraining.enabled precisa estar habilitado")
     parameter_sets = policy.get("parameter_sets", {}).get(args.model, [])
     maximum = min(int(policy.get("max_attempts", len(parameter_sets))), len(parameter_sets))
+    minimum = min(int(policy.get("min_attempts", 1)), maximum)
     if maximum < 1:
         raise ValueError(f"Nenhum conjunto de parâmetros configurado para {args.model}")
+    if minimum < 1:
+        raise ValueError("retraining.min_attempts deve ser pelo menos 1")
 
     pipeline_dir = resolve_path(root, cfg["paths"]["runs_dir"]) / cfg["dataset"]["name"] / "pipelines" / args.model
     pipeline_dir.mkdir(parents=True, exist_ok=True)
@@ -176,10 +187,12 @@ def main() -> None:
     mode = str(policy.get("mode", "max"))
     attempts = []
 
-    for attempt_number, overrides in enumerate(parameter_sets[:maximum], start=1):
+    for attempt_number, parameter_set in enumerate(parameter_sets[:maximum], start=1):
+        overrides = copy.deepcopy(parameter_set)
+        variant = str(overrides.pop("label", f"variant_{attempt_number:02d}"))
         attempt_cfg = copy.deepcopy(cfg)
         attempt_cfg["models"][args.model].update(overrides)
-        run_name = f"{base_name}__attempt_{attempt_number:02d}"
+        run_name = f"{base_name}__attempt_{attempt_number:02d}_{variant}"
         attempt_cfg["models"][args.model]["name"] = run_name
         config_file = pipeline_dir / f"attempt_{attempt_number:02d}.yaml"
         config_file.write_text(yaml.safe_dump(attempt_cfg, sort_keys=False, allow_unicode=True), encoding="utf-8")
@@ -203,14 +216,17 @@ def main() -> None:
         attempts.append(
             {
                 "attempt": attempt_number,
+                "variant": variant,
                 "run_name": run_name,
                 "run_dir": str(run_dir.relative_to(root)),
                 "parameters": overrides,
                 metric_name: value,
             }
         )
-        reached = value >= threshold if mode == "max" else value <= threshold
-        if reached:
+        threshold_reached = any(
+            item[metric_name] >= threshold if mode == "max" else item[metric_name] <= threshold for item in attempts
+        )
+        if threshold_reached and attempt_number >= minimum:
             break
 
     if args.dry_run:
@@ -226,6 +242,8 @@ def main() -> None:
         "model": args.model,
         "selection_metric": metric_name,
         "selection_threshold": threshold,
+        "minimum_attempts": minimum,
+        "maximum_attempts": maximum,
         "attempts": attempts,
         "selected": selected,
         "test_metrics": str(test_metrics.relative_to(root)),

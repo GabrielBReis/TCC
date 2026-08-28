@@ -269,11 +269,34 @@ python scripts/log_evaluation_to_mlflow.py \
 
 Os conjuntos de parâmetros e o limite mínimo ficam em `retraining` no YAML. A seleção usa validação; o teste é executado apenas para o candidato escolhido:
 
+A tentativa 1 é o baseline sem augmentation. A tentativa 2 mantém os mesmos
+hiperparâmetros e aplica um preset conservador para trincas: rotação de até 10°,
+translação de até 5%, escala de até 10%, flips e pequenas variações fotométricas.
+A tentativa 3 é experimental e acrescenta matiz, perspectiva e cisalhamento. No
+YOLO ela também habilita `mosaic` e `mixup`. As três tentativas sempre são
+executadas para permitir comparação direta; ajustes de taxa de aprendizado só
+entram se nenhuma delas alcançar a meta.
+
+O parâmetro `copy_paste` também fica registrado na tentativa experimental do
+YOLO, mas o Ultralytics só o aplica em tarefas de segmentação. Como este dataset
+possui caixas, e não máscaras, ele não altera as imagens do treino Detect. Não
+são criadas máscaras artificiais a partir das caixas.
+
 ```bash
 python scripts/train_with_retries.py --model yolo --config configs/project.yaml
 python scripts/train_with_retries.py --model faster_rcnn --config configs/project.yaml
 python scripts/train_with_retries.py --model rtdetr --config configs/project.yaml
 ```
+
+Para executar YOLO, Faster R-CNN e RT-DETR sequencialmente com um único comando:
+
+```bash
+python scripts/train_with_retries.py --model all --config configs/project.yaml
+```
+
+Quando uma tentativa termina, sua predição e avaliação são executadas e a
+próxima começa automaticamente. Se uma etapa falhar, a esteira para para não
+ocultar o erro nem iniciar experimentos sobre um estado incompleto.
 
 Use `--dry-run` para inspecionar a esteira sem iniciar treinos. O relatório final fica em `runs/aircraft_crack/pipelines/<modelo>/pipeline_report.json`.
 
