@@ -1,0 +1,119 @@
+project:
+  name: aircraft_defects_tcc
+  seed: 42
+
+dataset:
+  name: aircraft_crack
+
+paths:
+  train_images: data/processed/datasets/aircraft_crack/train/images
+  train_annotations: data/processed/datasets/aircraft_crack/annotations/train.json
+  val_images: data/processed/datasets/aircraft_crack/val/images
+  val_annotations: data/processed/datasets/aircraft_crack/annotations/val.json
+  test_images: data/processed/datasets/aircraft_crack/test/images
+  test_annotations: data/processed/datasets/aircraft_crack/annotations/test.json
+  yolo_dataset_dir: data/processed/datasets/aircraft_crack/yolo
+  pretrained_dir: models/pretrained
+  runs_dir: runs
+  reports_dir: reports
+
+tracking:
+  enabled: true
+  uri: http://127.0.0.1:5000
+  artifact_root: "mlflow-artifacts:"
+  experiment_prefix: aircraft_defects_tcc/yolo_evidence/source_reproduction
+  experiment_pattern: "{prefix}/{dataset}/{model}"
+  log_system_metrics: true
+
+mlflow_server:
+  backend_store_uri: sqlite:///mlflow.db
+  artifacts_destination: mlartifacts
+
+models:
+  yolo:
+    pretrained: models/pretrained/yolo11n.pt
+    name: yolo11n_source_reproduction
+    epochs: 100
+    imgsz: 640
+    batch: 16
+    workers: 4
+    device: "0"
+    optimizer: auto
+    lr0: 0.01
+    lrf: 0.01
+    momentum: 0.937
+    weight_decay: 0.0005
+    warmup_epochs: 3.0
+    cos_lr: false
+    multi_scale: 0.0
+    patience: 20
+    amp: true
+    save_period: -1
+    augmentation:
+      enabled: true
+      rotation_degrees: 10.0
+      translate: 0.05
+      scale: 0.10
+      horizontal_flip: 0.5
+      vertical_flip: 0.5
+      brightness: 0.10
+      saturation: 0.05
+      hue: 0.0
+      mosaic: 0.0
+      mixup: 0.0
+      copy_paste: 0.0
+      perspective: 0.0
+      shear_degrees: 0.0
+
+prediction:
+  confidence_threshold: 0.001
+  max_detections: 300
+  benchmark_warmup: 10
+
+evaluation:
+  f1_confidence_threshold: 0.25
+  iou_threshold: 0.50
+  relative_size:
+    small_max: 0.01
+    medium_max: 0.05
+
+retraining:
+  enabled: true
+  pipeline_name: yolo_source_reproduction
+  selection_split: val
+  metric: coco_map5095
+  mode: max
+  threshold: 0.28
+  run_all_parameter_sets: true
+  reuse_completed_attempts: true
+  min_attempts: 1
+  max_attempts: 1
+  parameter_sets:
+    yolo:
+      - label: previous_best_safe_augmentation
+        experiment_group: source_reproduction
+        hypothesis: reproduzir o melhor resultado anterior antes da adaptação de domínio
+        pretrained: models/pretrained/yolo11n.pt
+        epochs: 100
+        imgsz: 640
+        batch: 16
+        optimizer: auto
+        lr0: 0.01
+        weight_decay: 0.0005
+        patience: 20
+        save_period: -1
+        augmentation:
+          enabled: true
+          rotation_degrees: 10.0
+          translate: 0.05
+          scale: 0.10
+          horizontal_flip: 0.5
+          vertical_flip: 0.5
+          brightness: 0.10
+          saturation: 0.05
+          hue: 0.0
+          mosaic: 0.0
+          mixup: 0.0
+          copy_paste: 0.0
+          perspective: 0.0
+          shear_degrees: 0.0

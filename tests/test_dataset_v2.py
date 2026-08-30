@@ -106,6 +106,8 @@ def test_prepare_v2_keeps_train_groups_and_balances_evaluation(tmp_path):
     assert audit["errors"] == []
     assert audit["splits"]["val"]["images"] == 2
     assert audit["splits"]["test"]["images"] == 2
+    assert "train_evaluation" in audit
+    assert audit["splits"]["train"]["positive_source_groups"] == 1
     fingerprint = json.loads(
         (
             tmp_path

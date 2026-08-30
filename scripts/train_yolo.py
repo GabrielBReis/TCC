@@ -13,6 +13,8 @@ import argparse
 import csv
 from pathlib import Path
 
+import yaml
+
 from tcc_pipeline.config import load_config, model_run_dir, project_root_from_config, resolve_path
 from tcc_pipeline.tracking import (
     log_directory_if_enabled,
@@ -42,6 +44,26 @@ def resolve_model_source(root: Path, value: str | Path) -> str:
         return str(candidate)
     local = (root / candidate).resolve()
     return str(local) if local.exists() else str(value)
+
+
+def materialize_runtime_dataset_yaml(source_yaml: Path, yolo_dir: Path, run_dir: Path) -> Path:
+    """Cria um YAML portátil cuja raiz é inequívoca para o Ultralytics.
+
+    O Ultralytics pode interpretar ``path: .`` relativamente ao diretório de
+    execução, e não ao arquivo YAML. O arquivo de runtime evita essa diferença
+    entre Windows/Linux sem modificar o manifesto versionado do dataset.
+    """
+    payload = yaml.safe_load(source_yaml.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise TypeError(f"YAML de dataset inválido: {source_yaml}")
+    payload["path"] = yolo_dir.resolve().as_posix()
+    runtime_yaml = run_dir / "dataset.runtime.yaml"
+    runtime_yaml.parent.mkdir(parents=True, exist_ok=True)
+    runtime_yaml.write_text(
+        yaml.safe_dump(payload, sort_keys=False, allow_unicode=True),
+        encoding="utf-8",
+    )
+    return runtime_yaml
 
 
 def train_without_ultralytics_mlflow(model, **kwargs):
@@ -84,17 +106,23 @@ def main():
     from ultralytics import YOLO
 
     run_dir = model_run_dir(root, cfg, "yolo", m["name"])
-    yolo_yaml = resolve_path(root, cfg["paths"]["yolo_dataset_dir"]) / "dataset.yaml"
+    yolo_dir = resolve_path(root, cfg["paths"]["yolo_dataset_dir"])
+    source_yolo_yaml = yolo_dir / "dataset.yaml"
+    yolo_yaml = materialize_runtime_dataset_yaml(source_yolo_yaml, yolo_dir, run_dir)
     weights = resolve_model_source(root, m["pretrained"])
-    params = {"model": "yolo11n", **m, "dataset": str(yolo_yaml)}
+    params = {
+        "model": "yolo11n",
+        **m,
+        "dataset": str(source_yolo_yaml),
+        "runtime_dataset": str(yolo_yaml),
+    }
     save_metadata(run_dir / "run_config.json", params)
 
     with tracked_run(cfg, m["name"], run_dir, params, model_key="yolo"):
         model = YOLO(str(weights))
         aug = m.get("augmentation", {})
         augmentation_enabled = bool(aug.get("enabled", False))
-        train_without_ultralytics_mlflow(
-            model,
+        training_args = dict(
             data=str(yolo_yaml),
             project=str(run_dir.parent),
             name=m["name"],
@@ -138,6 +166,9 @@ def main():
             copy_paste=float(aug.get("copy_paste", 0.0)) if augmentation_enabled else 0.0,
             copy_paste_mode=str(aug.get("copy_paste_mode", "flip")),
         )
+        if "freeze" in m:
+            training_args["freeze"] = m["freeze"]
+        train_without_ultralytics_mlflow(model, **training_args)
         best_checkpoint = retain_best_checkpoint(run_dir)
         save_metadata(
             run_dir / "training_complete.json",

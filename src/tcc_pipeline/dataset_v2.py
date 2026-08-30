@@ -517,6 +517,7 @@ def audit_dataset(
     annotations_rows = []
     seen_hashes: dict[str, dict[str, Any]] = {}
     groups_by_split: dict[str, set[str]] = {}
+    positive_groups_by_split: dict[str, set[str]] = {}
     phash_items = []
 
     for split in SPLITS:
@@ -529,6 +530,7 @@ def audit_dataset(
         for annotation in coco["annotations"]:
             annotations[int(annotation["image_id"])].append(annotation)
         groups_by_split[split] = {str(item.get("source_group", item["file_name"])) for item in coco["images"]}
+        positive_groups_by_split[split] = set()
         relative_areas = []
         positives = 0
         size_counts: Counter[str] = Counter()
@@ -555,6 +557,8 @@ def audit_dataset(
                 seen_hashes[digest] = {"split": split, "file_name": image["file_name"]}
             item_annotations = annotations.get(image_id, [])
             positives += int(bool(item_annotations))
+            if item_annotations:
+                positive_groups_by_split[split].add(str(image.get("source_group", image["file_name"])))
             assignment_rows.append(
                 {
                     "split": split,
@@ -604,6 +608,8 @@ def audit_dataset(
             "negative_images": len(images) - positives,
             "annotations": len(coco["annotations"]),
             "source_groups": len(groups_by_split[split]),
+            "positive_source_groups": len(positive_groups_by_split[split]),
+            "images_per_source_group": len(images) / max(len(groups_by_split[split]), 1),
             "positive_image_fraction": positives / len(images) if images else 0.0,
             "median_relative_area": float(np.median(relative_areas)) if relative_areas else 0.0,
             "size_counts": dict(size_counts),
@@ -643,7 +649,7 @@ def audit_dataset(
             f"{len(near_duplicates)} par(es) perceptualmente semelhantes entre splits exigem revisão visual."
         )
 
-    val_summary, test_summary = split_summaries["val"], split_summaries["test"]
+    train_summary, val_summary, test_summary = (split_summaries[split] for split in SPLITS)
     positive_gap = abs(val_summary["positive_image_fraction"] - test_summary["positive_image_fraction"])
     if positive_gap > 0.05:
         warnings.append(f"Diferença de imagens positivas entre val/test: {positive_gap:.3f}")
@@ -651,6 +657,38 @@ def audit_dataset(
     median_ratio = max(val_median, test_median) / max(min(val_median, test_median), 1e-12)
     if median_ratio > 1.5:
         warnings.append(f"Razão entre medianas de área relativa val/test: {median_ratio:.2f}")
+
+    train_evaluation = {}
+    train_boxes = max(train_summary["annotations"], 1)
+    train_small_fraction = train_summary["size_counts"].get("small", 0) / train_boxes
+    for split in ("val", "test"):
+        evaluation_summary = split_summaries[split]
+        evaluation_boxes = max(evaluation_summary["annotations"], 1)
+        evaluation_small_fraction = evaluation_summary["size_counts"].get("small", 0) / evaluation_boxes
+        area_ratio = max(train_summary["median_relative_area"], evaluation_summary["median_relative_area"]) / max(
+            min(train_summary["median_relative_area"], evaluation_summary["median_relative_area"]), 1e-12
+        )
+        small_fraction_gap = abs(train_small_fraction - evaluation_small_fraction)
+        positive_fraction_gap = abs(
+            train_summary["positive_image_fraction"] - evaluation_summary["positive_image_fraction"]
+        )
+        train_evaluation[split] = {
+            "median_relative_area_ratio": area_ratio,
+            "small_box_fraction_gap": small_fraction_gap,
+            "positive_image_fraction_gap": positive_fraction_gap,
+        }
+        if area_ratio > 1.5:
+            warnings.append(f"Razão entre medianas de área relativa train/{split}: {area_ratio:.2f}")
+        if small_fraction_gap > 0.20:
+            warnings.append(
+                f"Diferença na fração de caixas pequenas entre train/{split}: {small_fraction_gap:.3f}"
+            )
+    if train_summary["images_per_source_group"] > 1.5:
+        warnings.append(
+            "Treino contém em média "
+            f"{train_summary['images_per_source_group']:.2f} variantes por source_group; "
+            "o total de imagens superestima a diversidade efetiva."
+        )
 
     write_manifest(assignment_rows, report_root / "image_manifest.csv")
     write_manifest(annotations_rows, report_root / "annotation_distribution.csv")
@@ -697,6 +735,7 @@ def audit_dataset(
             "positive_fraction_gap": positive_gap,
             "median_relative_area_ratio": median_ratio,
         },
+        "train_evaluation": train_evaluation,
         "errors": errors,
         "warnings": warnings,
     }

@@ -207,7 +207,15 @@ def main() -> None:
     if minimum < 1:
         raise ValueError("retraining.min_attempts deve ser pelo menos 1")
 
-    pipeline_dir = resolve_path(root, cfg["paths"]["runs_dir"]) / cfg["dataset"]["name"] / "pipelines" / args.model
+    pipeline_name = str(policy.get("pipeline_name", args.model))
+    if not pipeline_name or Path(pipeline_name).name != pipeline_name or pipeline_name in {".", ".."}:
+        raise ValueError(f"retraining.pipeline_name inválido: {pipeline_name!r}")
+    pipeline_dir = (
+        resolve_path(root, cfg["paths"]["runs_dir"])
+        / cfg["dataset"]["name"]
+        / "pipelines"
+        / pipeline_name
+    )
     pipeline_dir.mkdir(parents=True, exist_ok=True)
     base_name = str(cfg["models"][args.model]["name"])
     metric_name = str(policy.get("metric", "coco_map5095"))
@@ -301,6 +309,7 @@ def main() -> None:
     comparison_json, comparison_csv = save_attempts_comparison(attempts, pipeline_dir)
     report = {
         "model": args.model,
+        "pipeline_name": pipeline_name,
         "selection_metric": metric_name,
         "selection_threshold": threshold,
         "minimum_attempts": minimum,

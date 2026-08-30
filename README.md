@@ -344,6 +344,33 @@ Os resumos acumulados ficam em `attempts_comparison.json` e
 A correspondência entre artigos, parâmetros aplicados e adaptações ao YOLO11n
 está documentada em docs/YOLO_LITERATURE_EXPERIMENTS.md.
 
+### Esteira YOLO orientada pelos resultados
+
+Depois da busca inicial, a esteira abaixo reproduz o melhor resultado no dataset
+`aircraft_crack` e usa o checkpoint produzido para adaptação ao
+`aircraft_surface_damage_crack_v2`:
+
+~~~bash
+python scripts/run_yolo_evidence_pipeline.py
+~~~
+
+Ela executa automaticamente duas etapas. A primeira confirma a reprodutibilidade
+da melhor receita anterior. A segunda compara: a receita anterior iniciada em
+COCO, transferência do checkpoint de rachaduras, augmentation segura, resoluções
+640/800/960 e congelamento parcial do backbone. Cada tentativa é independente,
+somente `best.pt` é mantido e apenas o vencedor da validação é avaliado no
+teste.
+
+Por segurança metodológica, a segunda etapa só inicia se a reprodução
+alcançar mAP50-95 de pelo menos 0,20. Esse limite pode ser alterado com
+`--minimum-source-map5095`, mas qualquer mudança deve ser justificada.
+
+Conferir todos os comandos sem iniciar o treinamento:
+
+~~~bash
+python scripts/run_yolo_evidence_pipeline.py --dry-run
+~~~
+
 ## 13. Avaliação manual
 
 As predições dos modelos são salvas no formato COCO. Para avaliar:
