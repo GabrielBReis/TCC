@@ -1,325 +1,406 @@
-# Pipeline do TCC — Detecção de Defeitos Superficiais em Aeronaves
+# Aircraft Crack Detection Pipeline
 
-Este pacote cobre o fluxo **do download dos modelos até a comparação final**, com rastreabilidade opcional por MLflow.
+Pipeline de visão computacional para treinamento e avaliação de detectores de trincas em superfícies de aeronaves.
 
-> Antes de publicar ou aceitar contribuições, escolha uma licença para o código e adicione um arquivo `LICENSE`. As licenças dos datasets e pesos não são automaticamente transferidas para este repositório.
+Modelos disponíveis:
 
-Modelos baseline incluídos:
+- YOLO11n;
+- Faster R-CNN ResNet-50-FPN;
+- RT-DETR-R18.
 
-- YOLO11n (Ultralytics)
-- Faster R-CNN ResNet-50-FPN (Torchvision)
-- RT-DETR-R18 (checkpoint `PekingU/rtdetr_r18vd`, Transformers)
+O projeto inclui preparação do dataset, conversão COCO–YOLO, treinamento, avaliação, matriz de confusão, MLflow e uma esteira de experimentos.
 
-O baseline atual trabalha somente com a classe **`crack`**. A preparação é configurável e combina fontes COCO, incluindo exports do Roboflow como Innovation Hangar v2 e Aircraft Surface Defect Detection.
+## Requisitos
 
-## 1. Estrutura esperada do dataset
+- Python 3.10 ou 3.11;
+- Git;
+- Git LFS, caso o dataset seja distribuído pelo repositório;
+- GPU NVIDIA recomendada para treinamento;
+- drivers compatíveis com a versão CUDA do PyTorch.
 
-Todas as entradas configuradas são relativas à raiz do repositório. A saída normalizada é:
+## Estrutura principal
 
-```text
-data/processed/datasets/
-└── aircraft_crack/
-    ├── train/images/...
-    ├── val/images/...
-    ├── test/images/...
-    ├── annotations/
-    │   ├── train.json
-    │   ├── val.json
-    │   └── test.json
-    └── preparation_report.json
-```
+~~~text
+configs/                 Configurações do projeto e datasets
+data/raw/                Datasets originais
+data/processed/          Datasets tratados
+models/pretrained/       Pesos iniciais
+reports/                 Relatórios e comparações
+runs/                    Resultados dos treinamentos
+scripts/                 Scripts executáveis
+src/tcc_pipeline/        Código reutilizável
+tests/                   Testes automatizados
+~~~
 
-Os JSONs seguem COCO Detection (`images`, `annotations`, `categories`).
+Todos os comandos devem ser executados na raiz do repositório.
 
-Configure fontes, classe-alvo e aliases em `configs/dataset.yaml`. Depois execute:
+## 1. Clonar
 
-```bash
-python scripts/prepare_single_class_dataset.py --config configs/dataset.yaml
-```
+~~~bash
+git clone https://github.com/GabrielBReis/TCC.git
+cd TCC
+~~~
 
-O script reconhece os layouts COCO normalizado e Roboflow, mantém apenas a classe configurada, remapeia seu ID para `1`, remove imagens sem a classe-alvo, recorta boxes inválidas e detecta imagens idênticas em splits diferentes. Ele nunca modifica a fonte.
+Se houver arquivos controlados pelo Git LFS:
 
-Para usar o Aircraft Surface Defect Detection, descompacte-o em `data/raw/aircraft_surface_defect_detection` e habilite a fonte de exemplo no YAML. Registre no TCC a versão e a licença exatas da fonte escolhida.
+~~~bash
+git lfs install
+git lfs pull
+~~~
 
-## 2. Instalação
+## 2. Criar o ambiente virtual
 
-Crie o ambiente e instale todas as dependências:
+### Windows PowerShell
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -U pip
-pip install -r requirements.txt
-pip install -e . --no-deps
-cp configs/project.example.yaml configs/project.yaml
-python scripts/check_environment.py
-```
-
-No Windows PowerShell, a ativação é:
-
-```powershell
+~~~powershell
+py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
-```
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python -m pip install -e . --no-deps
+~~~
 
-O `requirements.txt` instala PyTorch e Torchvision pelo índice padrão. Se precisar de uma build CUDA específica, instale primeiro os dois pacotes usando o comando indicado pelo [seletor oficial do PyTorch](https://pytorch.org/get-started/locally/) e depois execute o `requirements.txt`.
+Se o PowerShell bloquear a ativação:
 
-Para verificar a instalação:
+~~~powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\.venv\Scripts\Activate.ps1
+~~~
 
-```bash
+### Linux
+
+~~~bash
+python3.11 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python -m pip install -e . --no-deps
+~~~
+
+Para uma build específica de CUDA, instale Torch e Torchvision usando o comando indicado pelo seletor oficial do PyTorch antes de instalar as demais dependências.
+
+## 3. Verificar o ambiente
+
+~~~bash
 python -m pip check
-python -m pytest -q
 python scripts/check_environment.py
-```
+~~~
 
-## 3. Baixar os modelos
+Verificação rápida da GPU:
 
-```bash
+~~~bash
+python -c "import torch; print('CUDA:', torch.cuda.is_available()); print('GPU:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'CPU')"
+~~~
+
+## 4. Preparar a configuração
+
+O arquivo padrão é:
+
+~~~text
+configs/project.yaml
+~~~
+
+Para criar uma configuração nova:
+
+### Windows
+
+~~~powershell
+Copy-Item .\configs\project.example.yaml .\configs\project.yaml
+~~~
+
+### Linux
+
+~~~bash
+cp configs/project.example.yaml configs/project.yaml
+~~~
+
+Os caminhos são relativos à raiz do projeto. Evite caminhos absolutos específicos de uma máquina.
+
+## 5. Preparar o dataset
+
+O dataset bruto deve estar em:
+
+~~~text
+data/raw/aircraft_surface_damage/
+├── train/
+├── valid/
+└── test/
+~~~
+
+Cada split deve conter seu arquivo _annotations.coco.json e as imagens correspondentes.
+
+Execute:
+
+~~~bash
+python scripts/prepare_crack_dataset_v2.py --config configs/dataset_aircraft_surface_damage_v2.yaml
+~~~
+
+Saída:
+
+~~~text
+data/processed/datasets/aircraft_surface_damage_crack_v2/
+├── annotations/
+├── train/images/
+├── val/images/
+├── test/images/
+├── yolo/
+├── preparation_report.json
+└── split_manifest.csv
+~~~
+
+O script também gera a auditoria em:
+
+~~~text
+reports/dataset_audit/aircraft_surface_damage_crack_v2/
+~~~
+
+O diretório de saída deve estar vazio ou não existir.
+
+## 6. Validar o dataset
+
+### Treino
+
+~~~bash
+python scripts/validate_dataset.py --images data/processed/datasets/aircraft_surface_damage_crack_v2/train/images --annotations data/processed/datasets/aircraft_surface_damage_crack_v2/annotations/train.json --strict
+~~~
+
+### Validação
+
+~~~bash
+python scripts/validate_dataset.py --images data/processed/datasets/aircraft_surface_damage_crack_v2/val/images --annotations data/processed/datasets/aircraft_surface_damage_crack_v2/annotations/val.json --strict
+~~~
+
+### Teste
+
+~~~bash
+python scripts/validate_dataset.py --images data/processed/datasets/aircraft_surface_damage_crack_v2/test/images --annotations data/processed/datasets/aircraft_surface_damage_crack_v2/annotations/test.json --strict
+~~~
+
+## 7. Baixar os modelos
+
+~~~bash
 python scripts/download_models.py --out models/pretrained
-```
+~~~
 
-Isso materializa/cacha:
+Pesos esperados:
 
-```text
+~~~text
 models/pretrained/
 ├── yolo11n.pt
 ├── fasterrcnn_resnet50_fpn_coco.pth
 └── rtdetr_r18vd/
-```
+~~~
 
-## 4. Validar e analisar o dataset
+Para selecionar somente alguns:
 
-```bash
-python scripts/validate_dataset.py \
-  --images data/processed/datasets/aircraft_crack/train/images \
-  --annotations data/processed/datasets/aircraft_crack/annotations/train.json --strict
+~~~bash
+python scripts/download_models.py --out models/pretrained --models yolo,faster
+~~~
 
-python scripts/analyze_dataset.py \
-  --annotations data/processed/datasets/aircraft_crack/annotations/train.json \
-  --out reports/dataset_analysis_train
-```
+## 8. Iniciar o MLflow
 
-A análise gera CSVs, contagem por classe, distribuição de área relativa e grupos pequeno/médio/grande.
+~~~bash
+python scripts/start_mlflow.py --config configs/project.yaml
+~~~
 
-## 5. Preparar o YOLO
+A interface local fica disponível em:
 
-```bash
-python scripts/convert_coco_to_yolo.py \
-  --train-images data/processed/datasets/aircraft_crack/train/images --train-annotations data/processed/datasets/aircraft_crack/annotations/train.json \
-  --val-images data/processed/datasets/aircraft_crack/val/images --val-annotations data/processed/datasets/aircraft_crack/annotations/val.json \
-  --test-images data/processed/datasets/aircraft_crack/test/images --test-annotations data/processed/datasets/aircraft_crack/annotations/test.json \
-  --out data/processed/datasets/aircraft_crack/yolo
-```
+~~~text
+http://127.0.0.1:5000
+~~~
 
-O `category_mapping.json` gerado é usado para converter as classes do YOLO de volta aos IDs COCO durante a avaliação.
+Mantenha o MLflow em um terminal e execute os treinamentos em outro.
 
-## 6. Treinar os três baselines
+### Acesso pela rede local
 
-```bash
-python scripts/train_yolo.py --config configs/project.yaml
-python scripts/train_faster_rcnn.py --config configs/project.yaml
-python scripts/train_rtdetr.py --config configs/project.yaml
-```
+No servidor:
 
-Execute um treinamento por vez quando houver apenas uma GPU. Ajuste `batch`, `workers` e `device` em `configs/project.yaml` conforme a memória disponível.
+~~~bash
+python scripts/start_mlflow.py --config configs/project.yaml --host 0.0.0.0 --port 5000 --allowed-hosts "127.0.0.1,localhost,IP_DO_SERVIDOR" --cors-allowed-origins "http://127.0.0.1:5000,http://localhost:5000,http://IP_DO_SERVIDOR:5000"
+~~~
 
-## 7. Fazer predição no TEST
+No cliente Linux:
+
+~~~bash
+export TCC_MLFLOW_TRACKING_URI=http://IP_DO_SERVIDOR:5000
+~~~
+
+No cliente PowerShell:
+
+~~~powershell
+$env:TCC_MLFLOW_TRACKING_URI="http://IP_DO_SERVIDOR:5000"
+~~~
+
+Teste de conexão:
+
+~~~bash
+curl http://IP_DO_SERVIDOR:5000/health
+~~~
+
+~~~powershell
+Invoke-WebRequest http://IP_DO_SERVIDOR:5000/health
+~~~
+
+## 9. Conferir a execução sem treinar
+
+~~~bash
+python scripts/run_baselines.py --config configs/project.yaml --dry-run --skip-download --skip-prepare-yolo
+~~~
+
+O dry-run mostra os comandos e caminhos sem iniciar os treinamentos.
+
+## 10. Treinar os modelos
 
 ### YOLO11n
 
-```bash
-python scripts/predict_yolo.py \
-  --weights runs/aircraft_crack/yolo/yolo11n_baseline_640/weights/best.pt \
-  --images data/processed/datasets/aircraft_crack/test/images --annotations data/processed/datasets/aircraft_crack/annotations/test.json \
-  --mapping data/processed/datasets/aircraft_crack/yolo/category_mapping.json \
-  --out runs/aircraft_crack/yolo/yolo11n_baseline_640/predictions.json --imgsz 640
-```
+~~~bash
+python scripts/train_yolo.py --config configs/project.yaml
+~~~
 
 ### Faster R-CNN
 
-```bash
-python scripts/predict_faster_rcnn.py \
-  --checkpoint runs/aircraft_crack/faster_rcnn/fasterrcnn_r50_fpn_baseline_640/best.pth \
-  --images data/processed/datasets/aircraft_crack/test/images --annotations data/processed/datasets/aircraft_crack/annotations/test.json \
-  --out runs/aircraft_crack/faster_rcnn/fasterrcnn_r50_fpn_baseline_640/predictions.json
-```
+~~~bash
+python scripts/train_faster_rcnn.py --config configs/project.yaml
+~~~
 
 ### RT-DETR
 
-```bash
-python scripts/predict_rtdetr.py \
-  --model runs/aircraft_crack/rtdetr/rtdetr_r18vd_baseline_640/best_model \
-  --mapping runs/aircraft_crack/rtdetr/rtdetr_r18vd_baseline_640/class_mapping.json \
-  --images data/processed/datasets/aircraft_crack/test/images --annotations data/processed/datasets/aircraft_crack/annotations/test.json \
-  --out runs/aircraft_crack/rtdetr/rtdetr_r18vd_baseline_640/predictions.json
-```
+~~~bash
+python scripts/train_rtdetr.py --config configs/project.yaml
+~~~
 
-## 8. Avaliar
+Em uma máquina com apenas uma GPU, execute um modelo por vez.
 
-Exemplo:
+Os resultados são organizados em:
 
-```bash
-python scripts/evaluate.py \
-  --gt data/processed/datasets/aircraft_crack/annotations/test.json \
-  --pred runs/aircraft_crack/yolo/yolo11n_baseline_640/predictions.json \
-  --out runs/aircraft_crack/yolo/yolo11n_baseline_640/metrics.json \
-  --conf 0.25 --iou 0.50 --small-max 0.01 --medium-max 0.05
-```
+~~~text
+runs/aircraft_surface_damage_crack_v2/
+├── yolo/
+├── faster_rcnn/
+└── rtdetr/
+~~~
 
-O mesmo `evaluate.py` deve ser usado para os três detectores. Ele calcula:
+## 11. Executar o benchmark completo
 
-- mAP@0.50:0.95, AP50, AP75;
-- AP_small / AP_medium / AP_large do COCO;
-- Precision, Recall e F1 a um limiar declarado;
-- métricas customizadas por **área relativa** para small/medium/large;
-- resultados por classe.
-
-Importante: a predição deve ser gerada com `--conf` baixo (ex.: 0.001) para não truncar a curva de AP. O `--conf 0.25` da avaliação é usado apenas para P/R/F1 operacionais.
-
-## 9. Comparar os modelos
-
-```bash
-python scripts/compare_experiments.py --metrics \
-  runs/aircraft_crack/yolo/yolo11n_baseline_640/metrics.json \
-  runs/aircraft_crack/faster_rcnn/fasterrcnn_r50_fpn_baseline_640/metrics.json \
-  runs/aircraft_crack/rtdetr/rtdetr_r18vd_baseline_640/metrics.json \
-  --out reports/comparison
-```
-
-Gera CSV, Markdown e gráficos das principais métricas.
-
-## 10. Pipeline automático
-
-Depois que `configs/project.yaml` estiver correto:
-
-```bash
+~~~bash
 python scripts/run_baselines.py --config configs/project.yaml
-```
+~~~
 
-Antes de executar horas de treino, use:
+Para evitar download ou reconversão já realizados:
 
-```bash
-python scripts/run_baselines.py --config configs/project.yaml --dry-run
-```
+~~~bash
+python scripts/run_baselines.py --config configs/project.yaml --skip-download --skip-prepare-yolo
+~~~
 
-## 11. Patches / tiling
+O pipeline executa treinamento, predição, avaliação e comparação.
 
-```bash
-python scripts/generate_patches.py \
-  --images data/processed/datasets/aircraft_crack/train/images \
-  --annotations data/processed/datasets/aircraft_crack/annotations/train.json \
-  --out data/processed/train_patches_640 \
-  --patch 640 --overlap 0.20 --min-visible 0.30 --keep-all-negative
-```
+## 12. Esteira de tentativas
 
-Repita para validação/teste **sem misturar patches oriundos da mesma imagem original entre splits**. A maneira segura é dividir por imagem original primeiro e somente depois gerar os patches.
+### Um modelo
 
-O script preserva `source_image_id` e `source_annotation_id` para auditoria.
-
-Depois da inferência nos patches, reprojete e reconcilie as detecções antes de avaliar contra as imagens originais:
-
-```bash
-python scripts/merge_patch_predictions.py \
-  --patch-annotations data/processed/test_patches_640/annotations.json \
-  --predictions runs/patches/predictions.json \
-  --out runs/patches/predictions_merged.json --iou 0.5
-```
-
-Os scripts de predição também geram `inference_metrics.json`, com latência, FPS e número de parâmetros. O tempo exclui leitura das imagens e inclui pós-processamento do framework.
-
-## 12. MLflow
-
-Para abrir a interface local com backend e artefatos na raiz do projeto:
-
-```bash
-python scripts/start_mlflow.py --config configs/project.yaml
-```
-
-A interface ficará disponível em `http://127.0.0.1:5000`. Para compartilhar na rede local, informe o IP atual do servidor nas opções de segurança:
-
-```bash
-python scripts/start_mlflow.py --host 0.0.0.0 \
-  --allowed-hosts "127.0.0.1,localhost,IP_DO_SERVIDOR" \
-  --cors-allowed-origins "http://127.0.0.1:5000,http://localhost:5000,http://IP_DO_SERVIDOR:5000"
-```
-
-No outro dispositivo, defina somente a variável de ambiente, sem editar caminhos no YAML:
-
-```bash
-export TCC_MLFLOW_TRACKING_URI=http://IP_DO_SERVIDOR:5000
-```
-
-No PowerShell:
-
-```powershell
-$env:TCC_MLFLOW_TRACKING_URI="http://IP_DO_SERVIDOR:5000"
-```
-
-Os experimentos são organizados como `aircraft_defects_tcc/aircraft_crack/<modelo>` e os artefatos usam o proxy `mlflow-artifacts:`, evitando caminhos Windows em clientes Linux.
-
-Os scripts de treino criam uma execução quando `tracking.enabled=true`. Após gerar `metrics.json`, você também pode anexar a avaliação ao mesmo run:
-
-```bash
-python scripts/log_evaluation_to_mlflow.py \
-  --config configs/project.yaml \
-  --run-dir runs/aircraft_crack/yolo/yolo11n_baseline_640 \
-  --metrics runs/aircraft_crack/yolo/yolo11n_baseline_640/metrics.json
-```
-
-## 13. Retreinamento condicionado por métricas
-
-Os conjuntos de parâmetros e o limite mínimo ficam em `retraining` no YAML. A seleção usa validação; o teste é executado apenas para o candidato escolhido:
-
-A tentativa 1 é o baseline sem augmentation. A tentativa 2 mantém os mesmos
-hiperparâmetros e aplica um preset conservador para trincas: rotação de até 10°,
-translação de até 5%, escala de até 10%, flips e pequenas variações fotométricas.
-A tentativa 3 é experimental e acrescenta matiz, perspectiva e cisalhamento. No
-YOLO ela também habilita `mosaic` e `mixup`. As três tentativas sempre são
-executadas para permitir comparação direta; ajustes de taxa de aprendizado só
-entram se nenhuma delas alcançar a meta.
-
-O parâmetro `copy_paste` também fica registrado na tentativa experimental do
-YOLO, mas o Ultralytics só o aplica em tarefas de segmentação. Como este dataset
-possui caixas, e não máscaras, ele não altera as imagens do treino Detect. Não
-são criadas máscaras artificiais a partir das caixas.
-
-```bash
+~~~bash
 python scripts/train_with_retries.py --model yolo --config configs/project.yaml
 python scripts/train_with_retries.py --model faster_rcnn --config configs/project.yaml
 python scripts/train_with_retries.py --model rtdetr --config configs/project.yaml
-```
+~~~
 
-Para executar YOLO, Faster R-CNN e RT-DETR sequencialmente com um único comando:
+### Todos em sequência
 
-```bash
+~~~bash
 python scripts/train_with_retries.py --model all --config configs/project.yaml
-```
+~~~
 
-Quando uma tentativa termina, sua predição e avaliação são executadas e a
-próxima começa automaticamente. Se uma etapa falhar, a esteira para para não
-ocultar o erro nem iniciar experimentos sobre um estado incompleto.
+### Conferir sem executar
 
-Use `--dry-run` para inspecionar a esteira sem iniciar treinos. O relatório final fica em `runs/aircraft_crack/pipelines/<modelo>/pipeline_report.json`.
+~~~bash
+python scripts/train_with_retries.py --model all --config configs/project.yaml --dry-run
+~~~
 
-## 14. Ordem recomendada para o TCC
+Quando uma tentativa termina, a esteira avalia o resultado e inicia a próxima configuração.
 
-1. Validar o dataset.
-2. Analisar classes e escala das caixas.
-3. Congelar os splits.
-4. Treinar 3 baselines.
-5. Comparar desempenho geral e por escala.
-6. Selecionar os 2 modelos mais promissores.
-7. Testar resolução maior.
-8. Testar patches/tiling.
-9. Testar augmentation/hiperparâmetros apenas se houver hipótese clara.
-10. Comparar ganho em pequenos defeitos versus custo computacional.
+## 13. Avaliação manual
 
-## 15. Observações importantes
+As predições dos modelos são salvas no formato COCO. Para avaliar:
 
-- Não use o conjunto de teste para escolher hiperparâmetros.
-- Registre `pip freeze`, seed, GPU, versão do dataset e commit Git de cada bateria final.
-- Não force a mesma estratégia de optimizer em arquiteturas diferentes só para “padronizar”; preserve uma configuração defensável para cada família e documente-a.
-- Os limites 1% e 5% para área relativa são valores iniciais. Devem ser revisados após a análise da base.
-- `coco_ap_small` e `relative_small_map50` são métricas diferentes; veja `docs/METHODOLOGY.md`.
-- A reimplementação de ASD-YOLO/INN-YOLO/YOLO-FDD não foi incluída automaticamente porque a disponibilidade oficial de código/checkpoints especializados não está suficientemente confiável para ser dependência do baseline. Eles podem entrar depois como extensão.
+~~~bash
+python scripts/evaluate.py --gt data/processed/datasets/aircraft_surface_damage_crack_v2/annotations/test.json --pred runs/DATASET/MODELO/RUN/predictions.json --out runs/DATASET/MODELO/RUN/metrics.json --conf 0.25 --iou 0.50 --small-max 0.01 --medium-max 0.05
+~~~
 
-Consulte `docs/SOURCES.md` para as fontes técnicas oficiais usadas para montar o pipeline.
+O script gera:
+
+- métricas COCO;
+- precision, recall e F1;
+- métricas por escala;
+- matriz de confusão em CSV;
+- matriz de confusão em PNG.
+
+Para comparar:
+
+~~~bash
+python scripts/compare_experiments.py --metrics CAMINHO_YOLO/metrics.json CAMINHO_FASTER/metrics.json CAMINHO_RTDETR/metrics.json --out reports/comparison
+~~~
+
+## 14. Resultados do HPC
+
+Depois de baixar o pacote produzido no HPC:
+
+~~~bash
+python scripts/import_hpc_results.py --bundle hpc_results/RESULTADOS.zip --config configs/project.yaml
+~~~
+
+Inicie o MLflow antes da importação.
+
+## 15. Testes
+
+~~~bash
+python -m pytest -q
+~~~
+
+Testes relacionados ao dataset:
+
+~~~bash
+python -m pytest -p no:cacheprovider tests/test_dataset_v2.py tests/test_single_class_dataset.py -q
+~~~
+
+Lint:
+
+~~~bash
+python -m ruff check --no-cache .
+~~~
+
+## 16. Problemas comuns
+
+### CUDA out of memory
+
+- encerre processos antigos;
+- reduza o batch do modelo;
+- mantenha AMP quando suportado;
+- confira nvidia-smi;
+- reduza resolução somente se necessário.
+
+### MLflow não mostra runs
+
+- selecione State: Active;
+- selecione All time;
+- remova filtros antigos;
+- confira o experimento;
+- confira TCC_MLFLOW_TRACKING_URI.
+
+### Falha ao baixar modelos
+
+- verifique acesso ao GitHub e Hugging Face;
+- remova somente arquivos incompletos;
+- execute novamente;
+- copie models/pretrained de outra máquina se necessário.
+
+### Dataset já existe
+
+O preparador não sobrescreve uma saída não vazia. Arquive a versão anterior ou configure outro diretório. Não remova data/raw.
+
+## Observações
+
+- não publique tokens ou credenciais;
+- não adicione mlflow.db, runs ou checkpoints diretamente ao Git;
+- use Git LFS somente quando decidir versionar arquivos grandes;
+- mantenha configs/project.example.yaml sem caminhos pessoais;
+- registre as licenças dos datasets e checkpoints antes da publicação.

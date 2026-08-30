@@ -20,10 +20,13 @@ Innovation Hangar v2.v2i.coco/
 Innovation Hangar v2.v2i.coco.zip
 *.egg-info/
 hpc/
+README_TCC.md
 
 # Pacotes e resultados transferidos entre esta maquina e o HPC.
 /dist/
 /hpc_results/
+/pipeline_treino_hpc_final/
+/pipeline_treino_hpc_final_metricas_melhores.zip
 /hpc/data/
 /hpc/models/
 /hpc/hpc_results/

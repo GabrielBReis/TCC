@@ -50,3 +50,49 @@ def test_prepare_keeps_only_target_class_and_remaps_to_one(tmp_path):
     output = json.loads((tmp_path / "data/processed/crack_only/annotations/train.json").read_text(encoding="utf-8"))
     assert output["categories"] == [{"id": 1, "name": "crack", "supercategory": "defect"}]
     assert {annotation["category_id"] for annotation in output["annotations"]} == {1}
+
+
+def test_prepare_removes_exact_duplicates_inside_each_split(tmp_path):
+    (tmp_path / "pyproject.toml").write_text("[project]\nname='test'\nversion='0.0.0'\n", encoding="utf-8")
+    source = tmp_path / "source"
+    for split in ("train", "val", "test"):
+        images = source / split / "images"
+        images.mkdir(parents=True)
+        (images / "first.jpg").write_bytes(f"same-{split}".encode())
+        (images / "duplicate.jpg").write_bytes(f"same-{split}".encode())
+        coco = {
+            "images": [
+                {"id": 1, "file_name": "first.jpg", "width": 100, "height": 100},
+                {"id": 2, "file_name": "duplicate.jpg", "width": 100, "height": 100},
+            ],
+            "annotations": [
+                {"id": 1, "image_id": 1, "category_id": 3, "bbox": [1, 2, 10, 20]},
+                {"id": 2, "image_id": 2, "category_id": 3, "bbox": [1, 2, 10, 20]},
+            ],
+            "categories": [{"id": 3, "name": "Dent"}],
+        }
+        annotations = source / "annotations"
+        annotations.mkdir(exist_ok=True)
+        (annotations / f"{split}.json").write_text(json.dumps(coco), encoding="utf-8")
+
+    config = tmp_path / "configs" / "dataset.yaml"
+    config.parent.mkdir()
+    config.write_text(
+        yaml.safe_dump(
+            {
+                "dataset": {
+                    "name": "dent_only",
+                    "target_class": "dent",
+                    "deduplicate_within_split": True,
+                    "output_dir": "data/processed/dent_only",
+                    "sources": [{"name": "sample", "root": "source", "format": "auto"}],
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    report = prepare(config)
+
+    assert report["output_summary"]["train"] == {"images": 1, "annotations": 1}
+    assert report["sources"][0]["splits"]["train"]["duplicate_images_removed"] == 1

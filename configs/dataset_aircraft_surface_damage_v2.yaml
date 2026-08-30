@@ -1,0 +1,24 @@
+dataset:
+  name: aircraft_surface_damage_crack_v2
+  target_class: crack
+  class_aliases:
+    - crack
+    - cracks
+
+  # O treino bruto possui três variantes Roboflow por imagem-fonte. Essas
+  # famílias permanecem exclusivamente no treino. Apenas o pool originalmente
+  # não aumentado (valid + test) é redistribuído entre validação e teste.
+  source_root: data/raw/aircraft_surface_damage
+  output_dir: data/processed/datasets/aircraft_surface_damage_crack_v2
+  report_dir: reports/dataset_audit/aircraft_surface_damage_crack_v2
+  evaluation_val_ratio: 0.50
+  seed: 42
+  link_mode: hardlink
+
+  relative_size:
+    small_max: 0.01
+    medium_max: 0.05
+
+  # Candidatos perceptuais são relatados para revisão, nunca removidos
+  # automaticamente. Duplicatas exatas continuam sendo removidas.
+  perceptual_hash_hamming: 6

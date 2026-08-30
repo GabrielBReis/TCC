@@ -1,0 +1,18 @@
+dataset:
+  name: aircraft_surface_damage_crack
+  target_class: crack
+  class_aliases:
+    - crack
+    - cracks
+
+  # As demais classes deixam de ser anotadas, mas suas imagens permanecem como
+  # exemplos negativos para reduzir falsos positivos do detector monoclasse.
+  keep_images_without_target: true
+  deduplicate_within_split: true
+  fail_on_duplicate_images_across_splits: true
+  output_dir: data/processed/datasets/aircraft_surface_damage_crack
+
+  sources:
+    - name: aircraft_surface_damage_v25
+      root: data/raw/aircraft_surface_damage
+      format: auto

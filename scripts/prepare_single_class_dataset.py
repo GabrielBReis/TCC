@@ -76,6 +76,8 @@ def prepare(config_path: Path) -> dict:
     next_annotation_id = Counter({split: 1 for split in OUTPUT_SPLITS})
     report_sources = []
     seen_hashes: dict[str, set[str]] = defaultdict(set)
+    seen_hashes_by_split: dict[str, set[str]] = defaultdict(set)
+    deduplicate_within_split = bool(settings.get("deduplicate_within_split", True))
 
     for source_index, source in enumerate(settings["sources"], start=1):
         source_name = str(source["name"])
@@ -103,7 +105,7 @@ def prepare(config_path: Path) -> dict:
                 if int(annotation["category_id"]) in target_ids:
                     annotations_by_image[int(annotation["image_id"])].append(annotation)
 
-            kept_images = kept_annotations = dropped_images = clipped_boxes = 0
+            kept_images = kept_annotations = dropped_images = clipped_boxes = duplicate_images_removed = 0
             for image in sorted(coco["images"], key=lambda item: int(item["id"])):
                 source_annotations = annotations_by_image[int(image["id"])]
                 if not source_annotations and not keep_empty:
@@ -113,6 +115,10 @@ def prepare(config_path: Path) -> dict:
                 if not source_image.is_file():
                     raise FileNotFoundError(f"Imagem referenciada pelo COCO não encontrada: {source_image}")
                 digest = file_digest(source_image)
+                if deduplicate_within_split and digest in seen_hashes_by_split[output_split]:
+                    duplicate_images_removed += 1
+                    continue
+                seen_hashes_by_split[output_split].add(digest)
                 seen_hashes[digest].add(output_split)
 
                 image_id = next_image_id[output_split]
@@ -152,6 +158,7 @@ def prepare(config_path: Path) -> dict:
                 "images_without_target_removed": dropped_images,
                 "annotations_kept": kept_annotations,
                 "boxes_clipped": clipped_boxes,
+                "duplicate_images_removed": duplicate_images_removed,
                 "matched_source_classes": [category_names[item] for item in sorted(target_ids)],
             }
         report_sources.append(source_report)
@@ -177,6 +184,7 @@ def prepare(config_path: Path) -> dict:
         "target_class": settings["target_class"],
         "class_aliases": sorted(aliases),
         "keep_images_without_target": keep_empty,
+        "deduplicate_within_split": deduplicate_within_split,
         "sources": report_sources,
         "output_summary": summary,
         "duplicate_images_across_splits": len(duplicate_hashes),

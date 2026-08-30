@@ -5,6 +5,7 @@ dataset:
     - crack
     - cracks
   keep_images_without_target: false
+  deduplicate_within_split: true
   fail_on_duplicate_images_across_splits: true
   output_dir: data/processed/datasets/aircraft_crack
 
