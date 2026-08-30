@@ -4,7 +4,7 @@ from pathlib import Path
 import yaml
 from PIL import Image
 
-from tcc_pipeline.dataset_v2 import prepare_dataset, source_group
+from tcc_pipeline.dataset_v2 import ImageRecord, deduplicate_records, prepare_dataset, source_group
 
 
 def write_source_split(root: Path, folder: str, images: list[tuple[str, list[float] | None]]) -> None:
@@ -27,6 +27,24 @@ def write_source_split(root: Path, folder: str, images: list[tuple[str, list[flo
 def test_source_group_removes_roboflow_hash():
     assert source_group("IMG_001_jpg.rf.0123456789abcdef0123456789abcdef.jpg") == "img_001"
     assert source_group("IMG_001__01_jpg.rf.0123456789abcdef0123456789abcdef.jpg") == "img_001"
+
+
+def test_duplicate_report_uses_project_relative_paths(tmp_path):
+    source = tmp_path / "data" / "raw"
+    source.mkdir(parents=True)
+    first = source / "first.jpg"
+    second = source / "second.jpg"
+    first.write_bytes(b"same image")
+    second.write_bytes(b"same image")
+    records = [
+        ImageRecord("train", first, first.name, "first", 10, 10, []),
+        ImageRecord("val", second, second.name, "second", 10, 10, []),
+    ]
+
+    _, removed = deduplicate_records(records, tmp_path)
+
+    assert removed[0]["kept"] == "data/raw/first.jpg"
+    assert removed[0]["removed"] == "data/raw/second.jpg"
 
 
 def test_prepare_v2_keeps_train_groups_and_balances_evaluation(tmp_path):
@@ -88,6 +106,14 @@ def test_prepare_v2_keeps_train_groups_and_balances_evaluation(tmp_path):
     assert audit["errors"] == []
     assert audit["splits"]["val"]["images"] == 2
     assert audit["splits"]["test"]["images"] == 2
+    fingerprint = json.loads(
+        (
+            tmp_path
+            / "data/processed/datasets/aircraft_surface_damage_crack_v2/dataset_fingerprint.json"
+        ).read_text(encoding="utf-8")
+    )
+    assert fingerprint["dataset_sha256"] == audit["dataset_sha256"]
+    assert fingerprint["audit_status"] == audit["status"]
     near_duplicates = tmp_path / "reports/dataset_audit/aircraft_surface_damage_crack_v2/near_duplicate_candidates.csv"
     assert near_duplicates.read_text(encoding="utf-8").startswith("distance,split_a,file_a")
     train = json.loads(

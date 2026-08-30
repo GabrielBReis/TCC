@@ -1,0 +1,8 @@
+{
+  "yolo_id_to_coco_category_id": {
+    "0": 1
+  },
+  "id2label": {
+    "0": "crack"
+  }
+}

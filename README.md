@@ -318,6 +318,32 @@ python scripts/train_with_retries.py --model all --config configs/project.yaml -
 
 Quando uma tentativa termina, a esteira avalia o resultado e inicia a próxima configuração.
 
+### Esteira de experimentos YOLO11n
+
+Para executar 12 configurações de YOLO11n baseadas na literatura, em ablações
+controladas e em dois cenários de augmentation:
+
+~~~bash
+python scripts/train_with_retries.py --model yolo --config configs/yolo_literature.yaml
+~~~
+
+Conferir antes de treinar:
+
+~~~bash
+python scripts/train_with_retries.py --model yolo --config configs/yolo_literature.yaml --dry-run
+~~~
+
+Cada conjunto gera um run separado no MLflow. A esteira executa as 12
+configurações em sequência, reutiliza tentativas concluídas após uma interrupção
+e mantém somente `weights/best.pt` de cada treinamento. Todas as execuções usam
+YOLO11n, resolução 640, no máximo 100 épocas e batch de até 20.
+
+Os resumos acumulados ficam em `attempts_comparison.json` e
+`attempts_comparison.csv` dentro do diretório da esteira.
+
+A correspondência entre artigos, parâmetros aplicados e adaptações ao YOLO11n
+está documentada em docs/YOLO_LITERATURE_EXPERIMENTS.md.
+
 ## 13. Avaliação manual
 
 As predições dos modelos são salvas no formato COCO. Para avaliar:

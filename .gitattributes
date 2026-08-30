@@ -1,3 +1,9 @@
 data/processed/datasets/aircraft_crack/train/images/*.jpg filter=lfs diff=lfs merge=lfs -text
 data/processed/datasets/aircraft_crack/val/images/*.jpg filter=lfs diff=lfs merge=lfs -text
 data/processed/datasets/aircraft_crack/test/images/*.jpg filter=lfs diff=lfs merge=lfs -text
+data/processed/datasets/aircraft_surface_damage_crack_v2/train/images/*.jpg filter=lfs diff=lfs merge=lfs -text
+data/processed/datasets/aircraft_surface_damage_crack_v2/val/images/*.jpg filter=lfs diff=lfs merge=lfs -text
+data/processed/datasets/aircraft_surface_damage_crack_v2/test/images/*.jpg filter=lfs diff=lfs merge=lfs -text
+data/processed/datasets/aircraft_surface_damage_crack_v2/yolo/images/train/*.jpg filter=lfs diff=lfs merge=lfs -text
+data/processed/datasets/aircraft_surface_damage_crack_v2/yolo/images/val/*.jpg filter=lfs diff=lfs merge=lfs -text
+data/processed/datasets/aircraft_surface_damage_crack_v2/yolo/images/test/*.jpg filter=lfs diff=lfs merge=lfs -text

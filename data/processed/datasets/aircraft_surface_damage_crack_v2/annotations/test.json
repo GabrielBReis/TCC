@@ -1,0 +1,2723 @@
+{
+  "info": {
+    "description": "aircraft_surface_damage_crack_v2 - classe única crack"
+  },
+  "images": [
+    {
+      "id": 1,
+      "file_name": "aircraft_surface_damage_crack_v2_0000001.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "-_jpg.rf.13d8972a69bdc3066bf71853c84f0aa5.jpg",
+      "source_group": "-",
+      "sha256": "0e387875dd61e54644ce78aa34f550af34df78cdf34e0905b6cb04aaca2d2656"
+    },
+    {
+      "id": 2,
+      "file_name": "aircraft_surface_damage_crack_v2_0000002.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "-_jpg.rf.161e8c662c83f0e61f3e2c824dec019e.jpg",
+      "source_group": "-",
+      "sha256": "be8bb090560cb083bec2c8d4bd53c1b7d1a431f19e6d3beb4a0c1f62c9bf659d"
+    },
+    {
+      "id": 3,
+      "file_name": "aircraft_surface_damage_crack_v2_0000003.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "-_jpg.rf.2516ae7a2a6e88ce1df9b41d4100a0a2.jpg",
+      "source_group": "-",
+      "sha256": "a2764dd97b2eee2e3fbb3b3e102fb7adda26bb3333dc6e6d368c753daaa5f1ab"
+    },
+    {
+      "id": 4,
+      "file_name": "aircraft_surface_damage_crack_v2_0000004.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "-_jpg.rf.98b44b059f968ba70f81d1b8cb283b89.jpg",
+      "source_group": "-",
+      "sha256": "3b4c73c809882fa146c1839a9c05c0fd1a2e54454afd9afe3ace58be91f1958d"
+    },
+    {
+      "id": 5,
+      "file_name": "aircraft_surface_damage_crack_v2_0000005.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "-3_jpg.rf.1227d6e76ad681ab92cc1743d07101c8.jpg",
+      "source_group": "-3",
+      "sha256": "449f0b89676c55bea088d44227c411f7507e5630d9ddcdef0f6ed47961d13836"
+    },
+    {
+      "id": 6,
+      "file_name": "aircraft_surface_damage_crack_v2_0000006.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "-3_jpg.rf.c0f0793e06f8d82e251cd08992b811dc.jpg",
+      "source_group": "-3",
+      "sha256": "baeb66a7bba6b739e5dfa000ae3e03621dfc7467c64446af03e77e89a2168081"
+    },
+    {
+      "id": 7,
+      "file_name": "aircraft_surface_damage_crack_v2_0000007.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "-3_jpg.rf.fe208e3a9657c8159eee24af40306c46.jpg",
+      "source_group": "-3",
+      "sha256": "91032d33c69fa41e3dbfd7c065acf2289ec28bc72a1745bea2b3910809f8f451"
+    },
+    {
+      "id": 8,
+      "file_name": "aircraft_surface_damage_crack_v2_0000008.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "-4_jpg.rf.2f106c37c1ffdbf8c42dfe8a02eeae12.jpg",
+      "source_group": "-4",
+      "sha256": "999fe4a634609d167ef7c79924b2f6395f07a6db6fcfd2758941bba651424e4f"
+    },
+    {
+      "id": 9,
+      "file_name": "aircraft_surface_damage_crack_v2_0000009.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "-5_jpg.rf.f7e380aa27fdb2253529d9f600b755ed.jpg",
+      "source_group": "-5",
+      "sha256": "b2307bc9a0c0631fce804c976e3533b6c2258c466084a08e51655d5dbebd73e8"
+    },
+    {
+      "id": 10,
+      "file_name": "aircraft_surface_damage_crack_v2_0000010.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "-6_jpg.rf.16141592f06d0519560a1f0189874eee.jpg",
+      "source_group": "-6",
+      "sha256": "4ad8e4b8d499f3c48ecb7e7bb8b275163be338d97c90a9779620f9fc33cf7153"
+    },
+    {
+      "id": 11,
+      "file_name": "aircraft_surface_damage_crack_v2_0000011.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00001_jpg.rf.9782dcda3b69c4dca1c26af99e94d752.jpg",
+      "source_group": "hunter_00001",
+      "sha256": "b4ad8e90d45dcf3ca0cbbce5b7d8817bcc0c3e082cab5d070eca2c7b0e60a5f5"
+    },
+    {
+      "id": 12,
+      "file_name": "aircraft_surface_damage_crack_v2_0000012.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00011_jpg.rf.bb6064227099de90a523a2dcec25b04b.jpg",
+      "source_group": "hunter_00011",
+      "sha256": "604c1053d8a6dd044d1bb7222049c5970d385f6ec0fae855fb18a10f3eff1c04"
+    },
+    {
+      "id": 13,
+      "file_name": "aircraft_surface_damage_crack_v2_0000013.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00012_jpg.rf.5fa8167575ba0eb61cef8d7c5b8ba3b7.jpg",
+      "source_group": "hunter_00012",
+      "sha256": "0d569440ff8e5796901144ea8ebef9d88e64d7a38914e2224cb27ef5d0371d4d"
+    },
+    {
+      "id": 14,
+      "file_name": "aircraft_surface_damage_crack_v2_0000014.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00023_jpg.rf.d6e7cbcda6a4eba17cecfc5c9fd7d9b9.jpg",
+      "source_group": "hunter_00023",
+      "sha256": "8a80483183b09d6d3f000c00bb42ec034abf8efb297af7c7553b128360de132c"
+    },
+    {
+      "id": 15,
+      "file_name": "aircraft_surface_damage_crack_v2_0000015.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00032_jpg.rf.b80baab017c4514bcd739997444ff4b8.jpg",
+      "source_group": "hunter_00032",
+      "sha256": "c6eefdf5593f76323e5c37e32319a195feec65d4cce4a18579974e3e24971160"
+    },
+    {
+      "id": 16,
+      "file_name": "aircraft_surface_damage_crack_v2_0000016.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00037_jpg.rf.f0d30008dfc24dfd19d06d1e199926a8.jpg",
+      "source_group": "hunter_00037",
+      "sha256": "dc67f782860c02d396f6bf38c85c85693c01444b2f531b6ab88005dfa845a510"
+    },
+    {
+      "id": 17,
+      "file_name": "aircraft_surface_damage_crack_v2_0000017.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00039_jpg.rf.89c2123b077d1e8b245416f149643b56.jpg",
+      "source_group": "hunter_00039",
+      "sha256": "fb5856c1ad5ed800b4a792be8741e1762055abbc3a4e74f2c6f8e41454be5cd2"
+    },
+    {
+      "id": 18,
+      "file_name": "aircraft_surface_damage_crack_v2_0000018.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00040_jpg.rf.b7efe51689c4c703cf45b33294e8e0cd.jpg",
+      "source_group": "hunter_00040",
+      "sha256": "928c0d36ca21339bb2027636424dd4c0c1ebaed315b944443a1c29f58c7a0783"
+    },
+    {
+      "id": 19,
+      "file_name": "aircraft_surface_damage_crack_v2_0000019.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00044_jpg.rf.78749b4fe50a6d114cdd3cdb805a918b.jpg",
+      "source_group": "hunter_00044",
+      "sha256": "bf0759bb16a6c487cef2b498c4964ff251e12f8441db7743c1172c05cff51f4e"
+    },
+    {
+      "id": 20,
+      "file_name": "aircraft_surface_damage_crack_v2_0000020.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00050_jpg.rf.b0b43401a15ad9bf0874c985033a5eea.jpg",
+      "source_group": "hunter_00050",
+      "sha256": "e9db85ddb97f01352c5ec8d58b60fd48d35af1132741a26c33fc463e24a57665"
+    },
+    {
+      "id": 21,
+      "file_name": "aircraft_surface_damage_crack_v2_0000021.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00059_jpg.rf.873388f4359297c272d21b16e7dad521.jpg",
+      "source_group": "hunter_00059",
+      "sha256": "f9394022305a74e4fece2ac804a184a3805176b7b94387873a7babd1b1b8b896"
+    },
+    {
+      "id": 22,
+      "file_name": "aircraft_surface_damage_crack_v2_0000022.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00061_jpg.rf.2456ebc085c7ff1a7aaf635d1359f1bb.jpg",
+      "source_group": "hunter_00061",
+      "sha256": "549d7a8e418feaa48f085706f351d1839a7bf7e5f0f4e76926852e3aa7c4daec"
+    },
+    {
+      "id": 23,
+      "file_name": "aircraft_surface_damage_crack_v2_0000023.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00066_jpg.rf.199c63626dbf78d6ad94355ce8196f75.jpg",
+      "source_group": "hunter_00066",
+      "sha256": "f3f472b731a37ec7a197d357e63643e6480351ca5c8bbc690f70e588570e077d"
+    },
+    {
+      "id": 24,
+      "file_name": "aircraft_surface_damage_crack_v2_0000024.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00067_jpg.rf.cb03d975350631150be4782569fc81b7.jpg",
+      "source_group": "hunter_00067",
+      "sha256": "e91fbefbf72540b08e9463776cfa56e6e23aec3edb512b26627506370c377f3c"
+    },
+    {
+      "id": 25,
+      "file_name": "aircraft_surface_damage_crack_v2_0000025.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00074_jpg.rf.6adf176fb25c23bb3ca687ef78ff8bbe.jpg",
+      "source_group": "hunter_00074",
+      "sha256": "4490d820cb5da6822b1bdb1043b1f77048b2e2b32b0b58a657520851be8eabe6"
+    },
+    {
+      "id": 26,
+      "file_name": "aircraft_surface_damage_crack_v2_0000026.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00089_jpg.rf.f0931ab053f9fcb632ce5b4f56b69901.jpg",
+      "source_group": "hunter_00089",
+      "sha256": "f658278df88dac72ac341061bf68b6d630032c03658900e557e5019c34a940ff"
+    },
+    {
+      "id": 27,
+      "file_name": "aircraft_surface_damage_crack_v2_0000027.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00092_jpg.rf.7244854c4a39a9765c62e6efbcab9368.jpg",
+      "source_group": "hunter_00092",
+      "sha256": "3495dd2dea048658332f4cb2fde989ace0867d54a1e924ee79341510c5a3c4a2"
+    },
+    {
+      "id": 28,
+      "file_name": "aircraft_surface_damage_crack_v2_0000028.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00100_jpg.rf.fc4553949df3819085efdfad78d5f02f.jpg",
+      "source_group": "hunter_00100",
+      "sha256": "28d9747eb03571d93449c0aa6ee0c2e15b16f7960c57c720788475f2063769f7"
+    },
+    {
+      "id": 29,
+      "file_name": "aircraft_surface_damage_crack_v2_0000029.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00101_jpg.rf.1b75f8dd223cab931287917bfd86f052.jpg",
+      "source_group": "hunter_00101",
+      "sha256": "f4b2029526d7261e3a3bcfd4ffb298b864337a617bc1cb63863c3bdc5a72edce"
+    },
+    {
+      "id": 30,
+      "file_name": "aircraft_surface_damage_crack_v2_0000030.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00109_jpg.rf.dc0ba0fb54fb7154b106db1880b2c38f.jpg",
+      "source_group": "hunter_00109",
+      "sha256": "258329f246ad59db69415c5359bb7703748b7ec16f6dda789c0f66e9280379f5"
+    },
+    {
+      "id": 31,
+      "file_name": "aircraft_surface_damage_crack_v2_0000031.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00110_jpg.rf.52e62a7bfb3bb8adf1accb1213230c0d.jpg",
+      "source_group": "hunter_00110",
+      "sha256": "957ae5abd6a2ee4ff54f62c691a94ff088cfcdacbfe24ac3426a9bfe694a4abf"
+    },
+    {
+      "id": 32,
+      "file_name": "aircraft_surface_damage_crack_v2_0000032.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00115_jpg.rf.8a14640ea588f66a45866d17fbd90d64.jpg",
+      "source_group": "hunter_00115",
+      "sha256": "bad74f93590ce9ddb38a4f1b7318c29ab52858decd9aa23f18205ce67492efd2"
+    },
+    {
+      "id": 33,
+      "file_name": "aircraft_surface_damage_crack_v2_0000033.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00118_jpg.rf.46ea5bab284d5fcef395b25e36128098.jpg",
+      "source_group": "hunter_00118",
+      "sha256": "44fe77a1dbfea3b15b18231fad1754d1a79487c995ad96362ac9f1cf1dafad90"
+    },
+    {
+      "id": 34,
+      "file_name": "aircraft_surface_damage_crack_v2_0000034.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00119_jpg.rf.563d10a76492c4e358744a81f6f1bfa0.jpg",
+      "source_group": "hunter_00119",
+      "sha256": "10a75443c9a5d8a14c6139d1eff8cb6a293190a2a32850514a3116a9c915e59d"
+    },
+    {
+      "id": 35,
+      "file_name": "aircraft_surface_damage_crack_v2_0000035.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00120_jpg.rf.2517c00b40698bee6f3627d81fe36f81.jpg",
+      "source_group": "hunter_00120",
+      "sha256": "5b84b56195524213d025177723cbdea53ff8e3c3f29784176751e1d687ea15fc"
+    },
+    {
+      "id": 36,
+      "file_name": "aircraft_surface_damage_crack_v2_0000036.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00127_jpg.rf.5edb3208da2e4c2d06ac737a1da87330.jpg",
+      "source_group": "hunter_00127",
+      "sha256": "bc414bc35d6e9fd8fee3e57ee72a8ff194ee2445f93af3dcbb86876f24e3032b"
+    },
+    {
+      "id": 37,
+      "file_name": "aircraft_surface_damage_crack_v2_0000037.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00130_jpg.rf.a34b0c8cf213732e63d84c0b76afa0fa.jpg",
+      "source_group": "hunter_00130",
+      "sha256": "c4a2e98bb5677c9e39487fe35ae2db3ac3965c358c3d8bdc94a5260b0bdca401"
+    },
+    {
+      "id": 38,
+      "file_name": "aircraft_surface_damage_crack_v2_0000038.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00158_jpg.rf.84016cc85ce94d48ff1a37b2063caa55.jpg",
+      "source_group": "hunter_00158",
+      "sha256": "c247d427f1e7e9c093b932aaf55ca06619d4664dc1203094f81e0b6fc6e417bf"
+    },
+    {
+      "id": 39,
+      "file_name": "aircraft_surface_damage_crack_v2_0000039.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00164_jpg.rf.fd2f31f878b3e217a4787bdb957581dc.jpg",
+      "source_group": "hunter_00164",
+      "sha256": "37090d0a41ebec9090d279da2e727cf733aa4211746e034a1c7111b7a32378cf"
+    },
+    {
+      "id": 40,
+      "file_name": "aircraft_surface_damage_crack_v2_0000040.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00170_jpg.rf.0a15ad1ab10fe1c11988cc36c3ca6d76.jpg",
+      "source_group": "hunter_00170",
+      "sha256": "4c41bc0446629cbaf0e432a4d8eea1cd1518e9450f1a16a57dd6d4b3f55b77ad"
+    },
+    {
+      "id": 41,
+      "file_name": "aircraft_surface_damage_crack_v2_0000041.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00171_jpg.rf.62bee0efafa30a39af2d46157d491289.jpg",
+      "source_group": "hunter_00171",
+      "sha256": "caa22f97396e32a078ac082faec7b7690c375cffa2991db59f22059b331d87f5"
+    },
+    {
+      "id": 42,
+      "file_name": "aircraft_surface_damage_crack_v2_0000042.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00173_jpg.rf.b5c68790055e0551ca1573b17a23dcbb.jpg",
+      "source_group": "hunter_00173",
+      "sha256": "1fb79071f7d299a6036599647922c3dfb832982037a8ce1840ee12b1c10f993a"
+    },
+    {
+      "id": 43,
+      "file_name": "aircraft_surface_damage_crack_v2_0000043.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00174_jpg.rf.f90c27a39ba4109588c811e864f67463.jpg",
+      "source_group": "hunter_00174",
+      "sha256": "01f7be6dc5a1632e7f5e35a7e13c91b303253832c10cea8bff3dd00b28bb4297"
+    },
+    {
+      "id": 44,
+      "file_name": "aircraft_surface_damage_crack_v2_0000044.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00176_jpg.rf.f877d55e0b9907efa82ee283c664f165.jpg",
+      "source_group": "hunter_00176",
+      "sha256": "aa1798df261b4491e9800a24c13b034683b2bf1fec5bf871e8d8b17d4785e043"
+    },
+    {
+      "id": 45,
+      "file_name": "aircraft_surface_damage_crack_v2_0000045.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00177_jpg.rf.a5ba716e6746acf335c865495777e025.jpg",
+      "source_group": "hunter_00177",
+      "sha256": "fb76f01bd6b7593c7fd4d11005824c5ce414718997365d1f06f28fc7298b855c"
+    },
+    {
+      "id": 46,
+      "file_name": "aircraft_surface_damage_crack_v2_0000046.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00184_jpg.rf.e853921a6d776af366e6b4ee7ac15d79.jpg",
+      "source_group": "hunter_00184",
+      "sha256": "f7aa6da3f9c0dd2fdf0f61553b3605c7dc61a8c0de11b6b4d7d23fa842213452"
+    },
+    {
+      "id": 47,
+      "file_name": "aircraft_surface_damage_crack_v2_0000047.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00185_jpg.rf.4986f201b837c47527d6869760271db9.jpg",
+      "source_group": "hunter_00185",
+      "sha256": "3f239dc9915721303f723f99b49882233baf81f824085097e0913b56b3e2498e"
+    },
+    {
+      "id": 48,
+      "file_name": "aircraft_surface_damage_crack_v2_0000048.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00186_jpg.rf.98e8981cbe8f0694958ebe3afb75f398.jpg",
+      "source_group": "hunter_00186",
+      "sha256": "8e250dc21975bf2d1fa81f617d22ceb237a6e3b381b94e8f64696a6c26e321e8"
+    },
+    {
+      "id": 49,
+      "file_name": "aircraft_surface_damage_crack_v2_0000049.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "hunter_00187_jpg.rf.8ccbdc18c039fa1928cfff8ab6a67c01.jpg",
+      "source_group": "hunter_00187",
+      "sha256": "e5eb29278ed6252c3b7a24ec6209e587672a3f20a50f38108cbffabdb50aadf6"
+    },
+    {
+      "id": 50,
+      "file_name": "aircraft_surface_damage_crack_v2_0000050.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG14_jpg.rf.9e04ead2d1f46089ba2c22c7974ceb77.jpg",
+      "source_group": "img14",
+      "sha256": "72ac89b12895f69065179df25e7d58382be859d5c2c4e077e3216557cda819e4"
+    },
+    {
+      "id": 51,
+      "file_name": "aircraft_surface_damage_crack_v2_0000051.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG187_jpg.rf.4f1d476fc0cbe3f58f1337678044280d.jpg",
+      "source_group": "img187",
+      "sha256": "6f582ec6a2e2174ea7b9af73681384953dcf4a9487ffe01d2573b716782ee4f8"
+    },
+    {
+      "id": 52,
+      "file_name": "aircraft_surface_damage_crack_v2_0000052.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG196_jpg.rf.0781b461f7d8203aed473004f191cc00.jpg",
+      "source_group": "img196",
+      "sha256": "39bf7defa26dcddeff3a423affc67fb1c224f7867e380876d0023dd020639181"
+    },
+    {
+      "id": 53,
+      "file_name": "aircraft_surface_damage_crack_v2_0000053.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG22_jpg.rf.dcf19b287838bf0835d49aec0c3a11ec.jpg",
+      "source_group": "img22",
+      "sha256": "9a03c7b0d87c95fb619cc126a86bff3bd37da61580632306c261ed37f71754e6"
+    },
+    {
+      "id": 54,
+      "file_name": "aircraft_surface_damage_crack_v2_0000054.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG235_jpg.rf.a385c6f6d6c119643a9398d79e109e2f.jpg",
+      "source_group": "img235",
+      "sha256": "b29da6b2a6f0fc0104b0f2a94f5f56275c3e5b872578b7c5bfefc4e0d63f9fbb"
+    },
+    {
+      "id": 55,
+      "file_name": "aircraft_surface_damage_crack_v2_0000055.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG238_jpg.rf.4e5a0fe888d0fd228c5a93bb16b0c15b.jpg",
+      "source_group": "img238",
+      "sha256": "d453dfa969c60ecfdff68292833782db969fbd1c242172bed8f01676cc3359a5"
+    },
+    {
+      "id": 56,
+      "file_name": "aircraft_surface_damage_crack_v2_0000056.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG54_jpg.rf.58f3f76e5ea8de60372bb2ec0d6f7cc6.jpg",
+      "source_group": "img54",
+      "sha256": "0c9ada2f1a4ecfed7274c3df4b4e752457530832810034d2536770e60af47125"
+    },
+    {
+      "id": 57,
+      "file_name": "aircraft_surface_damage_crack_v2_0000057.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG67_jpg.rf.01cc5f2a47a41164078f6be34eece385.jpg",
+      "source_group": "img67",
+      "sha256": "6672d6286d109fb4fdc724c081cb2497829cf97de25628ffd7c976e09e79fbbe"
+    },
+    {
+      "id": 58,
+      "file_name": "aircraft_surface_damage_crack_v2_0000058.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20220521_144932_jpg.rf.b02cbf100a7b60c508ea2722fa0750b6.jpg",
+      "source_group": "img_20220521_144932",
+      "sha256": "ff9dd6e1f3692f7825a4560465d0914a6adef4357512c8884c6839ede166bc97"
+    },
+    {
+      "id": 59,
+      "file_name": "aircraft_surface_damage_crack_v2_0000059.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_122407_jpg.rf.2b0a72bfc1f5d193efc49c86f2f1d274.jpg",
+      "source_group": "img_20230413_122407",
+      "sha256": "26719fc3116d630e8c08745dc791967c124fc67246eb100bcf111ac70ed3aedd"
+    },
+    {
+      "id": 60,
+      "file_name": "aircraft_surface_damage_crack_v2_0000060.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_122436_jpg.rf.694d956f009b5d9005803e94d7bffe1e.jpg",
+      "source_group": "img_20230413_122436",
+      "sha256": "bc13bce909a9c6c3967a9c24142d86ed78a38c5d84df234ccf033f83ebdd62c6"
+    },
+    {
+      "id": 61,
+      "file_name": "aircraft_surface_damage_crack_v2_0000061.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_122530_jpg.rf.4305d540cc6d21366da3ee9dc10f34e1.jpg",
+      "source_group": "img_20230413_122530",
+      "sha256": "493b8e32b032dd7faed207d631da8b72d4e8074209114f8d533fe7a1b6539fae"
+    },
+    {
+      "id": 62,
+      "file_name": "aircraft_surface_damage_crack_v2_0000062.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_122535_jpg.rf.0911d99917e0368ea854b6c303077072.jpg",
+      "source_group": "img_20230413_122535",
+      "sha256": "addb5c1ffa25edee4282df87184e12b9b063a2ea57411325fa808784e2516f72"
+    },
+    {
+      "id": 63,
+      "file_name": "aircraft_surface_damage_crack_v2_0000063.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_122704_jpg.rf.3de0ed5ff03465069dcb188015de2db2.jpg",
+      "source_group": "img_20230413_122704",
+      "sha256": "e3ffbb9cd86f2790997a3b175dd6bd7dbe9e63c78b89d010f9a73c3a04b9d04a"
+    },
+    {
+      "id": 64,
+      "file_name": "aircraft_surface_damage_crack_v2_0000064.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_122720_jpg.rf.47c8a440c752b21735c2313274d637d9.jpg",
+      "source_group": "img_20230413_122720",
+      "sha256": "de4b61a094123048bc1db91c6f8cf7fcbd24fe5d5e20dfd0d9f5b910b5692369"
+    },
+    {
+      "id": 65,
+      "file_name": "aircraft_surface_damage_crack_v2_0000065.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_122846_jpg.rf.a844e3594d3a3fa739d8bd182890bdaf.jpg",
+      "source_group": "img_20230413_122846",
+      "sha256": "8d45ff746a937d51001446d2fdeb85bafe835342dc5e7566c93dcb91581c4275"
+    },
+    {
+      "id": 66,
+      "file_name": "aircraft_surface_damage_crack_v2_0000066.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_122859_jpg.rf.1231c3b8f66a2b7d52ccb0799f266b4b.jpg",
+      "source_group": "img_20230413_122859",
+      "sha256": "11ef3f3ebabe55b13850c63f5556a01a41b01a10350eb912cdbd3adcba89f536"
+    },
+    {
+      "id": 67,
+      "file_name": "aircraft_surface_damage_crack_v2_0000067.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_122924_jpg.rf.156fb0b40a3506d5886f07d761092abe.jpg",
+      "source_group": "img_20230413_122924",
+      "sha256": "f713f9c1a828f0f751acd83489e4d8fb7ed0ec10dd82a2deb9dbd6233a9b016c"
+    },
+    {
+      "id": 68,
+      "file_name": "aircraft_surface_damage_crack_v2_0000068.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_123009_jpg.rf.6f8b4e4995618bf06556aea558b82c28.jpg",
+      "source_group": "img_20230413_123009",
+      "sha256": "a51afc51cef591e90189c9a128e64de3449e2815a6d5cca522e32bf1ea5c8d29"
+    },
+    {
+      "id": 69,
+      "file_name": "aircraft_surface_damage_crack_v2_0000069.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_123016_jpg.rf.c845a9dae57a7fcff4172ac305ad007e.jpg",
+      "source_group": "img_20230413_123016",
+      "sha256": "73b8709ed6eb30505ace6270f435867761593dc16398fb43a880f8a126ec6749"
+    },
+    {
+      "id": 70,
+      "file_name": "aircraft_surface_damage_crack_v2_0000070.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_123050_jpg.rf.f05a596e47f74bac9a244164ed7d7d24.jpg",
+      "source_group": "img_20230413_123050",
+      "sha256": "ea0d40ef4111d63ee5609f55635b57311be968623fb90622bd6a355b162921f8"
+    },
+    {
+      "id": 71,
+      "file_name": "aircraft_surface_damage_crack_v2_0000071.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_123338_jpg.rf.3ffffeaf714f60d8087448de15e6bdff.jpg",
+      "source_group": "img_20230413_123338",
+      "sha256": "2f4eeefa452b5219af7e1753fc53598e9a1f37c637a2611eb31a5e6c93fb48d0"
+    },
+    {
+      "id": 72,
+      "file_name": "aircraft_surface_damage_crack_v2_0000072.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_123445_jpg.rf.2e8a06086d9361d07c3292726f134eb9.jpg",
+      "source_group": "img_20230413_123445",
+      "sha256": "755dcc1af9ee4278b873e39c3ff0988d79e92f2563b0be950287c6c5406ae9a9"
+    },
+    {
+      "id": 73,
+      "file_name": "aircraft_surface_damage_crack_v2_0000073.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_123619_jpg.rf.19e12bd271d9c61f8546a19919f4af3e.jpg",
+      "source_group": "img_20230413_123619",
+      "sha256": "e8dc68eec7ea334096c7bf54465313f4168d64cb791e0a961e09f7d79da680b5"
+    },
+    {
+      "id": 74,
+      "file_name": "aircraft_surface_damage_crack_v2_0000074.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_123630_jpg.rf.5a875e880323c70d5b5bf89b777fcfd6.jpg",
+      "source_group": "img_20230413_123630",
+      "sha256": "06e05049e8adcb0247d374ccde8c10ad02f95c69f0d7fab69423f75627553ba5"
+    },
+    {
+      "id": 75,
+      "file_name": "aircraft_surface_damage_crack_v2_0000075.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_123637_jpg.rf.9073b03145bb72d8885fb95c89050a67.jpg",
+      "source_group": "img_20230413_123637",
+      "sha256": "1c1ea56bfd8af6ea84c1c38b8276d0beabb5237b899974bc71682163878c150b"
+    },
+    {
+      "id": 76,
+      "file_name": "aircraft_surface_damage_crack_v2_0000076.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_123645_jpg.rf.0faf42d6ba65e59c741ae8dbc840e9aa.jpg",
+      "source_group": "img_20230413_123645",
+      "sha256": "0cc31a307b801b4279f7ab372ce8fb2e3a620c6045901e69d2e3e764dd0ac4f0"
+    },
+    {
+      "id": 77,
+      "file_name": "aircraft_surface_damage_crack_v2_0000077.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_123656_jpg.rf.7694a9f34242e3e502be897c8fbb0461.jpg",
+      "source_group": "img_20230413_123656",
+      "sha256": "627163d3c20357164b8e63570478600893278bd51aac4f8deb0019f5759344bf"
+    },
+    {
+      "id": 78,
+      "file_name": "aircraft_surface_damage_crack_v2_0000078.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_123720_jpg.rf.ae52712f747d99b3803ccf3e5bdc9e62.jpg",
+      "source_group": "img_20230413_123720",
+      "sha256": "dc3b4697ab0bb8b71e88110b7470fab5598060d4cbfa467d5b331253559383e6"
+    },
+    {
+      "id": 79,
+      "file_name": "aircraft_surface_damage_crack_v2_0000079.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_123824_jpg.rf.f9265c61a4cf4097c7d71c7a6c985c98.jpg",
+      "source_group": "img_20230413_123824",
+      "sha256": "c4f7c8f1222996030e80c5985519bf7ac47617493ef993354a7225ae4f2bb3af"
+    },
+    {
+      "id": 80,
+      "file_name": "aircraft_surface_damage_crack_v2_0000080.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_123926_jpg.rf.13fa5410e6a63465d11c6174db67d492.jpg",
+      "source_group": "img_20230413_123926",
+      "sha256": "60697e4ff98a8777167a649f187866b796da6723903a7a7323ead94e7dc0c454"
+    },
+    {
+      "id": 81,
+      "file_name": "aircraft_surface_damage_crack_v2_0000081.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_124300_jpg.rf.518ee2e2906d203026f7c107d6b20355.jpg",
+      "source_group": "img_20230413_124300",
+      "sha256": "57fb15c04d1aeed0a003d2d2e74baa7e20d2bdbefc3372f08f9269b77733b39f"
+    },
+    {
+      "id": 82,
+      "file_name": "aircraft_surface_damage_crack_v2_0000082.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_124528_jpg.rf.a1cb4598643a4170fccabeced478984e.jpg",
+      "source_group": "img_20230413_124528",
+      "sha256": "978ff4737fd000816620f911445919b4ca7c466454173b3e8ea304f0402a76f0"
+    },
+    {
+      "id": 83,
+      "file_name": "aircraft_surface_damage_crack_v2_0000083.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_124531_jpg.rf.72094fddbd177df68192f45f5c9c29ad.jpg",
+      "source_group": "img_20230413_124531",
+      "sha256": "2cdfde499511d34b8dc7fc778eb44876597189490e1f7f861412ef84beb5c8ff"
+    },
+    {
+      "id": 84,
+      "file_name": "aircraft_surface_damage_crack_v2_0000084.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_124538_jpg.rf.9a068ca802d3d4d1ac9de1e4ad5f479f.jpg",
+      "source_group": "img_20230413_124538",
+      "sha256": "9c367f35ba0edf345e489db79a92d8527f3df205c46d049462428fd75f38d5fe"
+    },
+    {
+      "id": 85,
+      "file_name": "aircraft_surface_damage_crack_v2_0000085.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_124612_jpg.rf.0021a443ed1b679b5d6ccb4ced4959ac.jpg",
+      "source_group": "img_20230413_124612",
+      "sha256": "5f37718ee1c2c09c0e26859f5d03296104c8d4e8e9d57d7ccab3047dbe83eee4"
+    },
+    {
+      "id": 86,
+      "file_name": "aircraft_surface_damage_crack_v2_0000086.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_124620_jpg.rf.571083f51f60acc5936273a2b1836152.jpg",
+      "source_group": "img_20230413_124620",
+      "sha256": "87971db99ed03173fa1525a8ecb0dd551c45fd3c8472348f81fd191bf6132df7"
+    },
+    {
+      "id": 87,
+      "file_name": "aircraft_surface_damage_crack_v2_0000087.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_124730_jpg.rf.71e98f142cc3cfed9843673621a6fb87.jpg",
+      "source_group": "img_20230413_124730",
+      "sha256": "747f153aa7a7c8a7f2cacf4b9c48db54fb15df7a162d23933e6d6980a1dfab84"
+    },
+    {
+      "id": 88,
+      "file_name": "aircraft_surface_damage_crack_v2_0000088.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_124751_jpg.rf.e60b55ae74e8924a45b691ef2e44d057.jpg",
+      "source_group": "img_20230413_124751",
+      "sha256": "7c282be6336ba36b02c9df022aa1f4dc118446db66d7bf424a171b6adf1a611f"
+    },
+    {
+      "id": 89,
+      "file_name": "aircraft_surface_damage_crack_v2_0000089.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_124757_jpg.rf.1a5d47314718d7f0e7508a4601ce8e12.jpg",
+      "source_group": "img_20230413_124757",
+      "sha256": "4bdee8851288035f16000ee8d5b2be5bfdfc54c745a18ea2a6c290394c4b80a9"
+    },
+    {
+      "id": 90,
+      "file_name": "aircraft_surface_damage_crack_v2_0000090.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_124804_jpg.rf.2c1006f1ba369b36fe6171f7e75c8dcf.jpg",
+      "source_group": "img_20230413_124804",
+      "sha256": "9a58234f1721e45cf37f794d057df0f2ec0ec69b3a3b716639fd373945230f6d"
+    },
+    {
+      "id": 91,
+      "file_name": "aircraft_surface_damage_crack_v2_0000091.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_124810_jpg.rf.7a25690394ec8a221c47713d3de349e0.jpg",
+      "source_group": "img_20230413_124810",
+      "sha256": "b871dcbec1578cfd15f9bbb7f4c6d8ef55115cf6c1734beb0719212b27063c82"
+    },
+    {
+      "id": 92,
+      "file_name": "aircraft_surface_damage_crack_v2_0000092.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_124831_jpg.rf.9548cde1b3cd99f5813e21d7932f7961.jpg",
+      "source_group": "img_20230413_124831",
+      "sha256": "a5291b0094d60b00aa4d13ab1417bf2d997ae001c312c108ba38458049639c4a"
+    },
+    {
+      "id": 93,
+      "file_name": "aircraft_surface_damage_crack_v2_0000093.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_124844_jpg.rf.5b72132b6ee40e70a9cf9b0b7b695ea7.jpg",
+      "source_group": "img_20230413_124844",
+      "sha256": "04a15550b40ec47b83ab4211b8209c803174dab36f2c7065a1e7defc3eb53605"
+    },
+    {
+      "id": 94,
+      "file_name": "aircraft_surface_damage_crack_v2_0000094.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_124850_jpg.rf.693a9ad1cdf7801a81bd7e3fbb235c4e.jpg",
+      "source_group": "img_20230413_124850",
+      "sha256": "2a6d9b037f9f80478c7fdaf0eda10af6250c7d7a453b79d750f76814f380b04a"
+    },
+    {
+      "id": 95,
+      "file_name": "aircraft_surface_damage_crack_v2_0000095.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_125015_jpg.rf.f1cae15a8a7dfa8fab715bfe2c6b179c.jpg",
+      "source_group": "img_20230413_125015",
+      "sha256": "98df8d508399d65b702cd30f79eb27132aab83be46fd478af8ff5d104f302174"
+    },
+    {
+      "id": 96,
+      "file_name": "aircraft_surface_damage_crack_v2_0000096.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_125111_jpg.rf.9c7ec157f6065188466702c57b6d2782.jpg",
+      "source_group": "img_20230413_125111",
+      "sha256": "02c7c938b998a93eaf1761926eb836931ae1776df3df04229cf36405e76dbb0f"
+    },
+    {
+      "id": 97,
+      "file_name": "aircraft_surface_damage_crack_v2_0000097.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_125121_jpg.rf.e11708c0c84a0078f375303bcb5ecd57.jpg",
+      "source_group": "img_20230413_125121",
+      "sha256": "76f023c8d21b022a4c556cd29a1b890c92abcc26cd45e586fe1818d6cdef2290"
+    },
+    {
+      "id": 98,
+      "file_name": "aircraft_surface_damage_crack_v2_0000098.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_125224_jpg.rf.31d1bc82dde07558d04881e922263f1b.jpg",
+      "source_group": "img_20230413_125224",
+      "sha256": "a577801d327485827515f3f4e399bcea5e101588faaf1ee38cdaa9c598752e3b"
+    },
+    {
+      "id": 99,
+      "file_name": "aircraft_surface_damage_crack_v2_0000099.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_125243_jpg.rf.2e4e93f9653a586c6cb7a10a5e62eec3.jpg",
+      "source_group": "img_20230413_125243",
+      "sha256": "da53c20eceece7dd150bcb839619a32419340b22aeb4cc5813c99217ae598cd7"
+    },
+    {
+      "id": 100,
+      "file_name": "aircraft_surface_damage_crack_v2_0000100.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_125336_jpg.rf.ab19410f00a8acb4843c1e77068b9c98.jpg",
+      "source_group": "img_20230413_125336",
+      "sha256": "f2a7712b83677133a1728a6b7727a762e2b01b4f08d4316ffdef54df1398eea9"
+    },
+    {
+      "id": 101,
+      "file_name": "aircraft_surface_damage_crack_v2_0000101.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_125412_jpg.rf.a9d84fd1aa02591b3a998baa6c9f50e7.jpg",
+      "source_group": "img_20230413_125412",
+      "sha256": "92ffc926ecd850422720e9c8558408789741033ad9e48287197a97878b7a616a"
+    },
+    {
+      "id": 102,
+      "file_name": "aircraft_surface_damage_crack_v2_0000102.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_125530_jpg.rf.012c7f238f4599342c029bba7f29080f.jpg",
+      "source_group": "img_20230413_125530",
+      "sha256": "a19dcf429a1acf28f7d252f839d5e8697490559380cbc606aae52833139f782f"
+    },
+    {
+      "id": 103,
+      "file_name": "aircraft_surface_damage_crack_v2_0000103.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_125808_jpg.rf.b52d5ab2a553f847024e37a2a771d776.jpg",
+      "source_group": "img_20230413_125808",
+      "sha256": "64c4f9062dab0d5f04224273f3289a71b856d13cefc5ffe346a6994e693b94d8"
+    },
+    {
+      "id": 104,
+      "file_name": "aircraft_surface_damage_crack_v2_0000104.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230413_125841_jpg.rf.1c257129c49284c369a72c7c71931a8a.jpg",
+      "source_group": "img_20230413_125841",
+      "sha256": "767a59b145ba1f159f5ddda50f3cd2bea16133d1d1b163c4210aa7c95f2330e4"
+    },
+    {
+      "id": 105,
+      "file_name": "aircraft_surface_damage_crack_v2_0000105.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_125907_jpg.rf.2bf970d3aa68a7d9e797685f1c1fd64f.jpg",
+      "source_group": "img_20230413_125907",
+      "sha256": "381d8e72fe0cd3987a3fcf5edd65454567c8781f0657c376b6485242ee0e2ae2"
+    },
+    {
+      "id": 106,
+      "file_name": "aircraft_surface_damage_crack_v2_0000106.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230413_125918_jpg.rf.f2322f8b12e13307b863c110265d65b3.jpg",
+      "source_group": "img_20230413_125918",
+      "sha256": "d4eab1a45a824807f46c2128f4a318502565977331fc5ff239429904d50bc6f0"
+    },
+    {
+      "id": 107,
+      "file_name": "aircraft_surface_damage_crack_v2_0000107.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_125926_jpg.rf.850dafe15cbf708ca096c81eef345e5b.jpg",
+      "source_group": "img_20230413_125926",
+      "sha256": "944e46d30e999a55ebee194684ddeac2d23404843ae1bfbae8837a10c170159d"
+    },
+    {
+      "id": 108,
+      "file_name": "aircraft_surface_damage_crack_v2_0000108.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230413_125930_jpg.rf.621b2f581bd3d16cac1e6eb0fd28163c.jpg",
+      "source_group": "img_20230413_125930",
+      "sha256": "7ac9765eb495dd9375f2c434dd603c4ea5e9f993f53b722f9c0d5972090b0773"
+    },
+    {
+      "id": 109,
+      "file_name": "aircraft_surface_damage_crack_v2_0000109.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_125943_jpg.rf.06e92fb0a8805d2dfed99f927cfb387b.jpg",
+      "source_group": "img_20230413_125943",
+      "sha256": "6a261c1303e414c01a5971473f50bff33fe87ee6318983f44d824ef757c4081d"
+    },
+    {
+      "id": 110,
+      "file_name": "aircraft_surface_damage_crack_v2_0000110.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230413_130147_jpg.rf.1a3937ccd5f50a912482a1625aea7ca8.jpg",
+      "source_group": "img_20230413_130147",
+      "sha256": "e4a9f179711d1d2fa71233dc8ebf0101dc78a13916eb2dba2512e99feef27971"
+    },
+    {
+      "id": 111,
+      "file_name": "aircraft_surface_damage_crack_v2_0000111.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_130248_jpg.rf.6e64efdb14b5d992bfbd6122f0e56b3c.jpg",
+      "source_group": "img_20230413_130248",
+      "sha256": "efef486a217a416ee514b18ff11b16baac839308dc6983689dcd4a4c76038737"
+    },
+    {
+      "id": 112,
+      "file_name": "aircraft_surface_damage_crack_v2_0000112.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_130302_jpg.rf.55118caba5856e0447ee15ccd3423f75.jpg",
+      "source_group": "img_20230413_130302",
+      "sha256": "0df4c6c992642cb592e3d230a04087ab03443d401dbad130a1d6ab91003df637"
+    },
+    {
+      "id": 113,
+      "file_name": "aircraft_surface_damage_crack_v2_0000113.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_130349_jpg.rf.640bcb6a1ceffa2ca3e3f09dfdb7cd73.jpg",
+      "source_group": "img_20230413_130349",
+      "sha256": "978727061ef67c4c862766e50d7ac0d079012f5b1d050a9147ee65fb8969b681"
+    },
+    {
+      "id": 114,
+      "file_name": "aircraft_surface_damage_crack_v2_0000114.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230413_130407_jpg.rf.eee0a5430bc9442d990cbf3d9fb1e38b.jpg",
+      "source_group": "img_20230413_130407",
+      "sha256": "05365c328324cb3fa52720535d02942224503b5ee4d647760a59869f2255f59e"
+    },
+    {
+      "id": 115,
+      "file_name": "aircraft_surface_damage_crack_v2_0000115.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "val",
+      "source_file_name": "IMG_20230413_130412_jpg.rf.4388a44e6e766e67828e713aab464c9f.jpg",
+      "source_group": "img_20230413_130412",
+      "sha256": "6f86261b6c9fa5762ad0bed11e1522578f7518d7ba7b24b7e401e0fab25ef9f0"
+    },
+    {
+      "id": 116,
+      "file_name": "aircraft_surface_damage_crack_v2_0000116.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230413_130418_jpg.rf.3bc382cf6269ee445297267d1eec186a.jpg",
+      "source_group": "img_20230413_130418",
+      "sha256": "2721e013a453d52bd2f29221167c0a4e5a4caf250e44aa7851cbf43ac00d5107"
+    },
+    {
+      "id": 117,
+      "file_name": "aircraft_surface_damage_crack_v2_0000117.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230413_130518_jpg.rf.5fca11ff1f7b6405a08835fad2136b5d.jpg",
+      "source_group": "img_20230413_130518",
+      "sha256": "903334ee558a83c100046c1ea5a6dfdb02e4df51c05996a1ed3d547238d91573"
+    },
+    {
+      "id": 118,
+      "file_name": "aircraft_surface_damage_crack_v2_0000118.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230413_130555_jpg.rf.5f193634c26821a705da619f2f7d6832.jpg",
+      "source_group": "img_20230413_130555",
+      "sha256": "430b6712f6bb779942b7f43de35d92e13984453148664bf7a85138e5bfa50a9c"
+    },
+    {
+      "id": 119,
+      "file_name": "aircraft_surface_damage_crack_v2_0000119.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230413_130618_jpg.rf.a4c978a19fc4524357c3461a536ec3b8.jpg",
+      "source_group": "img_20230413_130618",
+      "sha256": "351fd10df3285579826186f7ade92258b44cc0f5fbfab62fd87378802d8d937a"
+    },
+    {
+      "id": 120,
+      "file_name": "aircraft_surface_damage_crack_v2_0000120.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230413_130658_jpg.rf.f050027490bbd4457f0782be9d442ce0.jpg",
+      "source_group": "img_20230413_130658",
+      "sha256": "cd9a12faa7e726e85c78a0e60965d0b096c0a8d1ce7b3ad3aab4aeda68f3e04d"
+    },
+    {
+      "id": 121,
+      "file_name": "aircraft_surface_damage_crack_v2_0000121.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230413_130703_jpg.rf.e61481a9f9f65da70a696613a7ab99f6.jpg",
+      "source_group": "img_20230413_130703",
+      "sha256": "8768c577e25a145173ae528ca9d16f73c947716c68d924d207b13565c3292023"
+    },
+    {
+      "id": 122,
+      "file_name": "aircraft_surface_damage_crack_v2_0000122.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230413_130711_jpg.rf.b234078ff29452ac0d8494d7dbdbc47b.jpg",
+      "source_group": "img_20230413_130711",
+      "sha256": "e274afa375cbf93e721ae358c4c705eac4d451ce54f333767f3c56c4b6d8ec89"
+    },
+    {
+      "id": 123,
+      "file_name": "aircraft_surface_damage_crack_v2_0000123.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230511_102400_jpg.rf.a9ffbe99ae9ce8e154b601e74ad1b59b.jpg",
+      "source_group": "img_20230511_102400",
+      "sha256": "8d31f22753e2623697896bfb27b39c1fe54d4ff6b1c5273b66107c35e188e56c"
+    },
+    {
+      "id": 124,
+      "file_name": "aircraft_surface_damage_crack_v2_0000124.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230511_102959_jpg.rf.9256656bb45fcfa84d6d4970854c5210.jpg",
+      "source_group": "img_20230511_102959",
+      "sha256": "76f074313bbbd24a907c6f3c722b9503184ed86a330dc66eac9acc7fdb22e4b9"
+    },
+    {
+      "id": 125,
+      "file_name": "aircraft_surface_damage_crack_v2_0000125.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230511_103022_jpg.rf.7f3105f720f708b6f5d4ec2ab65f6753.jpg",
+      "source_group": "img_20230511_103022",
+      "sha256": "48a3a4ffa5914e85567ced5983858bd3d4d8ddd9cf5dc7b793547551dabaf1c1"
+    },
+    {
+      "id": 126,
+      "file_name": "aircraft_surface_damage_crack_v2_0000126.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230511_104155_jpg.rf.e5e295abfdacbd881e543119fa37be8d.jpg",
+      "source_group": "img_20230511_104155",
+      "sha256": "1c3a1ec6d7c183ae4d8ec1a7611adf3fd829ae87281780ca1d358c1513fb94f1"
+    },
+    {
+      "id": 127,
+      "file_name": "aircraft_surface_damage_crack_v2_0000127.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230511_104210_jpg.rf.7d1b0332e8a47f286081f6d0ddd66a2d.jpg",
+      "source_group": "img_20230511_104210",
+      "sha256": "1152011036d290e9553a169c05ad046d88302737efa7dea3b5469ded3160d137"
+    },
+    {
+      "id": 128,
+      "file_name": "aircraft_surface_damage_crack_v2_0000128.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230512_124225_jpg.rf.f740f3005bdde9934e0637f0f9839d33.jpg",
+      "source_group": "img_20230512_124225",
+      "sha256": "9801b2d5e500d406cc39e8b6e6cb213f21b8988a58d09c89df7b11ad01c23cda"
+    },
+    {
+      "id": 129,
+      "file_name": "aircraft_surface_damage_crack_v2_0000129.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230512_124903_jpg.rf.9d5c5d792573b4f082f022006475931f.jpg",
+      "source_group": "img_20230512_124903",
+      "sha256": "90edb500a010881edd2c53098b8ed834f579b99a6ea4820a2de2e711dd6b2987"
+    },
+    {
+      "id": 130,
+      "file_name": "aircraft_surface_damage_crack_v2_0000130.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230512_125734_jpg.rf.7d8272b3ba458e2c8bb68537516e8def.jpg",
+      "source_group": "img_20230512_125734",
+      "sha256": "88486ea0eaad035c9e9f7c81a33de3aa45630afa96119059dd935d7e3fd17282"
+    },
+    {
+      "id": 131,
+      "file_name": "aircraft_surface_damage_crack_v2_0000131.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230512_125758_jpg.rf.8941007eaa5b962aa9e54c6350615a99.jpg",
+      "source_group": "img_20230512_125758",
+      "sha256": "6043486c7f74383e5ae49f4ef5a1033a6c568379c35a7b5a09f1ef24e7efa5d9"
+    },
+    {
+      "id": 132,
+      "file_name": "aircraft_surface_damage_crack_v2_0000132.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230512_125829_jpg.rf.2cf3c59398ac586affadfba6730ecb11.jpg",
+      "source_group": "img_20230512_125829",
+      "sha256": "5470b9b46d740e1db16917f5dfa2c7c608aa810b313b7c25546f4823c722eb41"
+    },
+    {
+      "id": 133,
+      "file_name": "aircraft_surface_damage_crack_v2_0000133.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230512_130546_jpg.rf.2908411dcab229bea41a5dd2848d871c.jpg",
+      "source_group": "img_20230512_130546",
+      "sha256": "ccb39096290078ffbad2a1293bfd0ad4fda57bf97334a1fc3dd3e316e22e144e"
+    },
+    {
+      "id": 134,
+      "file_name": "aircraft_surface_damage_crack_v2_0000134.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230513_095207_jpg.rf.8d58d2b837b9835fc4a610f97dfff40c.jpg",
+      "source_group": "img_20230513_095207",
+      "sha256": "7dee227ee05f6806b606278f91e58dcfdf4f45dd329dc31c25606d1eeaac8739"
+    },
+    {
+      "id": 135,
+      "file_name": "aircraft_surface_damage_crack_v2_0000135.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230513_095516_jpg.rf.c453a1a6073412d3ff33cf143ae73c8b.jpg",
+      "source_group": "img_20230513_095516",
+      "sha256": "79de54f92cc8144869d53f80b1121f2b075c8b259ca33a14fb93e5bbda714787"
+    },
+    {
+      "id": 136,
+      "file_name": "aircraft_surface_damage_crack_v2_0000136.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230513_100001_jpg.rf.48fe41a87f6a19d03e8d430a3480a0d9.jpg",
+      "source_group": "img_20230513_100001",
+      "sha256": "4f8a5e7acb7be3809d52cfad5cb23367e554ee5cbabd342295e98fd2d78b6e88"
+    },
+    {
+      "id": 137,
+      "file_name": "aircraft_surface_damage_crack_v2_0000137.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230513_100032_jpg.rf.cb11895f1e585626817969e52a217d3e.jpg",
+      "source_group": "img_20230513_100032",
+      "sha256": "69190f75462e438501b5474aabcdf2d07a13b784cb828c32a05dba932cdc67e7"
+    },
+    {
+      "id": 138,
+      "file_name": "aircraft_surface_damage_crack_v2_0000138.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230513_100215_jpg.rf.6b87d6628e885eb191a1718f28a2eec0.jpg",
+      "source_group": "img_20230513_100215",
+      "sha256": "5f2609f5f855820a59bb54435ab4f2027447d742aede8d9c736da306cf8394b6"
+    },
+    {
+      "id": 139,
+      "file_name": "aircraft_surface_damage_crack_v2_0000139.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230513_100844_jpg.rf.b6657576b9ffc35a202d366ec0055d12.jpg",
+      "source_group": "img_20230513_100844",
+      "sha256": "1991deaa2a4f1e45100bc870d3dace8979997f967c38a96697a5cd2ef54f8bcf"
+    },
+    {
+      "id": 140,
+      "file_name": "aircraft_surface_damage_crack_v2_0000140.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230513_101559_jpg.rf.e3c2776d979566d2fbb50dd33573a7b7.jpg",
+      "source_group": "img_20230513_101559",
+      "sha256": "9ca3be4d67cf355dc73be3fead818da559c0ffd302f3838ef8ed0377e942c1b4"
+    },
+    {
+      "id": 141,
+      "file_name": "aircraft_surface_damage_crack_v2_0000141.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230513_103902_jpg.rf.b72c1001d2925768d462bd289b6d68c0.jpg",
+      "source_group": "img_20230513_103902",
+      "sha256": "34d062d87f146bc94d8cc657022a08b5dbaa7560db01610409eaf0e39ba24657"
+    },
+    {
+      "id": 142,
+      "file_name": "aircraft_surface_damage_crack_v2_0000142.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "IMG_20230513_103931_jpg.rf.885c1d675f94f23ee93237fc3af8c2fa.jpg",
+      "source_group": "img_20230513_103931",
+      "sha256": "316bc1b19eb008851fc5df9180b65474db68fbcd44de015f5b935c2773aa4368"
+    },
+    {
+      "id": 143,
+      "file_name": "aircraft_surface_damage_crack_v2_0000143.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_107_jpg.rf.6d5d9298a047835ca0673fdacccf8333.jpg",
+      "source_group": "line_album_220324_107",
+      "sha256": "c15e3e76a9b6fb61303d7b50d20a6e94fb66b22dd3586b22ac6423613d66b77e"
+    },
+    {
+      "id": 144,
+      "file_name": "aircraft_surface_damage_crack_v2_0000144.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_108_jpg.rf.81fffaf2105445dcae7c5e2899dd06fa.jpg",
+      "source_group": "line_album_220324_108",
+      "sha256": "62ac7d27851c01ce2824162da0eda50dc96ea0198a1a753818a335d010ac955c"
+    },
+    {
+      "id": 145,
+      "file_name": "aircraft_surface_damage_crack_v2_0000145.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_11_jpg.rf.2677524248ab406ffe6a3fac360b4cc9.jpg",
+      "source_group": "line_album_220324_11",
+      "sha256": "5351b9cd59f9c0a7b545800fb564bce6491013dcc5751b2368b54e9c817ae21b"
+    },
+    {
+      "id": 146,
+      "file_name": "aircraft_surface_damage_crack_v2_0000146.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_118_jpg.rf.864288ae65c592ea7ea8386f0ca2d05e.jpg",
+      "source_group": "line_album_220324_118",
+      "sha256": "7a383ebc993baf412dbb0f3be83ad305d1953e3cb8b1349109a7a6b352dfd304"
+    },
+    {
+      "id": 147,
+      "file_name": "aircraft_surface_damage_crack_v2_0000147.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_12_jpg.rf.81e84892a271035a77e5ecbd9e1dbff9.jpg",
+      "source_group": "line_album_220324_12",
+      "sha256": "4767804c0e1c8b2e08391e420a7d9b0c77f9ef049f0f6b78c9f10563cdb7fc46"
+    },
+    {
+      "id": 148,
+      "file_name": "aircraft_surface_damage_crack_v2_0000148.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_121_jpg.rf.080becee87f5ef992e1e92c006c6df81.jpg",
+      "source_group": "line_album_220324_121",
+      "sha256": "390026dd198cc8cb35f43423c9e9f47db00db3feeccfeb52f6ebd9881cfb4587"
+    },
+    {
+      "id": 149,
+      "file_name": "aircraft_surface_damage_crack_v2_0000149.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_123_jpg.rf.195899c3c89e9a5b5d1b8351b718d74d.jpg",
+      "source_group": "line_album_220324_123",
+      "sha256": "1d624cdfcb193860eb25f5d2e72658bc868a3b48a0612152706a467fac5c49a3"
+    },
+    {
+      "id": 150,
+      "file_name": "aircraft_surface_damage_crack_v2_0000150.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_130_jpg.rf.ba6f6453eaa8380a48a6bb690ff0784b.jpg",
+      "source_group": "line_album_220324_130",
+      "sha256": "7c48b2b1448af44dc4a9318b684b39d2cdb3eb324018bbdfb957e5e62d09c2fb"
+    },
+    {
+      "id": 151,
+      "file_name": "aircraft_surface_damage_crack_v2_0000151.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_133_jpg.rf.28180263af4657d201f4e395d529fe9b.jpg",
+      "source_group": "line_album_220324_133",
+      "sha256": "3bde3ac3a69a4b880dcc238178215d54579cfab7541372777cb157ea2a7978a8"
+    },
+    {
+      "id": 152,
+      "file_name": "aircraft_surface_damage_crack_v2_0000152.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_134_jpg.rf.f4e770b575c9e7e604ea2816295abe38.jpg",
+      "source_group": "line_album_220324_134",
+      "sha256": "ffc1c0e5626ec9c69546c8ab44957056e7542ef0358aa654f3167f120ca771e2"
+    },
+    {
+      "id": 153,
+      "file_name": "aircraft_surface_damage_crack_v2_0000153.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_14_jpg.rf.8163098b10032a0f749e61494ab88840.jpg",
+      "source_group": "line_album_220324_14",
+      "sha256": "052bbdf16902cb5d9e8d322699b8e16e4f1ee11c96318085d950e771f94f676b"
+    },
+    {
+      "id": 154,
+      "file_name": "aircraft_surface_damage_crack_v2_0000154.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_15_jpg.rf.6bc124c15dbbe0c517385ce1f80bf2c6.jpg",
+      "source_group": "line_album_220324_15",
+      "sha256": "18532bf17c5c24df4d1550fe402adcf3221125af5f12a1acf679c38873fda190"
+    },
+    {
+      "id": 155,
+      "file_name": "aircraft_surface_damage_crack_v2_0000155.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_16_jpg.rf.b520d72e27bd2eae9c09d7d015df2371.jpg",
+      "source_group": "line_album_220324_16",
+      "sha256": "3b7474c676617b5fd762fa6868d1fba3a795534d8ef50eeb1a9bf6f4d3b42c91"
+    },
+    {
+      "id": 156,
+      "file_name": "aircraft_surface_damage_crack_v2_0000156.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_20_jpg.rf.f2e5ad1346c4a3a81077438af597b559.jpg",
+      "source_group": "line_album_220324_20",
+      "sha256": "d558cdeb546179c66f26fa9bad795546c8f470b6fe4c4b76077eaa69c8480e5b"
+    },
+    {
+      "id": 157,
+      "file_name": "aircraft_surface_damage_crack_v2_0000157.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_23_jpg.rf.a943da04226152fe009e9241830a7a80.jpg",
+      "source_group": "line_album_220324_23",
+      "sha256": "b47bfe2cdf70426d151ae933ea479fa580766f6a588ea3be0090cbad85951ac6"
+    },
+    {
+      "id": 158,
+      "file_name": "aircraft_surface_damage_crack_v2_0000158.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_24_jpg.rf.7d21b3a469624e0b68f4f95464038ce7.jpg",
+      "source_group": "line_album_220324_24",
+      "sha256": "31a060310762f9a8529ed28a51fb998057dd44debeadd1623f87c26493160d38"
+    },
+    {
+      "id": 159,
+      "file_name": "aircraft_surface_damage_crack_v2_0000159.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_26_jpg.rf.0d5fb8b6e1533274ea60db330d507874.jpg",
+      "source_group": "line_album_220324_26",
+      "sha256": "2906041190e9cc65f4e916747789e3955783d2e069a8e5fe0b1914f0e7d66843"
+    },
+    {
+      "id": 160,
+      "file_name": "aircraft_surface_damage_crack_v2_0000160.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_31_jpg.rf.9257774f43e628d8cb6bd567d806470f.jpg",
+      "source_group": "line_album_220324_31",
+      "sha256": "c2698fbc5fc18d22ea7839ab7ede30207859835a7a05c9113e8c8e2a03fabf56"
+    },
+    {
+      "id": 161,
+      "file_name": "aircraft_surface_damage_crack_v2_0000161.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_32_jpg.rf.4bd3c4e0d592229cac2f56a521bde3f1.jpg",
+      "source_group": "line_album_220324_32",
+      "sha256": "1461e11cb338db23c1da14140d6ed3f70e1257d2bdaf28ff30110f0053f2b2dc"
+    },
+    {
+      "id": 162,
+      "file_name": "aircraft_surface_damage_crack_v2_0000162.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_37_jpg.rf.d6379b5f4d875de2505bba9fa9f14584.jpg",
+      "source_group": "line_album_220324_37",
+      "sha256": "ecd337558e6ff596857e3772a979a92023dca2db8f5df23be5cd84bf694f86aa"
+    },
+    {
+      "id": 163,
+      "file_name": "aircraft_surface_damage_crack_v2_0000163.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_41_jpg.rf.37bf574edd564da95e48349b6b8d3113.jpg",
+      "source_group": "line_album_220324_41",
+      "sha256": "0265fe88921ca093c7ca769c3b79b6d7f41feef34e057985770d1fa9b6f633dc"
+    },
+    {
+      "id": 164,
+      "file_name": "aircraft_surface_damage_crack_v2_0000164.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_43_jpg.rf.0a333266b840e8ba60f8217d7423fdc1.jpg",
+      "source_group": "line_album_220324_43",
+      "sha256": "3e350d03ad9beafff8d07b2b23ae86ddcb7f34397cd4b2d4edbb278855836355"
+    },
+    {
+      "id": 165,
+      "file_name": "aircraft_surface_damage_crack_v2_0000165.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_5_jpg.rf.c8b7c33153ce1c87cb4434b98eb880e0.jpg",
+      "source_group": "line_album_220324_5",
+      "sha256": "035ff0cadd329ef32e9ef81c1d70242afcd16deaf4f0f4f9ec2c3d28051e8a5b"
+    },
+    {
+      "id": 166,
+      "file_name": "aircraft_surface_damage_crack_v2_0000166.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_58_jpg.rf.218a461e14ef5051092955690599062f.jpg",
+      "source_group": "line_album_220324_58",
+      "sha256": "94546aa5138be5d113c3ce774b8caa563723b97cd42e75b18eb32a54ed346834"
+    },
+    {
+      "id": 167,
+      "file_name": "aircraft_surface_damage_crack_v2_0000167.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_59_jpg.rf.1eb36fc60443ef66025d8571d5e9a237.jpg",
+      "source_group": "line_album_220324_59",
+      "sha256": "9adc9fc5fb9b349d03a634c370a991a2993d115b1bc83acb1a7c83303bcc53a0"
+    },
+    {
+      "id": 168,
+      "file_name": "aircraft_surface_damage_crack_v2_0000168.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_67_jpg.rf.1795126836b7ca5d7ccca11bdae0943d.jpg",
+      "source_group": "line_album_220324_67",
+      "sha256": "0b1898ba79cb4eecbf1751d8b8ae3c3be1e3c298b11cfc5f49484fb24b874e69"
+    },
+    {
+      "id": 169,
+      "file_name": "aircraft_surface_damage_crack_v2_0000169.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_70_jpg.rf.420973420a33cbeb627bc3170acb8da6.jpg",
+      "source_group": "line_album_220324_70",
+      "sha256": "d1cb6edae13c3d0eed238efa47828c3a4a5078960937c3111d0a9c0405868abb"
+    },
+    {
+      "id": 170,
+      "file_name": "aircraft_surface_damage_crack_v2_0000170.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_72_jpg.rf.df36b596de41225c27d4a25fc00161ed.jpg",
+      "source_group": "line_album_220324_72",
+      "sha256": "d65f1ef80f8855f328798d45ddee4c7f6dcad2188004cfda9f28d90afd5333e7"
+    },
+    {
+      "id": 171,
+      "file_name": "aircraft_surface_damage_crack_v2_0000171.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_75_jpg.rf.4ee74a1b0030566458fd39c0e2d34e50.jpg",
+      "source_group": "line_album_220324_75",
+      "sha256": "e6521e80d9f9a3ffdfa16e00eaeeaa5b99157f5dcc33ad91319723eb873ea707"
+    },
+    {
+      "id": 172,
+      "file_name": "aircraft_surface_damage_crack_v2_0000172.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_79_jpg.rf.58156e6e9606f9c708367f5bc224ae4a.jpg",
+      "source_group": "line_album_220324_79",
+      "sha256": "e91ce3e345bef888d2c71460a475bd59497264206b207ec797a606b450e47fcd"
+    },
+    {
+      "id": 173,
+      "file_name": "aircraft_surface_damage_crack_v2_0000173.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_85_jpg.rf.6680d194c81136f58922407dce609d36.jpg",
+      "source_group": "line_album_220324_85",
+      "sha256": "ca20814554bfebb885d3760ab2c24816526b453443588e10c3247b1a0de68273"
+    },
+    {
+      "id": 174,
+      "file_name": "aircraft_surface_damage_crack_v2_0000174.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_86_jpg.rf.ac8250a4f9987a22ace950709dde4ce7.jpg",
+      "source_group": "line_album_220324_86",
+      "sha256": "5726e43af0308695a4ebfe4244360282fa4e6fedc47c340537b13c9c02a56cfa"
+    },
+    {
+      "id": 175,
+      "file_name": "aircraft_surface_damage_crack_v2_0000175.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_87_jpg.rf.dfe1a0e8e48871b7d115dc07aeb70a43.jpg",
+      "source_group": "line_album_220324_87",
+      "sha256": "e1209e8c46b3f01f749f01afba7f7d0723f121ffcfc5cd734745d42dd84f5ff5"
+    },
+    {
+      "id": 176,
+      "file_name": "aircraft_surface_damage_crack_v2_0000176.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_88_jpg.rf.c5ab8bc53b67846e8209806aeee536ec.jpg",
+      "source_group": "line_album_220324_88",
+      "sha256": "350049a4d98d4be31e543902843e446667426688cffa6097db34eff9affdb9fb"
+    },
+    {
+      "id": 177,
+      "file_name": "aircraft_surface_damage_crack_v2_0000177.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_89_jpg.rf.17a50b95fbb4d8165f7ca453376ac57c.jpg",
+      "source_group": "line_album_220324_89",
+      "sha256": "0c638603ca29fc7c6128d1725cb80e7e350e9e491752595f0a2ffe0d2af9d1c5"
+    },
+    {
+      "id": 178,
+      "file_name": "aircraft_surface_damage_crack_v2_0000178.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_9_jpg.rf.7afa5565fd371fc3b2cc7935154cac4a.jpg",
+      "source_group": "line_album_220324_9",
+      "sha256": "d0b13479ce2447ef123e5d5e4766929a29596120a85933e4353de5ab7a16b62a"
+    },
+    {
+      "id": 179,
+      "file_name": "aircraft_surface_damage_crack_v2_0000179.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_92_jpg.rf.976bc85387459696c06ae1a75d246883.jpg",
+      "source_group": "line_album_220324_92",
+      "sha256": "9cbf37f6cea67f6e5bd9794a82554e7c59df2b3e88e24ad0ae5fa5f43cc25e92"
+    },
+    {
+      "id": 180,
+      "file_name": "aircraft_surface_damage_crack_v2_0000180.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_98_jpg.rf.b3e10cee73d2f386e640af18d23aab7a.jpg",
+      "source_group": "line_album_220324_98",
+      "sha256": "215b0485045b30c6beeea97a2373d20f7e4872788b88162ecde4bc9b0bc24dbb"
+    },
+    {
+      "id": 181,
+      "file_name": "aircraft_surface_damage_crack_v2_0000181.jpg",
+      "width": 1024,
+      "height": 1240,
+      "source_split": "test",
+      "source_file_name": "LINE_ALBUM_220324_99_jpg.rf.9b64f404c37a67f247223bfacbb0f572.jpg",
+      "source_group": "line_album_220324_99",
+      "sha256": "664b1ea0d181d42eecafd192efe0ac182d7e9803e8130b3bb8c9ce30e12340c0"
+    }
+  ],
+  "annotations": [
+    {
+      "id": 1,
+      "image_id": 4,
+      "category_id": 1,
+      "bbox": [
+        522.0,
+        234.0,
+        162.0,
+        1006.0
+      ],
+      "area": 162972.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 2,
+      "image_id": 5,
+      "category_id": 1,
+      "bbox": [
+        55.0,
+        94.0,
+        708.5,
+        781.0
+      ],
+      "area": 553338.5,
+      "iscrowd": 0
+    },
+    {
+      "id": 3,
+      "image_id": 12,
+      "category_id": 1,
+      "bbox": [
+        552.0,
+        518.0,
+        38.5,
+        51.5
+      ],
+      "area": 1982.75,
+      "iscrowd": 0
+    },
+    {
+      "id": 4,
+      "image_id": 13,
+      "category_id": 1,
+      "bbox": [
+        325.0,
+        446.0,
+        40.5,
+        49.5
+      ],
+      "area": 2004.75,
+      "iscrowd": 0
+    },
+    {
+      "id": 5,
+      "image_id": 21,
+      "category_id": 1,
+      "bbox": [
+        530.0,
+        0.0,
+        20.0,
+        109.0
+      ],
+      "area": 2180.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 6,
+      "image_id": 22,
+      "category_id": 1,
+      "bbox": [
+        363.0,
+        0.0,
+        19.0,
+        85.0
+      ],
+      "area": 1615.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 7,
+      "image_id": 27,
+      "category_id": 1,
+      "bbox": [
+        987.0,
+        213.0,
+        31.5,
+        94.0
+      ],
+      "area": 2961.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 8,
+      "image_id": 27,
+      "category_id": 1,
+      "bbox": [
+        974.0,
+        335.0,
+        30.0,
+        116.5
+      ],
+      "area": 3495.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 9,
+      "image_id": 31,
+      "category_id": 1,
+      "bbox": [
+        816.0,
+        558.0,
+        39.5,
+        87.5
+      ],
+      "area": 3456.25,
+      "iscrowd": 0
+    },
+    {
+      "id": 10,
+      "image_id": 43,
+      "category_id": 1,
+      "bbox": [
+        74.0,
+        0.0,
+        18.0,
+        116.5
+      ],
+      "area": 2097.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 11,
+      "image_id": 61,
+      "category_id": 1,
+      "bbox": [
+        434.0,
+        553.0,
+        30.5,
+        84.0
+      ],
+      "area": 2562.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 12,
+      "image_id": 66,
+      "category_id": 1,
+      "bbox": [
+        504.0,
+        619.0,
+        33.5,
+        75.0
+      ],
+      "area": 2512.5,
+      "iscrowd": 0
+    },
+    {
+      "id": 13,
+      "image_id": 68,
+      "category_id": 1,
+      "bbox": [
+        442.0,
+        664.0,
+        45.0,
+        52.0
+      ],
+      "area": 2340.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 14,
+      "image_id": 69,
+      "category_id": 1,
+      "bbox": [
+        375.0,
+        571.0,
+        33.5,
+        88.5
+      ],
+      "area": 2964.75,
+      "iscrowd": 0
+    },
+    {
+      "id": 15,
+      "image_id": 73,
+      "category_id": 1,
+      "bbox": [
+        164.0,
+        59.0,
+        29.0,
+        109.0
+      ],
+      "area": 3161.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 16,
+      "image_id": 73,
+      "category_id": 1,
+      "bbox": [
+        52.0,
+        161.0,
+        24.5,
+        61.0
+      ],
+      "area": 1494.5,
+      "iscrowd": 0
+    },
+    {
+      "id": 17,
+      "image_id": 73,
+      "category_id": 1,
+      "bbox": [
+        203.0,
+        390.0,
+        20.5,
+        84.0
+      ],
+      "area": 1722.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 18,
+      "image_id": 73,
+      "category_id": 1,
+      "bbox": [
+        536.0,
+        594.0,
+        15.5,
+        27.0
+      ],
+      "area": 418.5,
+      "iscrowd": 0
+    },
+    {
+      "id": 19,
+      "image_id": 73,
+      "category_id": 1,
+      "bbox": [
+        564.0,
+        582.0,
+        24.0,
+        20.5
+      ],
+      "area": 492.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 20,
+      "image_id": 78,
+      "category_id": 1,
+      "bbox": [
+        493.0,
+        982.0,
+        18.0,
+        95.0
+      ],
+      "area": 1710.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 21,
+      "image_id": 79,
+      "category_id": 1,
+      "bbox": [
+        209.0,
+        587.0,
+        58.0,
+        152.0
+      ],
+      "area": 8816.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 22,
+      "image_id": 91,
+      "category_id": 1,
+      "bbox": [
+        383.0,
+        1142.0,
+        45.0,
+        86.0
+      ],
+      "area": 3870.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 23,
+      "image_id": 91,
+      "category_id": 1,
+      "bbox": [
+        290.0,
+        293.0,
+        18.0,
+        102.0
+      ],
+      "area": 1836.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 24,
+      "image_id": 95,
+      "category_id": 1,
+      "bbox": [
+        476.0,
+        1183.0,
+        34.0,
+        57.0
+      ],
+      "area": 1938.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 25,
+      "image_id": 102,
+      "category_id": 1,
+      "bbox": [
+        486.0,
+        780.0,
+        29.5,
+        78.0
+      ],
+      "area": 2301.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 26,
+      "image_id": 103,
+      "category_id": 1,
+      "bbox": [
+        301.0,
+        1106.0,
+        22.0,
+        59.5
+      ],
+      "area": 1309.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 27,
+      "image_id": 105,
+      "category_id": 1,
+      "bbox": [
+        127.0,
+        449.0,
+        35.0,
+        81.5
+      ],
+      "area": 2852.5,
+      "iscrowd": 0
+    },
+    {
+      "id": 28,
+      "image_id": 111,
+      "category_id": 1,
+      "bbox": [
+        670.0,
+        1083.0,
+        21.5,
+        52.0
+      ],
+      "area": 1118.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 29,
+      "image_id": 112,
+      "category_id": 1,
+      "bbox": [
+        144.0,
+        666.0,
+        27.0,
+        71.5
+      ],
+      "area": 1930.5,
+      "iscrowd": 0
+    },
+    {
+      "id": 30,
+      "image_id": 113,
+      "category_id": 1,
+      "bbox": [
+        317.0,
+        1189.0,
+        29.0,
+        51.0
+      ],
+      "area": 1479.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 31,
+      "image_id": 123,
+      "category_id": 1,
+      "bbox": [
+        430.0,
+        620.0,
+        232.0,
+        186.0
+      ],
+      "area": 43152.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 32,
+      "image_id": 124,
+      "category_id": 1,
+      "bbox": [
+        376.0,
+        71.0,
+        454.0,
+        314.0
+      ],
+      "area": 142556.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 33,
+      "image_id": 125,
+      "category_id": 1,
+      "bbox": [
+        290.0,
+        430.0,
+        430.0,
+        190.0
+      ],
+      "area": 81700.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 34,
+      "image_id": 126,
+      "category_id": 1,
+      "bbox": [
+        730.0,
+        0.0,
+        136.0,
+        258.0
+      ],
+      "area": 35088.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 35,
+      "image_id": 127,
+      "category_id": 1,
+      "bbox": [
+        355.0,
+        260.0,
+        382.5,
+        752.5
+      ],
+      "area": 287831.25,
+      "iscrowd": 0
+    },
+    {
+      "id": 36,
+      "image_id": 128,
+      "category_id": 1,
+      "bbox": [
+        451.0,
+        306.0,
+        280.0,
+        182.0
+      ],
+      "area": 50960.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 37,
+      "image_id": 129,
+      "category_id": 1,
+      "bbox": [
+        382.0,
+        207.0,
+        433.5,
+        649.0
+      ],
+      "area": 281341.5,
+      "iscrowd": 0
+    },
+    {
+      "id": 38,
+      "image_id": 130,
+      "category_id": 1,
+      "bbox": [
+        577.0,
+        376.0,
+        99.0,
+        223.0
+      ],
+      "area": 22077.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 39,
+      "image_id": 131,
+      "category_id": 1,
+      "bbox": [
+        523.0,
+        575.0,
+        348.0,
+        252.0
+      ],
+      "area": 87696.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 40,
+      "image_id": 131,
+      "category_id": 1,
+      "bbox": [
+        0.0,
+        293.0,
+        133.0,
+        165.5
+      ],
+      "area": 22011.5,
+      "iscrowd": 0
+    },
+    {
+      "id": 41,
+      "image_id": 132,
+      "category_id": 1,
+      "bbox": [
+        765.0,
+        178.0,
+        150.0,
+        115.5
+      ],
+      "area": 17325.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 42,
+      "image_id": 132,
+      "category_id": 1,
+      "bbox": [
+        529.0,
+        37.0,
+        128.0,
+        91.0
+      ],
+      "area": 11648.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 43,
+      "image_id": 133,
+      "category_id": 1,
+      "bbox": [
+        478.0,
+        519.0,
+        94.0,
+        184.0
+      ],
+      "area": 17296.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 44,
+      "image_id": 134,
+      "category_id": 1,
+      "bbox": [
+        222.0,
+        203.0,
+        461.0,
+        326.5
+      ],
+      "area": 150516.5,
+      "iscrowd": 0
+    },
+    {
+      "id": 45,
+      "image_id": 135,
+      "category_id": 1,
+      "bbox": [
+        461.0,
+        546.0,
+        184.5,
+        136.5
+      ],
+      "area": 25184.25,
+      "iscrowd": 0
+    },
+    {
+      "id": 46,
+      "image_id": 136,
+      "category_id": 1,
+      "bbox": [
+        696.0,
+        595.0,
+        194.5,
+        206.5
+      ],
+      "area": 40164.25,
+      "iscrowd": 0
+    },
+    {
+      "id": 47,
+      "image_id": 137,
+      "category_id": 1,
+      "bbox": [
+        391.0,
+        532.0,
+        68.5,
+        78.5
+      ],
+      "area": 5377.25,
+      "iscrowd": 0
+    },
+    {
+      "id": 48,
+      "image_id": 138,
+      "category_id": 1,
+      "bbox": [
+        362.0,
+        509.0,
+        174.0,
+        314.0
+      ],
+      "area": 54636.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 49,
+      "image_id": 139,
+      "category_id": 1,
+      "bbox": [
+        518.0,
+        605.0,
+        61.5,
+        81.5
+      ],
+      "area": 5012.25,
+      "iscrowd": 0
+    },
+    {
+      "id": 50,
+      "image_id": 140,
+      "category_id": 1,
+      "bbox": [
+        386.0,
+        401.0,
+        129.5,
+        124.0
+      ],
+      "area": 16058.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 51,
+      "image_id": 140,
+      "category_id": 1,
+      "bbox": [
+        532.0,
+        352.0,
+        235.5,
+        190.0
+      ],
+      "area": 44745.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 52,
+      "image_id": 141,
+      "category_id": 1,
+      "bbox": [
+        427.0,
+        178.0,
+        334.5,
+        558.0
+      ],
+      "area": 186651.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 53,
+      "image_id": 142,
+      "category_id": 1,
+      "bbox": [
+        475.0,
+        319.0,
+        153.5,
+        314.0
+      ],
+      "area": 48199.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 54,
+      "image_id": 143,
+      "category_id": 1,
+      "bbox": [
+        525.0,
+        632.0,
+        48.5,
+        150.0
+      ],
+      "area": 7275.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 55,
+      "image_id": 145,
+      "category_id": 1,
+      "bbox": [
+        214.0,
+        656.0,
+        696.5,
+        98.0
+      ],
+      "area": 68257.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 56,
+      "image_id": 146,
+      "category_id": 1,
+      "bbox": [
+        407.0,
+        517.0,
+        97.0,
+        301.5
+      ],
+      "area": 29245.5,
+      "iscrowd": 0
+    },
+    {
+      "id": 57,
+      "image_id": 147,
+      "category_id": 1,
+      "bbox": [
+        653.0,
+        790.0,
+        113.0,
+        68.5
+      ],
+      "area": 7740.5,
+      "iscrowd": 0
+    },
+    {
+      "id": 58,
+      "image_id": 150,
+      "category_id": 1,
+      "bbox": [
+        408.0,
+        134.0,
+        202.0,
+        998.0
+      ],
+      "area": 201596.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 59,
+      "image_id": 151,
+      "category_id": 1,
+      "bbox": [
+        141.0,
+        543.0,
+        883.0,
+        456.0
+      ],
+      "area": 402648.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 60,
+      "image_id": 152,
+      "category_id": 1,
+      "bbox": [
+        370.0,
+        471.0,
+        154.5,
+        178.0
+      ],
+      "area": 27501.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 61,
+      "image_id": 156,
+      "category_id": 1,
+      "bbox": [
+        443.0,
+        204.0,
+        164.5,
+        388.0
+      ],
+      "area": 63826.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 62,
+      "image_id": 156,
+      "category_id": 1,
+      "bbox": [
+        386.0,
+        712.0,
+        69.5,
+        231.0
+      ],
+      "area": 16054.5,
+      "iscrowd": 0
+    },
+    {
+      "id": 63,
+      "image_id": 159,
+      "category_id": 1,
+      "bbox": [
+        52.0,
+        494.0,
+        674.5,
+        53.5
+      ],
+      "area": 36085.75,
+      "iscrowd": 0
+    },
+    {
+      "id": 64,
+      "image_id": 160,
+      "category_id": 1,
+      "bbox": [
+        148.0,
+        343.0,
+        347.0,
+        124.0
+      ],
+      "area": 43028.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 65,
+      "image_id": 161,
+      "category_id": 1,
+      "bbox": [
+        233.0,
+        524.0,
+        250.5,
+        221.5
+      ],
+      "area": 55485.75,
+      "iscrowd": 0
+    },
+    {
+      "id": 66,
+      "image_id": 162,
+      "category_id": 1,
+      "bbox": [
+        494.0,
+        697.0,
+        18.5,
+        23.0
+      ],
+      "area": 425.5,
+      "iscrowd": 0
+    },
+    {
+      "id": 67,
+      "image_id": 164,
+      "category_id": 1,
+      "bbox": [
+        320.0,
+        219.0,
+        139.0,
+        400.5
+      ],
+      "area": 55669.5,
+      "iscrowd": 0
+    },
+    {
+      "id": 68,
+      "image_id": 169,
+      "category_id": 1,
+      "bbox": [
+        451.0,
+        568.0,
+        44.0,
+        148.5
+      ],
+      "area": 6534.0,
+      "iscrowd": 0
+    },
+    {
+      "id": 69,
+      "image_id": 176,
+      "category_id": 1,
+      "bbox": [
+        544.0,
+        503.0,
+        159.0,
+        204.0
+      ],
+      "area": 32436.0,
+      "iscrowd": 0
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "crack",
+      "supercategory": "defect"
+    }
+  ]
+}

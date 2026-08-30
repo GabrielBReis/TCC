@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import csv
 import json
 import subprocess
 import sys
@@ -21,10 +22,37 @@ from tcc_pipeline.coco import save_json
 from tcc_pipeline.config import load_config, model_run_dir, project_root_from_config, resolve_path
 
 
+def save_attempts_comparison(attempts: list[dict], pipeline_dir: Path) -> tuple[Path, Path]:
+    """Salva um resumo incremental e portátil de todas as validações."""
+    json_path = pipeline_dir / "attempts_comparison.json"
+    csv_path = pipeline_dir / "attempts_comparison.csv"
+    save_json(attempts, json_path)
+
+    metric_names = sorted({name for attempt in attempts for name in attempt.get("metrics", {})})
+    fields = ["attempt", "variant", "run_name", "run_dir", *metric_names, "parameters"]
+    with csv_path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer.writeheader()
+        for attempt in attempts:
+            row = {key: attempt.get(key, "") for key in fields}
+            row.update(attempt.get("metrics", {}))
+            row["parameters"] = json.dumps(attempt.get("parameters", {}), ensure_ascii=False, sort_keys=True)
+            writer.writerow(row)
+    return json_path, csv_path
+
+
 def execute(command: list[object], dry_run: bool) -> None:
     print("\n$", " ".join(map(str, command)), flush=True)
     if not dry_run:
         subprocess.run([str(item) for item in command], check=True)
+
+
+def trained_artifact_exists(model_key: str, run_dir: Path) -> bool:
+    if model_key == "yolo":
+        return (run_dir / "weights" / "best.pt").is_file() and (run_dir / "training_complete.json").is_file()
+    if model_key == "faster_rcnn":
+        return (run_dir / "best.pth").is_file()
+    return (run_dir / "best_model").is_dir()
 
 
 def evaluation_arguments(cfg: dict, annotations: Path) -> list[object]:
@@ -185,6 +213,8 @@ def main() -> None:
     metric_name = str(policy.get("metric", "coco_map5095"))
     threshold = float(policy.get("threshold", 0.30))
     mode = str(policy.get("mode", "max"))
+    run_all = bool(policy.get("run_all_parameter_sets", False))
+    reuse_completed = bool(policy.get("reuse_completed_attempts", True))
     attempts = []
 
     for attempt_number, parameter_set in enumerate(parameter_sets[:maximum], start=1):
@@ -197,22 +227,47 @@ def main() -> None:
         config_file = pipeline_dir / f"attempt_{attempt_number:02d}.yaml"
         config_file.write_text(yaml.safe_dump(attempt_cfg, sort_keys=False, allow_unicode=True), encoding="utf-8")
         run_dir = model_run_dir(root, attempt_cfg, args.model, run_name)
-        execute([py, scripts / f"train_{args.model}.py", "--config", config_file], args.dry_run)
-        metrics_file = predict_and_evaluate(
-            args.model,
-            attempt_cfg,
-            root,
-            run_dir,
-            str(policy.get("selection_split", "val")),
-            scripts,
-            py,
-            args.dry_run,
-            config_file,
-        )
+        selection_split = str(policy.get("selection_split", "val"))
+        metrics_file = run_dir / f"metrics_{selection_split}.json"
+        training_completed = trained_artifact_exists(args.model, run_dir)
+        evaluation_completed = metrics_file.is_file()
+        if training_completed and evaluation_completed and reuse_completed and not args.dry_run:
+            print(f"\n[reuse] Treino e avaliação já concluídos: {run_name}", flush=True)
+        elif training_completed and reuse_completed and not args.dry_run:
+            print(f"\n[reuse] Treino concluído; executando avaliação: {run_name}", flush=True)
+            metrics_file = predict_and_evaluate(
+                args.model,
+                attempt_cfg,
+                root,
+                run_dir,
+                selection_split,
+                scripts,
+                py,
+                False,
+                config_file,
+            )
+        else:
+            execute([py, scripts / f"train_{args.model}.py", "--config", config_file], args.dry_run)
+            metrics_file = predict_and_evaluate(
+                args.model,
+                attempt_cfg,
+                root,
+                run_dir,
+                selection_split,
+                scripts,
+                py,
+                args.dry_run,
+                config_file,
+            )
         if args.dry_run:
             continue
         payload = json.loads(metrics_file.read_text(encoding="utf-8"))
-        value = float(payload["metrics"][metric_name])
+        numeric_metrics = {
+            key: float(value)
+            for key, value in payload["metrics"].items()
+            if isinstance(value, (int, float)) and not isinstance(value, bool)
+        }
+        value = numeric_metrics[metric_name]
         attempts.append(
             {
                 "attempt": attempt_number,
@@ -220,13 +275,15 @@ def main() -> None:
                 "run_name": run_name,
                 "run_dir": str(run_dir.relative_to(root)),
                 "parameters": overrides,
+                "metrics": numeric_metrics,
                 metric_name: value,
             }
         )
+        save_attempts_comparison(attempts, pipeline_dir)
         threshold_reached = any(
             item[metric_name] >= threshold if mode == "max" else item[metric_name] <= threshold for item in attempts
         )
-        if threshold_reached and attempt_number >= minimum:
+        if not run_all and threshold_reached and attempt_number >= minimum:
             break
 
     if args.dry_run:
@@ -235,18 +292,26 @@ def main() -> None:
     selected = selector(attempts, key=lambda item: item[metric_name])
     selected_dir = resolve_path(root, selected["run_dir"])
     selected_config = pipeline_dir / f"attempt_{int(selected['attempt']):02d}.yaml"
-    test_metrics = predict_and_evaluate(
-        args.model, cfg, root, selected_dir, "test", scripts, py, False, selected_config
-    )
+    selected_cfg = load_config(selected_config)
+    test_metrics = selected_dir / "metrics_test.json"
+    if not (reuse_completed and test_metrics.is_file()):
+        test_metrics = predict_and_evaluate(
+            args.model, selected_cfg, root, selected_dir, "test", scripts, py, False, selected_config
+        )
+    comparison_json, comparison_csv = save_attempts_comparison(attempts, pipeline_dir)
     report = {
         "model": args.model,
         "selection_metric": metric_name,
         "selection_threshold": threshold,
         "minimum_attempts": minimum,
         "maximum_attempts": maximum,
+        "run_all_parameter_sets": run_all,
+        "reuse_completed_attempts": reuse_completed,
         "attempts": attempts,
         "selected": selected,
         "test_metrics": str(test_metrics.relative_to(root)),
+        "comparison_json": str(comparison_json.relative_to(root)),
+        "comparison_csv": str(comparison_csv.relative_to(root)),
     }
     save_json(report, pipeline_dir / "pipeline_report.json")
     print(json.dumps(report, ensure_ascii=False, indent=2))

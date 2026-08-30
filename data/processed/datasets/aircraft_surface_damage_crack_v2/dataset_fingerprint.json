@@ -1,0 +1,7 @@
+{
+  "dataset": "aircraft_surface_damage_crack_v2",
+  "dataset_sha256": "a7e6476f302074c22b2c4612715e03a489a41fa6521f22580475ce925be3987c",
+  "audit_status": "passed",
+  "coco_yolo_equivalence": true,
+  "seed": 42
+}

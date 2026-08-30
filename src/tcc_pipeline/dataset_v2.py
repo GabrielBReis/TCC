@@ -138,7 +138,17 @@ def load_records(
     return records, source_summary
 
 
-def deduplicate_records(records: list[ImageRecord]) -> tuple[list[ImageRecord], list[dict[str, Any]]]:
+def portable_path(path: Path, project_root: Path) -> str:
+    """Representa caminhos do relatório relativamente à raiz do projeto."""
+    try:
+        return path.resolve().relative_to(project_root.resolve()).as_posix()
+    except ValueError:
+        return path.name
+
+
+def deduplicate_records(
+    records: list[ImageRecord], project_root: Path
+) -> tuple[list[ImageRecord], list[dict[str, Any]]]:
     kept: list[ImageRecord] = []
     seen: dict[str, ImageRecord] = {}
     removed = []
@@ -159,8 +169,8 @@ def deduplicate_records(records: list[ImageRecord]) -> tuple[list[ImageRecord], 
         removed.append(
             {
                 "sha256": record.sha256,
-                "kept": str(previous.source_path),
-                "removed": str(record.source_path),
+                "kept": portable_path(previous.source_path, project_root),
+                "removed": portable_path(record.source_path, project_root),
                 "source_split": record.source_split,
             }
         )
@@ -790,7 +800,7 @@ def prepare_dataset(config_path: Path, project_root: Path) -> tuple[dict[str, An
         small_max,
         medium_max,
     )
-    records, duplicates_removed = deduplicate_records(records)
+    records, duplicates_removed = deduplicate_records(records, project_root)
     train_records = [record for record in records if record.source_split == "train"]
     evaluation_records = [record for record in records if record.source_split in {"val", "test"}]
     train_groups = {record.group for record in train_records}
@@ -850,6 +860,16 @@ def prepare_dataset(config_path: Path, project_root: Path) -> tuple[dict[str, An
         small_max,
         medium_max,
         int(config.get("perceptual_hash_hamming", 6)),
+    )
+    save_json(
+        {
+            "dataset": str(config["name"]),
+            "dataset_sha256": audit["dataset_sha256"],
+            "audit_status": audit["status"],
+            "coco_yolo_equivalence": audit["coco_yolo_equivalence"],
+            "seed": int(config.get("seed", 42)),
+        },
+        output_root / "dataset_fingerprint.json",
     )
     save_json(
         {"original": original_summary, "v2": output_summary},

@@ -1,0 +1,344 @@
+project:
+  name: aircraft_defects_tcc
+  seed: 42
+
+dataset:
+  name: aircraft_surface_damage_crack_v2
+
+paths:
+  train_images: data/processed/datasets/aircraft_surface_damage_crack_v2/train/images
+  train_annotations: data/processed/datasets/aircraft_surface_damage_crack_v2/annotations/train.json
+  val_images: data/processed/datasets/aircraft_surface_damage_crack_v2/val/images
+  val_annotations: data/processed/datasets/aircraft_surface_damage_crack_v2/annotations/val.json
+  test_images: data/processed/datasets/aircraft_surface_damage_crack_v2/test/images
+  test_annotations: data/processed/datasets/aircraft_surface_damage_crack_v2/annotations/test.json
+  yolo_dataset_dir: data/processed/datasets/aircraft_surface_damage_crack_v2/yolo
+  pretrained_dir: models/pretrained
+  runs_dir: runs
+  reports_dir: reports
+
+tracking:
+  enabled: true
+  uri: http://127.0.0.1:5000
+  artifact_root: "mlflow-artifacts:"
+  experiment_prefix: aircraft_defects_tcc/yolo_parameter_search
+  experiment_pattern: "{prefix}/{dataset}/{model}"
+  log_system_metrics: true
+
+mlflow_server:
+  backend_store_uri: sqlite:///mlflow.db
+  artifacts_destination: mlartifacts
+
+models:
+  yolo:
+    pretrained: models/pretrained/yolo11n.pt
+    name: yolo11n_experiments
+    epochs: 100
+    imgsz: 640
+    batch: 16
+    workers: 4
+    device: "0"
+    optimizer: SGD
+    lr0: 0.01
+    lrf: 0.01
+    momentum: 0.937
+    weight_decay: 0.0005
+    warmup_epochs: 3.0
+    cos_lr: false
+    multi_scale: 0.0
+    patience: 30
+    amp: true
+    save_period: -1
+    augmentation:
+      enabled: false
+
+prediction:
+  confidence_threshold: 0.001
+  max_detections: 300
+  benchmark_warmup: 10
+
+# O teste não participa da busca. Todas as variantes são comparadas na
+# validação e somente a melhor é avaliada uma vez no split de teste.
+evaluation:
+  f1_confidence_threshold: 0.25
+  iou_threshold: 0.50
+  relative_size:
+    small_max: 0.01
+    medium_max: 0.05
+
+retraining:
+  enabled: true
+  selection_split: val
+  metric: coco_map5095
+  mode: max
+  threshold: 0.30
+  run_all_parameter_sets: true
+  reuse_completed_attempts: true
+  min_attempts: 12
+  max_attempts: 12
+
+  # Restrições fixas desta fase: YOLO11n, no máximo 100 épocas, 640 px e
+  # batch 20; seed 42 e os mesmos splits; somente best.pt é retido.
+  #
+  # Os quatro primeiros conjuntos preservam os parâmetros numéricos úteis da
+  # revisão, adaptando apenas os limites acima. Os artigos YOLOv7-AFF e
+  # Mamba-YOLO resultariam na mesma configuração executável depois dessas
+  # adaptações e, por isso, compartilham a tentativa lit03.
+  parameter_sets:
+    yolo:
+      - label: lit01_asd_yolo_2024_sgd_scratch
+        experiment_group: literature
+        hypothesis: medir o custo de treinar sem pesos pré-treinados
+        literature_reference: ASD-YOLO (2024)
+        literature_model: YOLOv5s / ASD-YOLO
+        implementation_notes: Arquitetura adaptada para YOLO11n; épocas limitadas de 300 para 100.
+        reported_augmentation: HSV, multi-scale, translation, flip e Mosaic sem intensidades completas; não aplicado nesta fase.
+        pretrained: yolo11n.yaml
+        imgsz: 640
+        epochs: 100
+        batch: 16
+        optimizer: SGD
+        lr0: 0.01
+        lrf: 0.01
+        momentum: 0.937
+        weight_decay: 0.0005
+        cos_lr: true
+        patience: 0
+        save_period: -1
+        augmentation:
+          enabled: false
+
+      - label: lit02_optimized_yolov8n_2025_adamw
+        experiment_group: literature
+        hypothesis: avaliar AdamW com LR alto e batch pequeno conforme o artigo
+        literature_reference: Optimized Algorithm for Aircraft Surface Defect Detection Technology Based on YOLOv8n (2025)
+        literature_model: YOLOv8n
+        implementation_notes: Arquitetura adaptada para YOLO11n; épocas limitadas de 200 para 100; inicialização não reportada, usando yolo11n.pt.
+        reported_augmentation: Não detalhado na matriz revisada.
+        pretrained: models/pretrained/yolo11n.pt
+        imgsz: 640
+        epochs: 100
+        batch: 4
+        workers: 16
+        optimizer: AdamW
+        lr0: 0.01
+        lrf: 0.01
+        momentum: 0.937
+        weight_decay: 0.0002
+        warmup_epochs: 3.0
+        patience: 50
+        save_period: -1
+        augmentation:
+          enabled: false
+
+      - label: lit03_yolov7_aff_and_mamba_sgd
+        experiment_group: literature
+        hypothesis: avaliar SGD com o maior batch suportado pelo notebook
+        literature_reference: YOLOv7-AFF (2025) e Mamba-YOLO (2025)
+        literature_model: YOLOv7 modificado / Mamba-YOLO
+        implementation_notes: Arquiteturas adaptadas para YOLO11n; épocas limitadas para 100 e batch reduzido de 32 para 20; uma única execução evita duplicação.
+        reported_augmentation: Mosaic foi reportado sem probabilidade; não aplicado nesta fase.
+        reported_confidence_threshold: 0.5
+        reported_iou_threshold: 0.7
+        pretrained: models/pretrained/yolo11n.pt
+        imgsz: 640
+        epochs: 100
+        batch: 20
+        workers: 8
+        optimizer: SGD
+        lr0: 0.01
+        momentum: 0.937
+        weight_decay: 0.0005
+        patience: 0
+        save_period: -1
+        augmentation:
+          enabled: false
+
+      - label: lit04_yolov8s_uas_2024_adam
+        experiment_group: literature
+        hypothesis: avaliar Adam em LR baixo conforme o artigo
+        literature_reference: Deep-Learning-Based Defect Detection for Light Aircraft With Unmanned Aircraft Systems (2024)
+        literature_model: YOLOv8s
+        implementation_notes: Arquitetura adaptada para YOLO11n e resolução reduzida de 1280 para 640 por limite de hardware.
+        reported_augmentation: Flips, rotação e oito variações por imagem sem intensidades completas; não aplicado online nesta fase.
+        pretrained: models/pretrained/yolo11n.pt
+        imgsz: 640
+        epochs: 100
+        batch: 7
+        optimizer: Adam
+        lr0: 0.001
+        patience: 10
+        save_period: -1
+        augmentation:
+          enabled: false
+
+      - label: abl01_pretrained_sgd_lr001_b16
+        experiment_group: pretraining_ablation
+        hypothesis: isolar o ganho dos pesos pré-treinados contra lit01
+        pretrained: models/pretrained/yolo11n.pt
+        imgsz: 640
+        epochs: 100
+        batch: 16
+        optimizer: SGD
+        lr0: 0.01
+        lrf: 0.01
+        momentum: 0.937
+        weight_decay: 0.0005
+        cos_lr: true
+        patience: 30
+        save_period: -1
+        augmentation:
+          enabled: false
+
+      - label: abl02_adamw_lr0001_b16_wd0005
+        experiment_group: optimizer_ablation
+        hypothesis: testar AdamW com LR conservador para estabilizar a convergência
+        pretrained: models/pretrained/yolo11n.pt
+        imgsz: 640
+        epochs: 100
+        batch: 16
+        optimizer: AdamW
+        lr0: 0.001
+        lrf: 0.01
+        momentum: 0.937
+        weight_decay: 0.0005
+        cos_lr: true
+        patience: 30
+        save_period: -1
+        augmentation:
+          enabled: false
+
+      - label: abl03_adamw_lr00005_b16_wd0005
+        experiment_group: learning_rate_ablation
+        hypothesis: verificar se LR menor preserva melhor os pesos pré-treinados
+        pretrained: models/pretrained/yolo11n.pt
+        imgsz: 640
+        epochs: 100
+        batch: 16
+        optimizer: AdamW
+        lr0: 0.0005
+        lrf: 0.01
+        momentum: 0.937
+        weight_decay: 0.0005
+        cos_lr: true
+        patience: 30
+        save_period: -1
+        augmentation:
+          enabled: false
+
+      - label: abl04_sgd_lr0005_b16
+        experiment_group: learning_rate_ablation
+        hypothesis: comparar SGD 0.005 com SGD 0.01 da abl01
+        pretrained: models/pretrained/yolo11n.pt
+        imgsz: 640
+        epochs: 100
+        batch: 16
+        optimizer: SGD
+        lr0: 0.005
+        lrf: 0.01
+        momentum: 0.937
+        weight_decay: 0.0005
+        cos_lr: true
+        patience: 30
+        save_period: -1
+        augmentation:
+          enabled: false
+
+      - label: abl05_adamw_lr0001_b8
+        experiment_group: batch_ablation
+        hypothesis: medir o efeito de batch 8 contra batch 16 da abl02
+        pretrained: models/pretrained/yolo11n.pt
+        imgsz: 640
+        epochs: 100
+        batch: 8
+        optimizer: AdamW
+        lr0: 0.001
+        lrf: 0.01
+        momentum: 0.937
+        weight_decay: 0.0005
+        cos_lr: true
+        patience: 30
+        save_period: -1
+        augmentation:
+          enabled: false
+
+      - label: abl06_adamw_lr0001_b16_wd0002
+        experiment_group: weight_decay_ablation
+        hypothesis: medir o efeito de menor regularização contra a abl02
+        pretrained: models/pretrained/yolo11n.pt
+        imgsz: 640
+        epochs: 100
+        batch: 16
+        optimizer: AdamW
+        lr0: 0.001
+        lrf: 0.01
+        momentum: 0.937
+        weight_decay: 0.0002
+        cos_lr: true
+        patience: 30
+        save_period: -1
+        augmentation:
+          enabled: false
+
+      - label: aug01_crack_safe_adamw
+        experiment_group: augmentation_ablation
+        hypothesis: testar transformações moderadas preservando a morfologia da rachadura
+        pretrained: models/pretrained/yolo11n.pt
+        imgsz: 640
+        epochs: 100
+        batch: 16
+        optimizer: AdamW
+        lr0: 0.001
+        lrf: 0.01
+        momentum: 0.937
+        weight_decay: 0.0005
+        cos_lr: true
+        patience: 30
+        save_period: -1
+        augmentation:
+          enabled: true
+          rotation_degrees: 5.0
+          translate: 0.03
+          scale: 0.10
+          horizontal_flip: 0.5
+          vertical_flip: 0.5
+          brightness: 0.15
+          saturation: 0.10
+          hue: 0.0
+          mosaic: 0.0
+          mixup: 0.0
+          copy_paste: 0.0
+          perspective: 0.0
+          shear_degrees: 0.0
+
+      - label: aug02_expanded_adamw
+        experiment_group: augmentation_ablation
+        hypothesis: quantificar separadamente o efeito de augmentation agressivo
+        pretrained: models/pretrained/yolo11n.pt
+        imgsz: 640
+        epochs: 100
+        batch: 16
+        optimizer: AdamW
+        lr0: 0.001
+        lrf: 0.01
+        momentum: 0.937
+        weight_decay: 0.0005
+        cos_lr: true
+        patience: 30
+        save_period: -1
+        augmentation:
+          enabled: true
+          rotation_degrees: 5.0
+          translate: 0.03
+          scale: 0.10
+          horizontal_flip: 0.5
+          vertical_flip: 0.5
+          brightness: 0.15
+          saturation: 0.10
+          hue: 0.01
+          mosaic: 0.5
+          close_mosaic: 10
+          mixup: 0.10
+          copy_paste: 0.0
+          perspective: 0.0005
+          shear_degrees: 2.0

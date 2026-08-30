@@ -11,6 +11,7 @@ if str(_ROOT / "src") not in _sys.path:
 
 import argparse
 import csv
+from pathlib import Path
 
 from tcc_pipeline.config import load_config, model_run_dir, project_root_from_config, resolve_path
 from tcc_pipeline.tracking import (
@@ -20,6 +21,41 @@ from tcc_pipeline.tracking import (
     save_metadata,
     tracked_run,
 )
+
+
+def retain_best_checkpoint(run_dir: Path) -> Path:
+    """Mantém somente best.pt e remove last/checkpoints periódicos."""
+    weights_dir = run_dir / "weights"
+    best = weights_dir / "best.pt"
+    if not best.is_file():
+        raise FileNotFoundError(f"O treinamento não produziu o checkpoint esperado: {best}")
+    for checkpoint in weights_dir.iterdir():
+        if checkpoint.is_file() and checkpoint != best:
+            checkpoint.unlink()
+    return best
+
+
+def resolve_model_source(root: Path, value: str | Path) -> str:
+    """Resolve pesos locais, mas preserva nomes de arquiteturas do Ultralytics."""
+    candidate = Path(value)
+    if candidate.is_absolute():
+        return str(candidate)
+    local = (root / candidate).resolve()
+    return str(local) if local.exists() else str(value)
+
+
+def train_without_ultralytics_mlflow(model, **kwargs):
+    """Evita autolog duplicado do Ultralytics; o projeto controla o MLflow."""
+    from ultralytics.utils import SETTINGS
+
+    previous = SETTINGS.get("mlflow", False)
+    # Ignora a persistência do SettingsManager: a mudança vale somente para
+    # este processo e é restaurada mesmo se o treinamento falhar.
+    dict.__setitem__(SETTINGS, "mlflow", False)
+    try:
+        return model.train(**kwargs)
+    finally:
+        dict.__setitem__(SETTINGS, "mlflow", previous)
 
 
 def log_yolo_results(cfg, run_dir):
@@ -49,7 +85,7 @@ def main():
 
     run_dir = model_run_dir(root, cfg, "yolo", m["name"])
     yolo_yaml = resolve_path(root, cfg["paths"]["yolo_dataset_dir"]) / "dataset.yaml"
-    weights = resolve_path(root, m["pretrained"])
+    weights = resolve_model_source(root, m["pretrained"])
     params = {"model": "yolo11n", **m, "dataset": str(yolo_yaml)}
     save_metadata(run_dir / "run_config.json", params)
 
@@ -57,7 +93,8 @@ def main():
         model = YOLO(str(weights))
         aug = m.get("augmentation", {})
         augmentation_enabled = bool(aug.get("enabled", False))
-        model.train(
+        train_without_ultralytics_mlflow(
+            model,
             data=str(yolo_yaml),
             project=str(run_dir.parent),
             name=m["name"],
@@ -70,8 +107,15 @@ def main():
             optimizer=m.get("optimizer", "auto"),
             lr0=float(m.get("lr0", 0.01)),
             lrf=float(m.get("lrf", 0.01)),
+            momentum=float(m.get("momentum", 0.937)),
             weight_decay=float(m.get("weight_decay", 0.0005)),
+            warmup_epochs=float(m.get("warmup_epochs", 3.0)),
+            cos_lr=bool(m.get("cos_lr", False)),
+            multi_scale=m.get("multi_scale", 0.0),
             patience=int(m.get("patience", 20)),
+            amp=bool(m.get("amp", True)),
+            save=True,
+            save_period=int(m.get("save_period", -1)),
             seed=int(cfg["project"].get("seed", 42)),
             deterministic=True,
             plots=True,
@@ -93,6 +137,15 @@ def main():
             mixup=float(aug.get("mixup", 0.0)) if augmentation_enabled else 0.0,
             copy_paste=float(aug.get("copy_paste", 0.0)) if augmentation_enabled else 0.0,
             copy_paste_mode=str(aug.get("copy_paste_mode", "flip")),
+        )
+        best_checkpoint = retain_best_checkpoint(run_dir)
+        save_metadata(
+            run_dir / "training_complete.json",
+            {
+                "status": "completed",
+                "best_checkpoint": str(best_checkpoint.relative_to(run_dir)),
+                "checkpoint_retention": "best_only",
+            },
         )
         log_yolo_results(cfg, run_dir)
     print("Treino concluído:", run_dir)

@@ -1,0 +1,123 @@
+{
+  "dataset_name": "aircraft_surface_damage_crack_v2",
+  "target_class": "crack",
+  "seed": 42,
+  "strategy": "keep_preaugmented_train_and_rebalance_unaugmented_evaluation_pool",
+  "source_root": "data/raw/aircraft_surface_damage",
+  "output_dir": "data/processed/datasets/aircraft_surface_damage_crack_v2",
+  "evaluation_val_ratio": 0.5,
+  "relative_size": {
+    "small_max": 0.01,
+    "medium_max": 0.05
+  },
+  "original_summary": {
+    "train": {
+      "images": 2559,
+      "positive_images": 1045,
+      "negative_images": 1514,
+      "annotations": 1216,
+      "source_groups": 850,
+      "size_counts": {
+        "large": 469,
+        "small": 212,
+        "medium": 535
+      },
+      "median_relative_area": 0.034568343623991936,
+      "positive_image_fraction": 0.40836264165689723
+    },
+    "val": {
+      "images": 184,
+      "positive_images": 45,
+      "negative_images": 139,
+      "annotations": 57,
+      "source_groups": 183,
+      "size_counts": {
+        "small": 57
+      },
+      "median_relative_area": 0.0018044748613911291,
+      "positive_image_fraction": 0.24456521739130435
+    },
+    "test": {
+      "images": 181,
+      "positive_images": 74,
+      "negative_images": 107,
+      "annotations": 82,
+      "source_groups": 173,
+      "size_counts": {
+        "medium": 44,
+        "large": 25,
+        "small": 13
+      },
+      "median_relative_area": 0.02802645775579637,
+      "positive_image_fraction": 0.4088397790055249
+    }
+  },
+  "duplicates_removed": [
+    {
+      "sha256": "7f6be1bbd8eb0017265e34f0a78035343d3df12c9540df7cb78ea46173a0f827",
+      "kept": "data/raw/aircraft_surface_damage/test/IMG62_jpg.rf.25146a1cc3ba98ab3c691c58429666b2.jpg",
+      "removed": "data/raw/aircraft_surface_damage/test/IMG60_jpg.rf.cb4335b0baccf3151ba23c00deb92398.jpg",
+      "source_split": "test"
+    },
+    {
+      "sha256": "7f6be1bbd8eb0017265e34f0a78035343d3df12c9540df7cb78ea46173a0f827",
+      "kept": "data/raw/aircraft_surface_damage/test/IMG62_jpg.rf.25146a1cc3ba98ab3c691c58429666b2.jpg",
+      "removed": "data/raw/aircraft_surface_damage/test/IMG61_jpg.rf.fbaad05d45ebbc9af8cdf07a3963aa28.jpg",
+      "source_split": "test"
+    }
+  ],
+  "evaluation_excluded_due_to_train_group": [
+    {
+      "source_split": "test",
+      "source_file_name": "IMG_20230513_102745__01_jpg.rf.8b628222f57ee13995012e80aab5e24d.jpg",
+      "source_group": "img_20230513_102745",
+      "sha256": "7e0d29867a099e3e7d3b83096ff419a66dac9a76629b65290e20ecf113cf2ba3"
+    }
+  ],
+  "output_summary": {
+    "train": {
+      "images": 2559,
+      "positive_images": 1045,
+      "negative_images": 1514,
+      "annotations": 1216,
+      "source_groups": 850,
+      "size_counts": {
+        "large": 469,
+        "small": 212,
+        "medium": 535
+      },
+      "median_relative_area": 0.034568343623991936,
+      "positive_image_fraction": 0.40836264165689723
+    },
+    "val": {
+      "images": 181,
+      "positive_images": 59,
+      "negative_images": 122,
+      "annotations": 69,
+      "source_groups": 177,
+      "size_counts": {
+        "large": 12,
+        "medium": 22,
+        "small": 35
+      },
+      "median_relative_area": 0.009625441028225807,
+      "positive_image_fraction": 0.3259668508287293
+    },
+    "test": {
+      "images": 181,
+      "positive_images": 59,
+      "negative_images": 122,
+      "annotations": 69,
+      "source_groups": 176,
+      "size_counts": {
+        "small": 35,
+        "large": 13,
+        "medium": 21
+      },
+      "median_relative_area": 0.009173387096774193,
+      "positive_image_fraction": 0.3259668508287293
+    }
+  },
+  "train_evaluation_group_overlap_before_filter": 1,
+  "train_evaluation_group_overlap": 0
+}
